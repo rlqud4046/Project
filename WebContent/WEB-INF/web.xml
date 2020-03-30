@@ -12,7 +12,7 @@
   <!-- servlet 매핑 -->
   <servlet>
   <servlet-name>FrontController</servlet-name>
-  <servlet-class>com.board.controller.FrontController</servlet-class>
+  <servlet-class>controller.FrontController</servlet-class>
   </servlet>
   
   <servlet-mapping >
