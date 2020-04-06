@@ -7,22 +7,10 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<%--회원가입시 입력정보 확인 --%>
+<script type="text/javascript" src="js/member.js"></script>
 <script>
-	$(function() {
-	    $("#profile_img").on('change', function(){
-	        readURL(this);
-	    });
-	});
-	function readURL(input) {
-	    if (input.files && input.files[0]) {
-	    var reader = new FileReader();
 	
-	    reader.onload = function (e) {
-	            $('#profile').attr('src', e.target.result);
-	        }
-	      reader.readAsDataURL(input.files[0]);
-	    }
-	}
 </script>
 <style>
 	#interest td{border:0; width: 1em;}
@@ -30,11 +18,10 @@
 </head>
 <body>
   <div class="container">
-    <h2 class="">회원가입</h2>
 		<!-- 아이디/비밀번호/이메일 -->
 	<div class="col-md-8 col-md-offset-2">
 	<div class="row">
-    <form class="form-horizontal" method="post" action="signUp">
+    <form class="form-horizontal" method="post" action="<%=request.getContextPath()%>/member_joinOk.do" onsubmit="return mem_check()">
 	  <div class="panel panel-default">
 		<div class="panel-heading">
 		  <h3 class="panel-title">회원정보 입력</h3>
@@ -86,9 +73,9 @@
           	</div>
 		  </div>
 		  <div class="form-group"><!-- 생년월일 -->
-	        <label for="user_birth" class="col-md-2 control-label">생년월일</label>
+	        <label for="birth" class="col-md-2 control-label">생년월일</label>
 	        <div class="col-md-8">
-	          <input type="date" class="form-control" name="user_birth">
+	          <input type="date" class="form-control" id="birth" name="birth">
 	        </div>
 	      </div><!-- 생년월일 -->
 		  <div class="form-group"><!-- 이메일 -->
@@ -112,7 +99,8 @@
 		  <div class="form-group"><!-- 비밀번호찾기질문 -->
 		    <label for="check_q" class="col-md-2 control-label">비밀번호 질문</label>
 		    <div class="col-md-8">
-		      <select class="form-control" name="check_q">
+		      <select class="form-control" id="check_q" name="check_q">
+		      	<option value="">선택</option>
 		      	<option value="질문1">질문1</option>
 		      	<option value="질문2">질문2</option>
 		      </select>
@@ -121,7 +109,7 @@
 		  <div class="form-group"><!-- 비밀번호찾기답변 -->
 		    <label for="check_a" class="col-md-2 control-label">비밀번호 답변</label>
 		    <div class="col-md-8">
-		      <input type="text" class="form-control" name="check_a">
+		      <input type="text" class="form-control" id="check_a" name="check_a">
 		    </div>
 		  </div><!-- 비밀번호찾기답변 end-->
 		</div>	<!-- panel body -->
@@ -134,22 +122,22 @@
 	      <div class="form-group"><!-- 지역선택 -->
 	        <label for="city" class="col-md-2 control-label">지역선택</label>
 	        <div class="col-md-8">
-	          <select class="form-control" name="city">
+	          <select class="form-control" id="city" name="city">
 	          	<option value="">시/도</option>
 	          	<option value="서울특별시">서울특별시</option>
 	          	<option value="경기도">경기도</option>
 	          </select>
-	          <select class="form-control" name="town1">
+	          <select class="form-control" id="town1" name="town1">
 	          	<option value="">구/군(1)</option>
 	          	<option value="구1">구1</option>
 	          	<option value="구2">구2</option>
 	          </select>
-	          <select class="form-control" name="town2">
+	          <select class="form-control" id="town2" name="town2">
 	          	<option value="">구/군(2)</option>
 	          	<option value="구1">구1</option>
 	          	<option value="구2">구2</option>
 	          </select>
-	          <select class="form-control" name="town3">
+	          <select class="form-control" id="town3" name="town3">
 	          	<option value="">구/군(3)</option>
 	          	<option value="구1">구1</option>
 	          	<option value="구2">구2</option>
@@ -164,39 +152,39 @@
 	          	<tr>
           		  <td>
           		  	<label class="checkbox-inline">
-	          		  <input type="checkbox" value="자전거" name="s_cagegory">자전거
+	          		  <input type="checkbox" value="자전거" id="s_category" name="s_category">자전거
 	          		</label>
           		  </td>
           		  <td>
           		  	<label class="checkbox-inline">
-	                  <input type="checkbox" value="배드민턴" name="s_cagegory">배드민턴
+	                  <input type="checkbox" value="배드민턴" id="s_category" name="s_category">배드민턴
 	                </label>
           		  </td>
           		  <td>
           		  	<label class="checkbox-inline">
-	          	      <input type="checkbox" value="볼링" name="s_cagegory">볼링
+	          	      <input type="checkbox" value="볼링" id="s_category" name="s_category">볼링
 	                </label>
           		  </td>
           		  <td>
           		  	<label class="checkbox-inline">
-	          	      <input type="checkbox" value="수영" name="s_cagegory">수영
+	          	      <input type="checkbox" value="수영" id="s_category" name="s_category">수영
 	                </label>
           		  </td>
 	          	</tr>
 	          	<tr>
           		  <td>
           		  	<label class="checkbox-inline">
-	          	      <input type="checkbox" value="자전거" name="s_cagegory">테니스
+	          	      <input type="checkbox" value="자전거" id="s_category" name="s_category">테니스
 	                </label>
           		  </td>
           		  <td>
           		  	<label class="checkbox-inline">
-	          	      <input type="checkbox" value="헬스" name="s_cagegory">헬스
+	          	      <input type="checkbox" value="헬스" id="s_category" name="s_category">헬스
 	                </label>
           		  </td>
           		  <td>
           		  	<label class="checkbox-inline">
-	          	      <input type="checkbox" value="요가" name="s_cagegory">요가
+	          	      <input type="checkbox" value="요가" id="s_category" name="s_category">요가
 	                </label>
           		  </td>
 	          	</tr>
@@ -206,39 +194,39 @@
 	          	<tr>
           		  <td>
           		  	<label class="checkbox-inline">
-	          		  <input type="checkbox" value="자전거" name="s_cagegory">자전거
+	          		  <input type="checkbox" value="자전거" id="s_category" name="s_category">자전거
 	          		</label>
           		  </td>
           		  <td>
           		  	<label class="checkbox-inline">
-	                  <input type="checkbox" value="배드민턴" name="s_cagegory">배드민턴
+	                  <input type="checkbox" value="배드민턴" id="s_category" name="s_category">배드민턴
 	                </label>
           		  </td>
           		  <td>
           		  	<label class="checkbox-inline">
-	          	      <input type="checkbox" value="볼링" name="s_cagegory">볼링
+	          	      <input type="checkbox" value="볼링" id="s_category" name="s_category">볼링
 	                </label>
           		  </td>
           		  <td>
           		  	<label class="checkbox-inline">
-	          	      <input type="checkbox" value="수영" name="s_cagegory">수영
+	          	      <input type="checkbox" value="수영" id="s_category" name="s_category">수영
 	                </label>
           		  </td>
 	          	</tr>
 	          	<tr>
           		  <td>
           		  	<label class="checkbox-inline">
-	          	      <input type="checkbox" value="자전거" name="s_cagegory">테니스
+	          	      <input type="checkbox" value="자전거" id="s_category" name="s_category">테니스
 	                </label>
           		  </td>
           		  <td>
           		  	<label class="checkbox-inline">
-	          	      <input type="checkbox" value="헬스" name="s_cagegory">헬스
+	          	      <input type="checkbox" value="헬스" id="s_category" name="s_category">헬스
 	                </label>
           		  </td>
           		  <td>
           		  	<label class="checkbox-inline">
-	          	      <input type="checkbox" value="요가" name="s_cagegory">요가
+	          	      <input type="checkbox" value="요가" id="s_category" name="s_category">요가
 	                </label>
           		  </td>
 	          	</tr>
