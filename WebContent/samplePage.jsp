@@ -5,16 +5,18 @@
 <head>	
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="./css/bootstrap_3-3-2.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 </head>
 <body>
 
-<header><jsp:include page="include/header.jsp"></jsp:include></header>
-
+<jsp:include page="include/header.jsp"></jsp:include>
 
 <section class="container">
-<a href="<%=request.getContextPath() %>/board_list.do">글 목록 보기</a>
+<article><jsp:include page="board_list.jsp"></jsp:include></article>
 </section>
+
+<aside><jsp:include page="include/side.jsp"></jsp:include></aside>
+<footer><jsp:include page="include/foot.jsp"></jsp:include></footer>
 
 
 

@@ -13,8 +13,8 @@ public class BoardListAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		int rowsize = 3; // 한 페이지에 보여질 게시글 수
-		int block = 3; // 아래에 보여질 페이지의 최대 수 [1][2][3] >누르면 [4][5][6]...
+		int rowsize = 10; // 한 페이지에 보여질 게시글 수
+		int block = 10; // 아래에 보여질 페이지의 최대 수 [1][2][3] >누르면 [4][5][6]...
 		int totalRecord = 0; // DB상의 레코드 전체 수(게시물의 수)
 		int allPage = 0; // 전체 페이지 수
 
@@ -31,16 +31,27 @@ public class BoardListAction implements Action {
 		int endNo = page * rowsize;
 
 		// 해당 페이지의 시작 블럭
-		int startBlock = (((page - 1) / block) * block) + 1;
+		int startBlock = (((page - 1) / block) * block) + 1; // 1
 
-		int endBlock = (((page - 1) / block) * block) + block;
+		int endBlock = (((page - 1) / block) * block) + block; // 10
 
 		BoardDAO dao = BoardDAO.getInstance();
-		totalRecord = dao.getListCount();
+		
+		int board_category = Integer.parseInt(request.getParameter("board_category"));
+		int group_no=0;
+		List<BoardDTO> list;
+		if(request.getParameter("group_no")!=null) {
+			group_no = Integer.parseInt(request.getParameter("group_no"));
+			list = dao.getBoardList(group_no, board_category, page, rowsize);
+		}else {
+			list = dao.getBoardList(0, board_category, page, rowsize);
+		}
+		
+		totalRecord = dao.getListCount(group_no,board_category);
 		/*
 		전체 게시물의 수를 한 페이지당 보여질 게시물의 수로 나누어 주어야 한다.
 		이 과정을거치면 전체 페이지 수가 나온다. 전체 페이지가 나올 때 나머지가 있으면 무조건 올림(ceil)
-		*/
+		 */
 		allPage = (int) Math.ceil(totalRecord/(double)rowsize);
 		
 		if(endBlock>allPage) {
@@ -48,7 +59,7 @@ public class BoardListAction implements Action {
 			
 		}
 		
-		List<BoardDTO> list = dao.getBoardList(page, rowsize);
+		
 		
 		// 페이징 처리 시 사용했던 모든 값들을 키로 저장하자. O친 애들이 주로 사용되고 나머지는 거의 안쓰이기는 한다.
 		request.setAttribute("page", page);					// O
@@ -61,6 +72,8 @@ public class BoardListAction implements Action {
 		request.setAttribute("startBlock", startBlock);		// O
 		request.setAttribute("endBlock", endBlock);			// O
 		request.setAttribute("List", list);					// O
+		request.setAttribute("group_no", group_no);					// O
+		request.setAttribute("board_category", board_category);					// O
 		
 		// view page로 포워딩
 		ActionForward forward = new ActionForward();
