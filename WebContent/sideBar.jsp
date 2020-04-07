@@ -361,13 +361,6 @@ $(document).ready(function () {
                 <span class="hamb-middle"></span>
                 <span class="hamb-bottom"></span>
             </button>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8 col-lg-offset-2">
-                        <h1>Toggle Sidebar Navigation</h1>
-                    </div>
-                </div>
-            </div>
         </div>
         <!-- /#page-content-wrapper -->
 

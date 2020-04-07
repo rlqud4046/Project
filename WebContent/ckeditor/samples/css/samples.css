@@ -92,7 +92,7 @@ html {
   font-size: 0;
   line-height: 0;
   width: 0;
-  height: 0;
+  height: 500;
 }
 *[class*="grid-width"]:after,
 .grid-container:after {
@@ -1082,16 +1082,18 @@ main .grid-container.freed-width {
 }
 #toolbar .editors-container {
   overflow: hidden;
-  height: 0;
+  height: 500px;
   transition: height 200ms;
 }
 #toolbar .editors-container.active {
   height: auto;
 }
 #main #editor {
+  heigth: 1000px;
   background: #FFF;
   padding: 2% 4%;
   border: dashed 5px #0287D0;
+
 }
 #main .adjoined-top:before {
   height: 335px;
@@ -1100,7 +1102,8 @@ main .grid-container.freed-width {
   height: 219px;
 }
 #toolbar .adjoined-top .grid-container-nested {
-  height: 147px;
+  /* height: 147px; */
+  height: 800px;
 }
 .content .grid-switch-magic {
   margin: 3.5em 0 0;
@@ -1573,6 +1576,7 @@ div.toolbarModifier-hints dl dd:after {
   color: #575757;
   padding: 10px;
   width: 100%;
+  height: 500px;
   min-height: 500px;
   margin: 0;
   resize: none;
