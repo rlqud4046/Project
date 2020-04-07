@@ -13,7 +13,6 @@ header {
 	position: relative;
 	margin: 0 auto;
 	width: 100%;
-	height: 135px;
 	background-color: #fff;
 	border-top: 1px solid #fff;
 	z-index: 30;
@@ -84,7 +83,7 @@ ul {
 </style>
 </head>
 <body>
-	<header>
+	<header class="container">
 		<div id="notice">
 			<span >NOTICE</span>
 			<ul id="marquee2" class="marquee">
