@@ -73,7 +73,7 @@
 	<br/>
 	<div class="container">
 		<div class="container1">
-			<c:set var="information" value="${받아온이름 }"></c:set>
+			<%-- <c:set var="information" value="${받아온이름 }"></c:set> --%>
 			<div id="random1" class="carousel slide" data-ride="carousel">
 
 				<!-- Wrapper for slides -->

@@ -91,20 +91,21 @@ public class AreaDAO {
 	}// selectCity() end;
 
 	// selectCity(): area_table에서 시에 해당하는 구/군을 받아오는 메서드
-	public List<AreaDTO> selectTown(String city) {
+	public List<AreaDTO> selectTown() {
 		List<AreaDTO> town = new ArrayList<AreaDTO>();
 
 		try {
 			openConn();
-			sql = "SELECT town FROM area_table WHERE city=?";
+			sql = "SELECT * FROM area_table";
 
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
-			pstmt.setString(1, city);
 
 			while (rs.next()) {
 				AreaDTO dto = new AreaDTO();
+				dto.setCity(rs.getString("city"));
 				dto.setTown(rs.getString("town"));
+				dto.setArea_no(rs.getInt("area_no"));
 				town.add(dto);
 			}
 
@@ -116,4 +117,31 @@ public class AreaDAO {
 		}
 		return town;
 	}// selectCity() end;
+
+	// searchA_no(): DB에서 선택한 지역의 area_no를 가져오는 메서드
+	public int searchA_no(String s_c, String s_t) {
+		int area_no = 0;
+
+		try {
+			openConn();
+			sql = "select area_no from area_table where city=? and town=?";
+
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, s_c);
+			pstmt.setString(2, s_t);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				area_no = rs.getInt(1);
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+
+		return area_no;
+	}
 }
