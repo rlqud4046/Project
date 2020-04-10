@@ -91,7 +91,7 @@ public class CommentDAO {
 		List<CommentDTO> list = new ArrayList<CommentDTO>();
 		try {
 			openConn();
-			sql = "select * from comment_table where mgn_no=?";
+			sql = "select * from comment_table where mgn_no=? order by comment_no desc";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, mgn_no);
 			rs=pstmt.executeQuery();
@@ -101,6 +101,8 @@ public class CommentDAO {
 				dto.setComment_writer(rs.getString("comment_writer"));
 				dto.setComment_cont(rs.getString("comment_cont"));
 				dto.setComment_date(rs.getString("comment_date"));
+				dto.setComment_parent(rs.getInt("comment_parent"));
+				dto.setMgn_no(rs.getInt("mgn_no"));
 				list.add(dto);
 			}
 			
@@ -146,9 +148,9 @@ public class CommentDAO {
             } 
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
-        }
-        
-        closeConn(rs, pstmt, con);
+        }finally {
+			closeConn(rs, pstmt, con);
+		}
         return result;    
     } // end boardInsert();   
 	
@@ -184,11 +186,40 @@ public class CommentDAO {
             } 
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
-        }
-        
-        closeConn(rs, pstmt, con);
+        }finally {
+			closeConn(rs, pstmt, con);
+		}
         return result;    
     } // end boardInsert();  
+	
+	public CommentDTO getComment(int comment_no) {
+		CommentDTO dto = new CommentDTO();
+		
+		try {
+		openConn();
+		sql ="select * from comment_table where comment_no=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, comment_no);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				dto.setComment_cont(rs.getString("comment_cont"));
+				dto.setComment_date(rs.getString("comment_date"));
+				dto.setComment_parent(rs.getInt("comment_parent"));
+				dto.setComment_writer(rs.getString("comment_writer"));
+				dto.setMgn_no(rs.getInt("mgn_no"));
+				dto.setComment_no(rs.getInt("comment_no"));
+				
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return dto;
+	}
 
 
 }

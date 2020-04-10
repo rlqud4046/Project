@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import model.CommentDAO;
 import model.CommentDTO;
 
-public class CommentReplyAction implements Action {
+public class CommentReplyOkAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -21,18 +21,30 @@ public class CommentReplyAction implements Action {
         String reply_cont = request.getParameter("reply_cont");
         
         CommentDAO dao = CommentDAO.getInstance();
-
-       
+        CommentDTO dto = new CommentDTO();
+        //comment.setComment_num(dao.getSeq());    // 댓글 번호는 시퀀스값으로
+        dto.setMgn_no(mgn_no);
+        dto.setComment_parent(comment_no);
+        dto.setComment_writer(reply_writer);
+        dto.setComment_cont(reply_cont);
+        
+        boolean result = dao.replyComment(dto);
+ 
+        if(result){
+            response.setContentType("text/html;charset=euc-kr");
+            PrintWriter out = response.getWriter();
+            out.println("1");
+            out.close();
+        }
+        
+        System.out.println(comment_no+"/"+mgn_no);
         
         CommentDTO rdto = dao.getComment(comment_no);
-		System.out.println(rdto.getComment_parent()); 
+		
 		/*request.setAttribute("reply", dto);*/
 		request.setAttribute("rdto", rdto);
 		
-		ActionForward forward = new ActionForward();
-		forward.setRedirect(false);
-		forward.setPath("board_cont.jsp");
-		return forward;
+		return null;
 	}
 
 }
