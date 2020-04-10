@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
-<link rel="stylesheet" href="./css/bootstrap-3.3.2.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
 </head>
 <body>
@@ -18,9 +18,9 @@
 	<table width="200" height="150">
 		<tr>
 			<td>
-  				<div class="form-group">
-    				<input type="text" class="form-control" placeholder="이름">
-	   	 		</div>
+				<div class="form-group">
+  					<input type="text" class="form-control" placeholder="이름">
+	    		</div>
 	    	</td>
 	    </tr>
 	    
@@ -38,6 +38,8 @@
  	   		</td>
  	   </tr>
  	   </table>
+ 	   
+ 	   <a href="<%= request.getContextPath() %>/login.do">로그인 하기</a>
   </form>
 </div>
 

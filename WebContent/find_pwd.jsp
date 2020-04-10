@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
-<link rel="stylesheet" href="./css/bootstrap_3-3-2.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
 </head>
 <body>
@@ -26,10 +26,14 @@
 	    
 	    <tr>
 	 		<td>
- 				<div class="form-group">
+ 				<div class="form-group">	
     				<select class="form-control">
+    					<option>질문을 고르세요</option>
     					<option>아버지 성함은?</option>
     					<option>졸업한 초등학교 이름은?</option>
+    					<option>가장 좋아하는 음식은?</option>
+    					<option>좋아하는 가수 이름은?</option>
+    					<option>나의 고향은?</option>
     				</select>
  	 			</div>
  	 		 </td>
@@ -43,14 +47,9 @@
  	 		 </td>
  	 	</tr>
  	 	
- 	 	<tr>
- 	 		<td>
- 	  			<button type="submit" class="btn btn-default btn-block">아이디찾기</button>
- 	   		</td>
- 	   </tr>
  	   </table>
  	   
- 	   <a href="https://www.nate.com/?f=autorefresh">아이디 찾기</a> &nbsp;&nbsp;
+ 	   <a href="<%= request.getContextPath() %>/find_id.do">아이디 찾으러 가기</a> &nbsp;|&nbsp;
  	   <a href="https://www.nate.com/?f=autorefresh">비밀번호 찾기</a>
   </form>
 </div>

@@ -7,21 +7,7 @@
 <title>Insert title here</title>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="./css/bootstrap_3-3.2.css"> 
-
-<style type="text/css">
-
-.footer {
-   width:100%;
-   height:200px;
-   position:absolute;
-   bottom:0;
-   background:#D5D5D5;
-   text-align: center;
-   color: white;
-}
-
-</style>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
 </head>
 <body>

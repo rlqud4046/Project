@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
-<link rel="stylesheet" href="./css/bootstrap-3.3.2.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
 </head>
 <body>
@@ -39,15 +39,12 @@
  	   </tr>
  	   </table>
  	   
- 	   <a href="https://www.nate.com/?f=autorefresh">아이디 찾기</a> &nbsp;&nbsp;
- 	   <a href="https://www.nate.com/?f=autorefresh">비밀번호 찾기</a>&nbsp;&nbsp;
+ 	   <a href="<%= request.getContextPath() %>/find_id.do">아이디 찾기</a> &nbsp;&nbsp;
+ 	   <a href="<%= request.getContextPath() %>/find_pwd.do">비밀번호 찾기</a>&nbsp;&nbsp;
  	   <a href="https://www.nate.com/?f=autorefresh">회원가입</a>
   </form>
 </div>
-
-	
-		<%@ include file="./include/side.jsp" %>
+		<%@ include file="./include/sidebar.jsp" %>
 		<%@ include file="./include/foot.jsp" %>
-
 </body>
 </html>
