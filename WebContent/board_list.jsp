@@ -5,6 +5,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+<script src="//cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
+
+
 <style type="text/css">
 .pagination {
 	margin-top: 32px;
@@ -12,6 +18,19 @@
 	padding-top: 16px;
 	text-align: center;
 }
+
+.dataTables_filter{
+display: none;
+}
+.dataTables_length{
+display: none;
+}
+
+.dataTables_info{
+display: none;
+}
+
+
 </style>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
@@ -19,7 +38,8 @@
 <body>
 
 
-			<table class="table">
+			<table class="table" id="table_list">
+			<thead>
 				<tr>
 					<th>글번호</th>
 					<th>제목</th>
@@ -28,7 +48,8 @@
 					<th>조회수</th>
 					<th>좋아요</th>
 				</tr>
-
+				</thead>
+<tbody>
 				<c:set var="list" value="${List }" />
 				<c:if test="${!empty list }">
 					<c:forEach items="${list}" var="dto">
@@ -44,6 +65,7 @@
 						</tr>
 					</c:forEach>
 				</c:if>
+				</tbody>
 				<c:if test="${empty list} ">
 					<tr>
 						<td colspan="6">데이터 없음</td>
@@ -57,18 +79,23 @@
 				</tr>
 
 			</table>
+			<script type="text/javascript">
+$(document).ready( function () {
+    $('#table_list').DataTable();
+} );	
+</script>
 
-			<div align="center">
+			<%-- <div align="center">
 				<ul class="pagination">
 					<c:if test="${page>block }">
 						<li class="paginate_button previous"><a href="board_list.do?group_no=${group_no }&board_category=${board_category}&page=1">◀◀</a></li>
-						<%-- 첫번째 페이지로 --%>
+						첫번째 페이지로
 						<li><a href="board_list.do?group_no=${group_no }&board_category=${board_category}&page=${startBlock-1 }">◀</a></li>
-						<%-- 이전 블록의 마지막 페이지로 --%>
+						이전 블록의 마지막 페이지로
 					</c:if>
 					<c:forEach begin="${startBlock }" end="${endBlock }" var="i">
 						<c:if test="${i == page }">
-							<%-- 현재 페이지를 클릭하려 할 경우 --%>
+							현재 페이지를 클릭하려 할 경우
 							<li class="active"><a href="board_list.do?group_no=${group_no }&board_category=${board_category}&page=${i }">${i }</a></li>
 						</c:if>
 
@@ -82,12 +109,12 @@
 
 					<c:if test="${endBlock < allPage }">
 						<li><a href="board_list.do?group_no=${group_no }&board_category=${board_category}&page=${endBlock+1 }">▶</a></li>
-						<%-- 이전 블록의 마지막 페이지로 --%>
+						이전 블록의 마지막 페이지로
 						<li class="paginate_button next"><a href="board_list.do?group_no=${group_no }&board_category=${board_category}&page=${allPage }">▶▶</a></li>
-						<%-- 첫번째 페이지로 --%>
+						첫번째 페이지로
 					</c:if>
 				</ul>
-			</div>
+			</div> --%>
 			<hr width="100%">
 			<div align="center">
 				<form method="post" action="<%=request.getContextPath()%>/board_search.do">

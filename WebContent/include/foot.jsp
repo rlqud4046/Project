@@ -13,7 +13,6 @@
 .footer {
    width:100%;
    height:200px;
-   position:absolute;
    bottom:0;
    background:#D5D5D5;
    text-align: center;

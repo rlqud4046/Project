@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
@@ -113,14 +114,13 @@ public class BoardDAO {
 				pstmt.setInt(3, startNo);
 				pstmt.setInt(4, endNo);
 			} else {
-				sql = "select * from " + "(select p.*, row_number() " + "over(order by board_no desc) rnum "
-						+ "from board_table p where group_no=? and board_category=?) " + "where rnum >=? and rnum<=?";
+				sql = "select * from board_table where group_no=? and board_category=? ";
 				pstmt = con.prepareStatement(sql);
 				pstmt.setInt(1, group_no);
 				pstmt.setInt(2, board_category);
-				pstmt.setInt(3, startNo);
+			/*	pstmt.setInt(3, startNo);
 				pstmt.setInt(4, endNo);
-
+*/
 			}
 			rs = pstmt.executeQuery();
 
@@ -218,6 +218,62 @@ public class BoardDAO {
 
 		return dto;
 	} // getCont() 메서드 end
+	
+	public List<String> attachList(int no) {
+		
+		String urls = null;
+		List<String> attachList = new ArrayList<String>();
+		
+		
+		try {
+		openConn();
+		sql = "select board_file from board_table where mgn_no=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, no);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				urls=rs.getString(1);
+			}
+			StringTokenizer st = new StringTokenizer(urls,",");
+			String[] url = new String[st.countTokens()];
+			int i=0;
+			while(st.hasMoreElements()) {
+				url[i++]=st.nextToken();
+			}
+			for(i=0;i<url.length;i++)
+			attachList.add(url[i]);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			closeConn(rs, pstmt, con);
+		}
+		return attachList;
+	}
+	
+	public int insertBoard(BoardDTO dto) {
+
+	      int result = 0;
+
+	      try {
+	         con = openConn();
+	         sql = "insert into board_table values(1,5,7,5, ? , ? ,'BOARD_WRITER 57',sysdate,0,0, 'PHOTO', ? ,1,0,0, ? )";
+	         pstmt = con.prepareStatement(sql);
+	         pstmt.setString(1, dto.getBoard_title());
+	         pstmt.setString(2, dto.getBoard_cont());
+	         pstmt.setString(3, dto.getBoard_file());
+	         pstmt.setInt(4, dto.getBoard_imp());
+
+	         result = pstmt.executeUpdate();
+	      } catch (SQLException e) {
+	         // TODO Auto-generated catch block
+	         e.printStackTrace();
+	      } finally {
+	         closeConn(rs, pstmt, con);
+	      }
+	      return result;
+	   }
 	
 	
 

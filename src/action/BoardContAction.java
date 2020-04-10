@@ -36,10 +36,12 @@ public class BoardContAction implements Action {
 		CommentDAO cdao = CommentDAO.getInstance();
 		List<CommentDTO> cdto = cdao.commentCont(mgn_no);
 		int count = cdao.commentCount(mgn_no);
+		List<String> attachList = dao.attachList(mgn_no);
+		
 		
 		request.setAttribute("comment", cdto);
 		request.setAttribute("count", count);
-		
+		request.setAttribute("aList", attachList);
 		
 		ActionForward forward = new ActionForward();
 		forward.setRedirect(false);

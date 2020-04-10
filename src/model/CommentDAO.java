@@ -78,6 +78,8 @@ public class CommentDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			closeConn(rs, pstmt, con);
 		}
 		
 		return count;
@@ -105,9 +107,88 @@ public class CommentDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			closeConn(rs, pstmt, con);
 		}
 
 		return list;
 	}
+	
+	
+	public boolean insertComment(CommentDTO comment)
+    {
+        boolean result = false;
+        
+        try {
+            // 자동 커밋을 false로 한다.
+        	openConn();
+            con.setAutoCommit(false);
+            
+            sql = "insert into comment_table(mgn_no, comment_writer, comment_cont, comment_date) values(?,?,?,sysdate)";
+      
+    
+            pstmt = con.prepareStatement(sql);
+            pstmt.setInt(1, comment.getMgn_no());
+            pstmt.setString(2, comment.getComment_writer());
+            pstmt.setString(3, comment.getComment_cont());
+            
+            int flag = pstmt.executeUpdate();
+            if(flag > 0){
+                result = true;
+                con.commit(); // 완료시 커밋
+            }
+            
+        } catch (Exception e) {
+            try {
+                con.rollback(); // 오류시 롤백
+            } catch (SQLException sqle) {
+                sqle.printStackTrace();
+            } 
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
+        
+        closeConn(rs, pstmt, con);
+        return result;    
+    } // end boardInsert();   
+	
+	public boolean replyComment(CommentDTO dto)
+    {
+        boolean result = false;
+        
+        try {
+            // 자동 커밋을 false로 한다.
+        	openConn();
+            con.setAutoCommit(false);
+            
+            sql = "insert into comment_table(mgn_no, comment_writer, comment_cont, comment_date,comment_parent) values(?,?,?,sysdate,?)";
+      
+    
+            pstmt = con.prepareStatement(sql);
+            pstmt.setInt(1, dto.getMgn_no());
+            pstmt.setString(2, dto.getComment_writer());
+            pstmt.setString(3, dto.getComment_cont());
+            pstmt.setInt(4, dto.getComment_parent());
+            
+            int flag = pstmt.executeUpdate();
+            if(flag > 0){
+                result = true;
+                con.commit(); // 완료시 커밋
+            }
+            
+        } catch (Exception e) {
+            try {
+                con.rollback(); // 오류시 롤백
+            } catch (SQLException sqle) {
+                sqle.printStackTrace();
+            } 
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
+        
+        closeConn(rs, pstmt, con);
+        return result;    
+    } // end boardInsert();  
+
 
 }

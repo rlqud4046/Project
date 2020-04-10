@@ -15,9 +15,25 @@
   <servlet-class>controller.FrontController</servlet-class>
   </servlet>
   
+  <servlet>
+        <description>Controller</description>
+        <display-name>CommentController</display-name>
+        <servlet-name>CommentController</servlet-name>
+        <servlet-class>controller.CommentController</servlet-class>
+    </servlet>
+
+
+  
   <servlet-mapping >
   <servlet-name>FrontController</servlet-name>
   <url-pattern>*.do</url-pattern>
   </servlet-mapping>
+  
+  <servlet-mapping>
+        <servlet-name>CommentController</servlet-name>
+        <url-pattern>*.co</url-pattern>
+    </servlet-mapping>
+    
+
   
 </web-app>

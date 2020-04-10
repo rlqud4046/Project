@@ -6,8 +6,14 @@ public class CommentDTO {
 	private String comment_writer;
 	private String comment_cont;
 	private String comment_date;
+	private int comment_parent;
 	
-	
+	public int getComment_parent() {
+		return comment_parent;
+	}
+	public void setComment_parent(int comment_parent) {
+		this.comment_parent = comment_parent;
+	}
 	public int getMgn_no() {
 		return mgn_no;
 	}

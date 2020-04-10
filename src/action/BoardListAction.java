@@ -13,7 +13,7 @@ public class BoardListAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		int rowsize = 10; // 한 페이지에 보여질 게시글 수
+		int rowsize = 3; // 한 페이지에 보여질 게시글 수
 		int block = 10; // 아래에 보여질 페이지의 최대 수 [1][2][3] >누르면 [4][5][6]...
 		int totalRecord = 0; // DB상의 레코드 전체 수(게시물의 수)
 		int allPage = 0; // 전체 페이지 수

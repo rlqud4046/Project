@@ -14,4 +14,5 @@
 <h3><a href="board_list.do?board_category=5&group_no=5">자유게시판</a></h3>
 <h3><a href="board_list.do?board_category=6&group_no=6">사진첩</a></h3>
 </body>
+
 </html>
