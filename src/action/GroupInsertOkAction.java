@@ -56,7 +56,7 @@ public class GroupInsertOkAction implements Action {
 		PrintWriter out = response.getWriter();
 		if(res == 1) {
 			forward.setRedirect(false); 
-			forward.setPath("main.do"); //모임페이지가없어서 일단 메인으로 보내놓을게요
+			forward.setPath("main.do?group_no="+group_no); //모임페이지가없어서 일단 메인으로 보내놓을게요
 			
 		}else {
 			out.println("<script>");
