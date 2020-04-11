@@ -4,13 +4,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>회원정보수정 테스트</title>
 </head>
 <body>
-	<h1>하이!</h1>
-	<h1>하이!</h1>
-	<h1>하이!</h1>
-	<h1>하이!</h1>
-
+	<div align="center">
+		<a href="<%=request.getContextPath()%>/memberUpdate.do">test</a>
+	</div>
 </body>
 </html>

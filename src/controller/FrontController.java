@@ -11,8 +11,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import action.Action;
-import action.ActionForward;
+import com.action.Action;
+import com.action.ActionForward;
+
+
 
 
 public class FrontController extends HttpServlet {
@@ -45,7 +47,7 @@ public class FrontController extends HttpServlet {
 		Properties prop = new Properties();
 
 		FileInputStream fis = new FileInputStream(
-				"C:\\NCS\\workspace(jsp)\\Project\\src\\controller\\mapping.properties");
+				"C:\\ncs\\workspace(jsp)\\00_somoim\\src\\com\\controller\\mapping.properties");
 
 		prop.load(fis); // mapping.properties로
 
@@ -85,13 +87,11 @@ public class FrontController extends HttpServlet {
 			}
 
 		}else { // value 값 중에 "execute"가 아닌 경우
-			
 			// viewPage로 이동
 			forward = new ActionForward();
 			forward.setRedirect(false); // *.jsp 페이지로 이동
 			forward.setPath(value);
-		}
-		
+		}		
 		
 		if(forward!=null) {
 			if(forward.isRedirect()) { // true인 경우- *.do
