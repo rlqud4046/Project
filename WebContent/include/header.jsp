@@ -93,7 +93,11 @@ top
 
 
 
+
+
 :
+
+
 
 
 
@@ -133,7 +137,8 @@ ul {
 	list-style: none;
 	padding-left: 0px;
 }
-.popover{
+
+.popover {
 	max-width: 500px;
 }
 </style>
@@ -168,9 +173,13 @@ ul {
 				<c:if test="${empty name }">
 					<a href="<%=request.getContextPath()%>/join.do">회원가입</a>
 				</c:if>
+	
+					
+				<button onclick="window.open('../letter.do?mem_no=5','window_name','width=500,height=500,location=no,status=no,scrollbars=yes');">
+				<img src="../images/letter.jpg" width="30"></button>
+				
 
-
-				<a tabindex="0" id="pop" role="button" data-triger="focus"
+				<!-- <a tabindex="0" id="pop" role="button" data-triger="focus"
 					data-placement="bottom"> <img src="../images/letter.jpg"
 					width="30">
 				</a>
@@ -208,14 +217,15 @@ ul {
 							</ul>
 						</div>
 
-					</div>
-				</div>
-				<script>
+					</div> -->
+			</div>
+			<!-- <script>
 					$('#pop').popover({
 						html : true,
 						content : $('#mypop').html()
 					});
 				</script>
+ -->
 
 
 
@@ -236,8 +246,7 @@ ul {
 
 
 
-
-				<%-- 
+			<%-- 
 				<button type="button" class="btn btn-primary btn-lg"
 					id="openModalBtn">
 					<img src="../images/letter.jpg" width="30">
@@ -283,7 +292,7 @@ ul {
 					</div>
 				</div>
  --%>
-				<!-- <script type="text/javascript">
+			<!-- <script type="text/javascript">
 					// 모달 버튼에 이벤트를 건다.
 					$('#openModalBtn').on('click', function() {
 						$('#modalBox').modal('show');
@@ -295,7 +304,7 @@ ul {
 				</script> -->
 
 
-				<!-- 							<div class="box">
+			<!-- 							<div class="box">
 								<ul class="nav nav-tabs" role="tablist" id="myTab">
 									<li role="presentation" class="active"><a href="#home"
 										role="tab" data-toggle="tab">받은쪽지함</a></li>
@@ -315,7 +324,7 @@ ul {
 
 							</div>
  -->
-			</div>
+		</div>
 
 		</div>
 

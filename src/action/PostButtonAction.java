@@ -5,7 +5,7 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class LetterAction implements Action {
+public class PostButtonAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -15,7 +15,7 @@ public class LetterAction implements Action {
 		
 		request.setAttribute("mem_no", mem_no);
 		forward.setRedirect(false);
-		forward.setPath("letter.jsp");
+		forward.setPath("post_button.jsp");
 		
 		return forward;
 		
