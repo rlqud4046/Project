@@ -241,7 +241,8 @@ a {
 	}
 
 	// 대댓글 등록
-	function replyCmt() {
+
+	/* function replyCmt() {
 		var form = document.getElementById("replyCommentForm");
 
 		var board = form.mgn_no.value;
@@ -263,7 +264,7 @@ a {
 					'application/x-www-form-urlencoded;charset=EUC-KR');
 			httpRequest.send(param);
 		}
-	}
+	} */
 
 	function checkFunc() {
 		if (httpRequest.readyState == 4) {
@@ -415,133 +416,121 @@ a {
 						<c:if test="${!empty comment }">
 							<c:set value="${rdto }" var="reply" />
 							<c:forEach items="${comment }" var="cdto">
-								<li><c:if test="${ cdto.getComment_parent() != 0}">
+								<li>
 
-										<img alt="" src="https://cafe.pstatic.net/cafe4/bu_arr.png">
-										<div class="comm_cont">
-											<div class="h">
-												<div class="pers_nick_area">
-													<table role="presentation" cellspacing="0">
-														<tbody>
-															<tr>
-																<td class="nick">
-																	<a href="#">${cdto.getComment_writer() }</a>
-																</td>
-															</tr>
-														</tbody>
-													</table>
-
-												</div>
-												<span class="date">${cdto.getComment_date().substring(0,16) }</span> <a class="dsc_comm" onclick="test(this.parentNode.nextElementSibling.nextElementSibling.nextElementSibling)" href="javascript:void(0)">답글 작성</a>
-												<script>
-													function test(param) {
-														/* var test1 = document
-																.getElementById('test1') */
-														param.style.display = (param.style.display == 'none') ? 'block'
-																: 'none';
-													}
-												</script>
-
-
+									<div class="comm_cont">
+										<c:if test="${ cdto.getComment_parent() != 0}">
+											<div style="float: left;">
+												<img alt="" src="https://cafe.pstatic.net/cafe4/bu_arr.png" width="13px">&ensp;
+											</div>
+										</c:if>
+										<div class="h">
+											<div class="pers_nick_area">
+												<table role="presentation" cellspacing="0">
+													<tbody>
+														<tr>
+															<td class="nick">
+																<a href="#">${cdto.getComment_writer() }</a>
+															</td>
+														</tr>
+													</tbody>
+												</table>
 
 											</div>
-											<br>
-											<p class="comm">
-												<span class="comm_body">${cdto.getComment_cont() }</span>
-											</p>
+											<span class="date">${cdto.getComment_date().substring(0,16) }</span> <a class="dsc_comm" onclick="test(this.parentNode.nextElementSibling.nextElementSibling.nextElementSibling)" href="javascript:void(0)">답글 작성</a>
+											<script>
+												function test(param) {
+													/* var test1 = document
+															.getElementById('test1') */
+													param.style.display = (param.style.display == 'none') ? 'block'
+															: 'none';
+												}
+											</script>
 
-											<div id="test1" style="display: none">
-
-												<div>
-													<form id="replyCommentForm">
-														<input type="hidden" name="mgn_no" value="${dto.getMgn_no() }"> <input type="hidden" name="reply_writer" value="SessinID"> <input type="hidden" name="comment_no" value="${cdto.getComment_no() }">
-														<table>
-															<tbody>
-																<tr>
-																	<td>
-																		<div>
-
-																			<textarea name="reply_cont" rows="4" cols="140" class="textarea" maxlength="6000" style="overflow: hidden; line-height: 14px; height: 80px; resize: none;" title="댓글입력"></textarea>
-																			&nbsp;
-																		</div>
-																	</td>
-																	<td>
-																		<div>
-																			<a href="#" class="btn btn-default" onclick="replyCmt()">등록</a>
-																		</div>
-																	</td>
-															</tbody>
-
-														</table>
-													</form>
-												</div>
-											</div>
 
 
 										</div>
-									</c:if> <c:if test="${cdto.getComment_parent() == 0}">
-										<div class="comm_cont">
-											<div class="h">
-												<div class="pers_nick_area">
-													<table role="presentation" cellspacing="0">
+										<br>
+										<p class="comm">
+											<span class="comm_body">${cdto.getComment_cont() }</span>
+										</p>
+
+										<div id="test1" style="display: none">
+
+											<div>
+												<form id="replyCommentForm">
+													<input type="hidden" name="mgn_no" value="${dto.getMgn_no() }"> <input type="hidden" name="reply_writer" value="SessinID"> 
+													<c:if test="${ cdto.getComment_parent() == 0}">
+													<input type="hidden" name="comment_no" value="${cdto.getComment_no() }">
+													</c:if>
+													
+													<c:if test="${ cdto.getComment_parent() != 0}">
+													<input type="hidden" name="comment_no" value="${cdto.getComment_parent() }">
+													</c:if>
+													<table>
 														<tbody>
 															<tr>
-																<td class="nick">
-																	<a href="#">${cdto.getComment_writer() }</a>
+																<td>
+																	<div>
+
+																		<textarea name="reply_cont" rows="4" cols="140" class="textarea" maxlength="6000" style="overflow: hidden; line-height: 14px; height: 80px; resize: none;" title="댓글입력"></textarea>
+																		&nbsp;
+																	</div>
 																</td>
-															</tr>
+																<td>
+																	<div>
+																		<a href="#" class="btn btn-default" onclick="replyCmt(this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode)">등록</a>
+																		<script>
+																			function replyCmt(param) {
+																				
+
+																				var board = param.mgn_no.value;
+																				var id = param.reply_writer.value;
+																				var content = param.reply_cont.value;
+																				var comment_no = param.comment_no.value;
+
+																				if (!content) {
+																					alert("내용을 입력하세요.");
+																					return false;
+																				} else {
+																					var param = "mgn_no="
+																							+ board
+																							+ "&reply_writer="
+																							+ id
+																							+ "&reply_cont="
+																							+ content
+																							+ "&comment_no="
+																							+ comment_no;
+
+																					httpRequest = getXMLHttpRequest();
+																					httpRequest.onreadystatechange = checkFunc;
+																					httpRequest
+																							.open(
+																									"POST",
+																									"comment_reply_ok.co",
+																									true);
+																					httpRequest
+																							.setRequestHeader(
+																									'Content-Type',
+																									'application/x-www-form-urlencoded;charset=EUC-KR');
+																					httpRequest
+																							.send(param);
+																				}
+																			}
+																		</script>
+																	</div>
+																</td>
 														</tbody>
+
 													</table>
-
-												</div>
-												<span class="date">${cdto.getComment_date().substring(0,16) }</span> <a class="dsc_comm" onclick="test(this.parentNode.nextElementSibling.nextElementSibling.nextElementSibling)" href="javascript:void(0)">답글 작성</a>
-												<script>
-													function test(param) {
-														/* var test1 = document
-														.getElementById('test1') */
-														param.style.display = (param.style.display == 'none') ? 'block'
-																: 'none';
-													}
-												</script>
-
-
-
+												</form>
 											</div>
-											<br>
-											<p class="comm">
-												<span class="comm_body">${cdto.getComment_cont() }</span>
-											</p>
-											<div id="test1" style="display: none">
-
-												<div>
-													<form id="replyCommentForm">
-														<input type="hidden" name="mgn_no" value="${dto.getMgn_no() }"> <input type="hidden" name="reply_writer" value="SessinID"> <input type="hidden" name="comment_no" value="${cdto.getComment_no() }">
-														<table>
-															<tbody>
-																<tr>
-																	<td>
-																		<div>
-
-																			<textarea name="reply_cont" rows="4" cols="140" class="textarea" maxlength="6000" style="overflow: hidden; line-height: 14px; height: 80px; resize: none;" title="댓글입력"></textarea>
-																			&nbsp;
-																		</div>
-																	</td>
-																	<td>
-																		<div>
-																			<a href="#" class="btn btn-default" onclick="replyCmt()">등록</a>
-																		</div>
-																	</td>
-															</tbody>
-
-														</table>
-													</form>
-												</div>
-											</div>
-
-
 										</div>
 
-									</c:if></li>
+
+									</div>
+
+								</li>
 								<li class="filter-30 board-box-line-dashed"></li>
 
 							</c:forEach>
@@ -562,6 +551,7 @@ a {
 										<div>
 											<a href="#" class="btn btn-default" onclick="writeCmt()">등록</a>
 										</div>
+
 									</td>
 							</tbody>
 

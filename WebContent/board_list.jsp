@@ -19,9 +19,9 @@
 	text-align: center;
 }
 
-.dataTables_filter{
+/* .dataTables_filter{
 display: none;
-}
+} */
 .dataTables_length{
 display: none;
 }
@@ -116,7 +116,7 @@ $(document).ready( function () {
 				</ul>
 			</div> --%>
 			<hr width="100%">
-			<div align="center">
+		<%-- 	<div align="center">
 				<form method="post" action="<%=request.getContextPath()%>/board_search.do">
 
 					<select name="find_field">
@@ -127,7 +127,7 @@ $(document).ready( function () {
 					</select>
 					<input type="text" name="find_name"> <input type="submit" value="검색">
 				</form>
-			</div>
+			</div> --%>
 
 
 

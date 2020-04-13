@@ -91,7 +91,7 @@ public class CommentDAO {
 		List<CommentDTO> list = new ArrayList<CommentDTO>();
 		try {
 			openConn();
-			sql = "select * from comment_table where mgn_no=? order by comment_no desc";
+			sql = "select * from comment_table where mgn_no=? order by comment_group desc, comment_no";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, mgn_no);
 			rs=pstmt.executeQuery();
@@ -102,6 +102,7 @@ public class CommentDAO {
 				dto.setComment_cont(rs.getString("comment_cont"));
 				dto.setComment_date(rs.getString("comment_date"));
 				dto.setComment_parent(rs.getInt("comment_parent"));
+				dto.setComment_group(rs.getInt("comment_group"));
 				dto.setMgn_no(rs.getInt("mgn_no"));
 				list.add(dto);
 			}
@@ -126,7 +127,7 @@ public class CommentDAO {
         	openConn();
             con.setAutoCommit(false);
             
-            sql = "insert into comment_table(mgn_no, comment_writer, comment_cont, comment_date) values(?,?,?,sysdate)";
+            sql = "insert into comment_table(mgn_no, comment_writer, comment_cont, comment_date, comment_group) values(?,?,?,sysdate,comment_table_seq2.nextval)";
       
     
             pstmt = con.prepareStatement(sql);
@@ -163,7 +164,7 @@ public class CommentDAO {
         	openConn();
             con.setAutoCommit(false);
             
-            sql = "insert into comment_table(mgn_no, comment_writer, comment_cont, comment_date,comment_parent) values(?,?,?,sysdate,?)";
+            sql = "insert into comment_table(mgn_no, comment_writer, comment_cont, comment_date,comment_parent, comment_group) values(?,?,?,sysdate,?,?)";
       
     
             pstmt = con.prepareStatement(sql);
@@ -171,6 +172,7 @@ public class CommentDAO {
             pstmt.setString(2, dto.getComment_writer());
             pstmt.setString(3, dto.getComment_cont());
             pstmt.setInt(4, dto.getComment_parent());
+            pstmt.setInt(5, dto.getComment_parent());
             
             int flag = pstmt.executeUpdate();
             if(flag > 0){

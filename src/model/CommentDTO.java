@@ -7,7 +7,15 @@ public class CommentDTO {
 	private String comment_cont;
 	private String comment_date;
 	private int comment_parent;
+	private int comment_group;
 	
+	
+	public int getComment_group() {
+		return comment_group;
+	}
+	public void setComment_group(int comment_group) {
+		this.comment_group = comment_group;
+	}
 	public int getComment_parent() {
 		return comment_parent;
 	}
