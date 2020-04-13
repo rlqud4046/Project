@@ -276,5 +276,87 @@ public class BoardDAO {
 	   }
 	
 	
+	public void likeIncrease(int mgn_no) {
+
+		try {
+			openConn();
+			sql = "update board_table set board_like = board_like + 1 where mgn_no=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, mgn_no);
+			pstmt.executeUpdate();
+			
+			
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+
+	} 
+	
+	public void likeDecrease(int mem_no, int mgn_no) {
+
+		try {
+			openConn();
+			sql = "update board_table set board_like = board_like - 1 where mgn_no=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, mgn_no);
+			pstmt.executeUpdate();
+			
+			sql ="delete like_table where mem_no=? and mgn_no=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, mem_no);
+			pstmt.setInt(2, mgn_no);
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+
+	} 
+	
+	public int boardDelete(int no, String pwd) {
+		int result = 0;
+		String pcheck = null;
+
+		try {
+			openConn();
+			con.setAutoCommit(false);
+			sql = "select pwd from member_table m, board_table b where b.mgn_no=? and m.id = b.board_writer";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, no);
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				pcheck = rs.getString("pwd");
+			}
+
+			if (pcheck.equals(pwd)) {
+				sql = "delete from board_table where mgn_no=?";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setInt(1, no);
+				result = pstmt.executeUpdate();
+				con.commit();
+			}
+		} catch (SQLException e) {
+			try {
+				con.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+
+		return result;
+	}
+	
+	
 
 }

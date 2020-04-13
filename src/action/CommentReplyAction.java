@@ -25,7 +25,7 @@ public class CommentReplyAction implements Action {
        
         
         CommentDTO rdto = dao.getComment(comment_no);
-		System.out.println(rdto.getComment_parent()); 
+		
 		/*request.setAttribute("reply", dto);*/
 		request.setAttribute("rdto", rdto);
 		

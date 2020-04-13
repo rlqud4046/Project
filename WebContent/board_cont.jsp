@@ -10,6 +10,10 @@
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
+<!-- 팝오버의 활동정보 / 쪽지 보내기에 ~.do 넣어줘야함 -->
+
+
+
 <style type="text/css">
 #con_box {
 	border: 0.5px;
@@ -266,6 +270,29 @@ a {
 		}
 	} */
 
+	// 좋아요 
+	function like() {
+		var form = document.getElementById("likeForm");
+
+		var board = form.mgn_no.value;
+		var id = form.mem_no.value;
+		var like = form.like.value;
+
+		if (id != 2) {
+			alert("회원 번호 틀림.");
+			return false;
+		} else {
+			var param = "mgn_no=" + board + "&mem_no=" + id + "&like=" + like;
+			alert("회원 번호 맞음")
+			httpRequest = getXMLHttpRequest();
+			httpRequest.onreadystatechange = checkFunc;
+			httpRequest.open("POST", "like.do", true);
+			httpRequest.setRequestHeader('Content-Type',
+					'application/x-www-form-urlencoded;charset=EUC-KR');
+			httpRequest.send(param);
+		}
+	}
+
 	function checkFunc() {
 		if (httpRequest.readyState == 4) {
 			// 결과값을 가져온다.
@@ -293,6 +320,7 @@ a {
 				<c:set var="dto" value="${cont }" />
 				<c:set var="cdto" value="${comment }" />
 				<c:set var="count" value="${count }" />
+				<c:set var="lcheck" value="${lCheck }" />
 
 				<c:if test="${!empty dto }">
 					<div class="t_box">
@@ -323,10 +351,34 @@ a {
 						<table role="presentation" cellspacing="0" cellpadding="0" border="0">
 							<tr>
 								<th></th>
-								<td>${dto.getBoard_writer() }</td>
+								<td>
+									<a tabindex="0" id="writer_pop" role="button" data-triger="focus" data-placement="bottom">${dto.getBoard_writer() }</a>
+								</td>
 							</tr>
 						</table>
 					</div>
+
+					<div id="w_pop" class="container hide">
+						<div class="row">
+
+							<div class="col-sm-12">
+								<ul style="list-style: none;">
+
+									<li><span><font size="2"><a href="#">활동 정보</a></font></span></li>
+									<li><span><font size="2"><a href="#">쪽지 보내기</a></font></span></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+					<script>
+						$('#writer_pop').popover({
+							html : true,
+							content : $('#w_pop').html()
+						});
+					</script>
+
+
 
 					<div class="file">
 						<div class="row">
@@ -378,21 +430,59 @@ a {
 						<br>
 					</div>
 					<div>
-						<table role="presentation" cellspacing="0" cellpadding="0" border="0">
-							<tr style="vertical-align: top;">
-								<td class="vl">
-									<span>댓글 </span><span>${count}&nbsp; </span>
-								</td>
-								<td class="vl">
-									<span>&nbsp;조회수</span> <span>${dto.getBoard_hit() }&nbsp;</span>
-								</td>
+						<form id="likeForm">
+							<input type="hidden" name="mgn_no" value="${dto.getMgn_no() }"> <input type="hidden" name="mem_no" value="2<%-- ${sessionScope.sessionID } --%>">
+							<input type="hidden" name="like" value="${lcheck }">
+							
+							<table role="presentation" cellspacing="0" cellpadding="0" border="0">
+								<tr style="vertical-align: top;">
+									<td class="vl">
+										<span>댓글 </span><span>${count}&nbsp; </span>
+									</td>
+									<td class="vl">
+										<span>&nbsp;조회수</span> <span>${dto.getBoard_hit() }&nbsp;</span>
+									</td>
 
-								<td>
-									<span>&nbsp;좋아요</span> <span>${dto.getBoard_like() }</span>
-								</td>
-							</tr>
-						</table>
+									<td>
+										<a tabindex="0" id="like_pop" role="button" data-triger="focus" data-placement="bottom">
+										<span>&nbsp;좋아요</span> <span>${dto.getBoard_like() }</span></a>
+									</td>
+									<td>
+										
+										<a href="#" onclick="like()"><img alt="하트사진" src=""></a>
+										
+										
+										<%-- </c:if> --%>
+
+
+									</td>
+								</tr>
+							</table>
+						</form>
 					</div>
+
+
+
+					<div id="l_pop" class="container hide">
+						<div class="row">
+
+							<div class="col-sm-12">
+								<ul style="list-style: none;">
+
+									<li><span><font size="2">좋아요 누른 사람들</font></span></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+					<script>
+						$('#like_pop').popover({
+							html : true,
+							content : $('#l_pop').html()
+						});
+					</script>
+
+
 				</c:if>
 
 				<div>
@@ -430,13 +520,38 @@ a {
 													<tbody>
 														<tr>
 															<td class="nick">
-																<a href="#">${cdto.getComment_writer() }</a>
+																<a tabindex="0" id="reply_pop" role="button" data-triger="focus" data-placement="bottom">${cdto.getComment_writer() }</a>
 															</td>
 														</tr>
 													</tbody>
 												</table>
 
 											</div>
+
+											<div id="r_pop" class="container hide">
+												<div class="row">
+
+													<div class="col-sm-12">
+														<ul style="list-style: none;">
+
+															<li><span><font size="2"><a href="#">활동 정보</a></font></span></li>
+															<li><span><font size="2"><a href="#">쪽지 보내기</a></font></span></li>
+														</ul>
+													</div>
+												</div>
+											</div>
+
+											<script>
+												$('#reply_pop').popover(
+														{
+															html : true,
+															content : $(
+																	'#r_pop')
+																	.html()
+														});
+											</script>
+
+
 											<span class="date">${cdto.getComment_date().substring(0,16) }</span> <a class="dsc_comm" onclick="test(this.parentNode.nextElementSibling.nextElementSibling.nextElementSibling)" href="javascript:void(0)">답글 작성</a>
 											<script>
 												function test(param) {
@@ -459,13 +574,13 @@ a {
 
 											<div>
 												<form id="replyCommentForm">
-													<input type="hidden" name="mgn_no" value="${dto.getMgn_no() }"> <input type="hidden" name="reply_writer" value="SessinID"> 
+													<input type="hidden" name="mgn_no" value="${dto.getMgn_no() }"> <input type="hidden" name="reply_writer" value="SessinID">
 													<c:if test="${ cdto.getComment_parent() == 0}">
-													<input type="hidden" name="comment_no" value="${cdto.getComment_no() }">
+														<input type="hidden" name="comment_no" value="${cdto.getComment_no() }">
 													</c:if>
-													
+
 													<c:if test="${ cdto.getComment_parent() != 0}">
-													<input type="hidden" name="comment_no" value="${cdto.getComment_parent() }">
+														<input type="hidden" name="comment_no" value="${cdto.getComment_parent() }">
 													</c:if>
 													<table>
 														<tbody>
@@ -481,8 +596,8 @@ a {
 																	<div>
 																		<a href="#" class="btn btn-default" onclick="replyCmt(this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode)">등록</a>
 																		<script>
-																			function replyCmt(param) {
-																				
+																			function replyCmt(
+																					param) {
 
 																				var board = param.mgn_no.value;
 																				var id = param.reply_writer.value;
@@ -573,14 +688,10 @@ a {
 					<table>
 						<tr>
 							<td colspan="2" align="center">
-								<input type="button" value="글수정" onclick="location.href='board_edit.do?no=${dto.getBoard_no()}&page=${page }'"> <input type="button" value="글삭제" onclick="location.href='board_del.do?no=${dto.getBoard_no()}&page=${page }'">
-
-								<c:if test="${search!=1 }">
-									<input type="button" value="목록" onclick="location.href='board_list.do?page=${page}'">
-								</c:if>
-								<c:if test="${search==1 }">
-									<input type="button" value="목록" onclick="location.href='board_search.do?page=${page}&find_field=${find_field }&find_name=${find_name }'">
-								</c:if>
+								<input type="button" value="글수정" onclick="location.href='board_edit.do?no=${dto.getMgn_no()}'"> 
+								<input type="button" value="글삭제" onclick="location.href='board_delete.do?no=${dto.getMgn_no()}'">
+								<input type="button" value="목록" onclick="location.href='board_list.do?board_category=${dto.getBoard_category() }&group_no=${dto.getGroup_no() }'">
+								
 							</td>
 						</tr>
 					</table>

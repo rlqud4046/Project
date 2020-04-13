@@ -10,6 +10,7 @@ import model.BoardDAO;
 import model.BoardDTO;
 import model.CommentDAO;
 import model.CommentDTO;
+import model.LikeDAO;
 
 
 public class BoardContAction implements Action {
@@ -18,10 +19,8 @@ public class BoardContAction implements Action {
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		int mgn_no = Integer.parseInt(request.getParameter("no"));
-		/*int nowPage = Integer.parseInt(request.getParameter("page"));
-		int search = Integer.parseInt(request.getParameter("search"));
-		String find_field = request.getParameter("find_field");
-		String find_name = request.getParameter("find_name");*/
+		/*int mem_no = Integer.parseInt(request.getParameter("id"));*/
+		int mem_no = 2;
 		
 		BoardDAO dao =BoardDAO.getInstance();
 		dao.boardHit(mgn_no);		// 조회수 증가 메서드 호출
@@ -38,10 +37,14 @@ public class BoardContAction implements Action {
 		int count = cdao.commentCount(mgn_no);
 		List<String> attachList = dao.attachList(mgn_no);
 		
+		LikeDAO ldao = LikeDAO.getInstance();
+		int lcheck = ldao.likeCheck(mem_no, mgn_no);
+		
 		
 		request.setAttribute("comment", cdto);
 		request.setAttribute("count", count);
 		request.setAttribute("aList", attachList);
+		request.setAttribute("lCheck", lcheck);
 		
 		ActionForward forward = new ActionForward();
 		forward.setRedirect(false);

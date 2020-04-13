@@ -28,6 +28,7 @@ public class CommentWriteAction implements Action {
         comment.setComment_cont(comment_cont);
         
         boolean result = dao.insertComment(comment);
+        
  
         if(result){
             response.setContentType("text/html;charset=euc-kr");
