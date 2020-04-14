@@ -1,4 +1,4 @@
-<%@page import="com.model.MemberDAO"%>
+<%@page import="model.MemberDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%	
