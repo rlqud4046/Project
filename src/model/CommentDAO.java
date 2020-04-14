@@ -65,27 +65,26 @@ public class CommentDAO {
 	}// closeConn() end
 
 	public int commentCount(int mgn_no) {
-		int count=0;
+		int count = 0;
 		try {
 			openConn();
-			sql="select count(*)from comment_table where mgn_no=?";
+			sql = "select count(*)from comment_table where mgn_no=?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, mgn_no);
 			rs = pstmt.executeQuery();
-			if(rs.next()) {
+			if (rs.next()) {
 				count = rs.getInt(1);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
+		} finally {
 			closeConn(rs, pstmt, con);
 		}
-		
+
 		return count;
 	}
-	
-	
+
 	public List<CommentDTO> commentCont(int mgn_no) {
 		int count = 0;
 		List<CommentDTO> list = new ArrayList<CommentDTO>();
@@ -94,8 +93,8 @@ public class CommentDAO {
 			sql = "select * from comment_table where mgn_no=? order by comment_group desc, comment_no";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, mgn_no);
-			rs=pstmt.executeQuery();
-			while(rs.next()) {
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
 				CommentDTO dto = new CommentDTO();
 				dto.setComment_no(rs.getInt("comment_no"));
 				dto.setComment_writer(rs.getString("comment_writer"));
@@ -106,122 +105,119 @@ public class CommentDAO {
 				dto.setMgn_no(rs.getInt("mgn_no"));
 				list.add(dto);
 			}
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
+		} finally {
 			closeConn(rs, pstmt, con);
 		}
 
 		return list;
 	}
-	
-	
-	public boolean insertComment(CommentDTO comment)
-    {
-        boolean result = false;
-        
-        try {
-            // 자동 커밋을 false로 한다.
-        	openConn();
-            con.setAutoCommit(false);
-            
-            sql = "insert into comment_table(mgn_no, comment_writer, comment_cont, comment_date, comment_group) values(?,?,?,sysdate,comment_table_seq2.nextval)";
-      
-    
-            pstmt = con.prepareStatement(sql);
-            pstmt.setInt(1, comment.getMgn_no());
-            pstmt.setString(2, comment.getComment_writer());
-            pstmt.setString(3, comment.getComment_cont());
-            
-            int flag = pstmt.executeUpdate();
-            if(flag > 0){
-                result = true;
-                con.commit(); // 완료시 커밋
-            }
-            
-        } catch (Exception e) {
-            try {
-                con.rollback(); // 오류시 롤백
-            } catch (SQLException sqle) {
-                sqle.printStackTrace();
-            } 
-            e.printStackTrace();
-            throw new RuntimeException(e.getMessage());
-        }finally {
+
+	public boolean insertComment(CommentDTO comment) {
+		boolean result = false;
+
+		try {
+			// 자동 커밋을 false로 한다.
+			openConn();
+			con.setAutoCommit(false);
+
+			sql = "insert into comment_table(mgn_no, comment_writer, comment_cont, comment_date, comment_group) values(?,?,?,sysdate,comment_table_seq2.nextval)";
+
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, comment.getMgn_no());
+			pstmt.setString(2, comment.getComment_writer());
+			pstmt.setString(3, comment.getComment_cont());
+
+			int flag = pstmt.executeUpdate();
+			if (flag > 0) {
+				result = true;
+				con.commit(); // 완료시 커밋
+			}
+
+		} catch (Exception e) {
+			try {
+				con.rollback(); // 오류시 롤백
+			} catch (SQLException sqle) {
+				sqle.printStackTrace();
+			}
+			e.printStackTrace();
+			throw new RuntimeException(e.getMessage());
+		} finally {
 			closeConn(rs, pstmt, con);
 		}
-        return result;    
-    } // end boardInsert();   
-	
-	public boolean replyComment(CommentDTO dto)
-    {
-        boolean result = false;
-        
-        try {
-            // 자동 커밋을 false로 한다.
-        	openConn();
-            con.setAutoCommit(false);
-            
-            sql = "insert into comment_table(mgn_no, comment_writer, comment_cont, comment_date,comment_parent, comment_group) values(?,?,?,sysdate,?,?)";
-      
-    
-            pstmt = con.prepareStatement(sql);
-            pstmt.setInt(1, dto.getMgn_no());
-            pstmt.setString(2, dto.getComment_writer());
-            pstmt.setString(3, dto.getComment_cont());
-            pstmt.setInt(4, dto.getComment_parent());
-            pstmt.setInt(5, dto.getComment_parent());
-            
-            int flag = pstmt.executeUpdate();
-            if(flag > 0){
-                result = true;
-                con.commit(); // 완료시 커밋
-            }
-            
-        } catch (Exception e) {
-            try {
-                con.rollback(); // 오류시 롤백
-            } catch (SQLException sqle) {
-                sqle.printStackTrace();
-            } 
-            e.printStackTrace();
-            throw new RuntimeException(e.getMessage());
-        }finally {
+		return result;
+	} // end boardInsert();
+
+	public boolean replyComment(CommentDTO dto) {
+		boolean result = false;
+
+		try {
+			// 자동 커밋을 false로 한다.
+			openConn();
+			con.setAutoCommit(false);
+
+			sql = "insert into comment_table(mgn_no, comment_writer, comment_cont, comment_date,comment_parent, comment_group) values(?,?,?,sysdate,?,?)";
+
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, dto.getMgn_no());
+			pstmt.setString(2, dto.getComment_writer());
+			pstmt.setString(3, dto.getComment_cont());
+			pstmt.setInt(4, dto.getComment_parent());
+			pstmt.setInt(5, dto.getComment_parent());
+
+			int flag = pstmt.executeUpdate();
+			if (flag > 0) {
+				sql = "select comment_table_seq2.nextval from dual";
+				pstmt = con.prepareStatement(sql);
+				pstmt.executeQuery();
+
+				result = true;
+				con.commit(); // 완료시 커밋
+			}
+
+		} catch (Exception e) {
+			try {
+				con.rollback(); // 오류시 롤백
+			} catch (SQLException sqle) {
+				sqle.printStackTrace();
+			}
+			e.printStackTrace();
+			throw new RuntimeException(e.getMessage());
+		} finally {
 			closeConn(rs, pstmt, con);
 		}
-        return result;    
-    } // end boardInsert();  
-	
+		return result;
+	} // end boardInsert();
+
 	public CommentDTO getComment(int comment_no) {
 		CommentDTO dto = new CommentDTO();
-		
+
 		try {
-		openConn();
-		sql ="select * from comment_table where comment_no=?";
+			openConn();
+			sql = "select * from comment_table where comment_no=?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, comment_no);
-			rs=pstmt.executeQuery();
-			while(rs.next()) {
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
 				dto.setComment_cont(rs.getString("comment_cont"));
 				dto.setComment_date(rs.getString("comment_date"));
 				dto.setComment_parent(rs.getInt("comment_parent"));
 				dto.setComment_writer(rs.getString("comment_writer"));
 				dto.setMgn_no(rs.getInt("mgn_no"));
 				dto.setComment_no(rs.getInt("comment_no"));
-				
-				
+
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
+		} finally {
 			closeConn(rs, pstmt, con);
 		}
-		
+
 		return dto;
 	}
-
 
 }

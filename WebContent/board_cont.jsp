@@ -271,7 +271,7 @@ a {
 	} */
 
 	// 좋아요 
-	function like() {
+	/* function like() {
 		var form = document.getElementById("likeForm");
 
 		var board = form.mgn_no.value;
@@ -291,7 +291,52 @@ a {
 					'application/x-www-form-urlencoded;charset=EUC-KR');
 			httpRequest.send(param);
 		}
-	}
+	} */
+	
+	function like(){
+	      
+	      var form = document.getElementById("likeForm");
+
+	      var board = form.mgn_no.value;
+	      var id = form.mem_no.value;
+	      var like = form.like.value;
+	      
+	      
+	    
+	     $.ajax({
+	      type: "get",
+	      url: "LikeMem.jsp",
+	      data: {"board" : board},
+	      datatype: "jsp",
+	      success: function(data){
+	         
+	        if(like==1){
+	          //mem_no의 문자열 [ , , ]을 쪼개서 배열로 저장
+	          var str = "전체, "+data.trim().substring(1,data.trim().length-1);
+	   
+	            var st = str.split(', ');
+	            
+	         
+	          for ( var i in st ) {
+	             
+	             if(st[i] == id) {
+	                ${dto.getBoard_like() } = ${dto.getBoard_like() } - 1;
+	                ${lcheck } = 0;
+	                break;
+	             }
+	           }
+	        }else {
+	           ${dto.getBoard_like() } = ${dto.getBoard_like() } + 1;
+	           ${lcheck } = 1;
+	        }
+	          
+	       },
+	       error: function () {
+	           alert("오류가 발생하였습니다.");
+	       }                     
+	      });
+	   }
+	   
 
 	function checkFunc() {
 		if (httpRequest.readyState == 4) {
@@ -449,7 +494,11 @@ a {
 									</td>
 									<td>
 										
-										<a href="#" onclick="like()"><img alt="하트사진" src=""></a>
+										<a href="#" onclick="like()">
+                                    <c:if test="${lcheck==1 }"><img alt="하트사진" src=""></c:if>
+                                    <c:if test="${lcheck!=1 }"><img alt="다른하트사진" src=""></c:if>
+                                    </a>
+                                 
 										
 										
 										<%-- </c:if> --%>

@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
@@ -121,5 +123,36 @@ public class LikeDAO {
 		return result;
 
 	}
+	
+	//mgn_no에해당하는 mem_no를 모두받아옴
+	   public List<LikeDTO> LikeMemList(int mgn_no){
+	      List<LikeDTO> memList = new ArrayList<LikeDTO>();
+	      
+	      try {
+	         openConn();
+	         sql="select mem_no from like_table where mgn_no=?";
+	         
+	         pstmt = con.prepareStatement(sql);
+	         pstmt.setInt(1, mgn_no);
+	         
+	         rs = pstmt.executeQuery();
+	         
+	         while(rs.next()) {
+	            LikeDTO dto = new LikeDTO();
+	            dto.setMem_no(rs.getInt("mem_no"));
+	            dto.setMgn_no(rs.getInt("mgn_no"));
+	            
+	            memList.add(dto);
+	         }
+	      } catch (SQLException e) {
+	         // TODO Auto-generated catch block
+	         e.printStackTrace();
+	      } finally {
+	         closeConn(rs, pstmt, con);
+	      }
+	      return memList;
+	   }//end
+	
+	
 
 }

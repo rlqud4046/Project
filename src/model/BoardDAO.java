@@ -89,14 +89,10 @@ public class BoardDAO {
 	}
 
 	// board1 테이블에서 게시물을 가져오는 메서드
-	public List<BoardDTO> getBoardList(int group_no, int board_category, int page, int rowsize) {
+	public List<BoardDTO> getBoardList(int group_no, int board_category) {
 		List<BoardDTO> list = new ArrayList<BoardDTO>();
 
-		// 해당 페이지의 시작 번호
-		int startNo = (page * rowsize) - (rowsize - 1);
-		// 해당 페이지의 끝 번호
-		int endNo = page * rowsize;
-
+		
 		try {
 			openConn();
 			// row_number() over : 특정 컬럼을 기준으로 행 번호를 부여할 때 사용하는 함수
@@ -105,23 +101,14 @@ public class BoardDAO {
 			// 2. (select p.*, 위의 1번 from board1 p : board1 테이블을 p로 별칭을 주고 거기에서 board1에 위의
 			// 1번을 추가로 뽑아온다
 			// 3. where rnum>=? and rnum<=? : 각각 startNo, endNo
-			if (group_no == 0) {
-				sql = "select * from " + "(select p.*, row_number() " + "over(order by board_no desc) rnum "
-						+ "from board_table p where board_category=?) " + "where rnum >=? and rnum<=?";
-				pstmt = con.prepareStatement(sql);
-				pstmt.setInt(1, group_no);
-				pstmt.setInt(2, board_category);
-				pstmt.setInt(3, startNo);
-				pstmt.setInt(4, endNo);
-			} else {
-				sql = "select * from board_table where group_no=? and board_category=? ";
+			sql = "select * from board_table where group_no=? and board_category=? ";
 				pstmt = con.prepareStatement(sql);
 				pstmt.setInt(1, group_no);
 				pstmt.setInt(2, board_category);
 			/*	pstmt.setInt(3, startNo);
 				pstmt.setInt(4, endNo);
 */
-			}
+			
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {

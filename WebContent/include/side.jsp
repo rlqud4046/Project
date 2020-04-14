@@ -289,7 +289,7 @@ html { height: 100%;}
 }
 </style>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
 <script>
 $(document).ready(function () {
   var trigger = $('.link2me'),
