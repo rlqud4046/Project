@@ -283,4 +283,24 @@ public class MemberDAO {
 		}
 		return result;
 	}
+	
+	public int pwdCheck(String id, String pwd) {
+		int result = 0;
+		openConn();
+		sql = "SELECT * FROM member_test WHERE id=? AND pwd=?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setString(2, pwd);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				result = 1;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeConn();
+		}
+		return result;
+	}
 }
