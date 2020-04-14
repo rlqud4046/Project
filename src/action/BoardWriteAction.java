@@ -14,8 +14,8 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import sun.util.locale.StringTokenIterator;
 
-import com.model.BoardDAO;
-import com.model.BoardDTO;
+import model.BoardDAO;
+import model.BoardDTO;
 
 public class BoardWriteAction implements Action {
 

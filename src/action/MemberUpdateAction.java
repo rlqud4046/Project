@@ -6,9 +6,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.model.InterestDAO;
-import com.model.InterestDTO;
-import com.model.MemberDAO;
+import model.InterestDAO;
+import model.InterestDTO;
+import model.MemberDAO;
 
 public class MemberUpdateAction implements Action {
 

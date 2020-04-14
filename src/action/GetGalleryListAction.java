@@ -6,8 +6,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.model.BoardDAO;
-import com.model.BoardDTO;
+import model.BoardDAO;
+import model.BoardDTO;
 
 public class GetGalleryListAction implements Action {
 
