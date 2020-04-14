@@ -34,7 +34,10 @@
 				<input type="hidden" value="${cont.getPost_no() }" name="post_no">
 				<c:if test="${page_no==1 }">
 					<input type="submit" value="답장" onclick="javascript: form.action='post_reply.do';">
-					<input type="submit" value="삭제" onclick="javascript: form.action='post_del.do';">
+					<input type="submit" value="삭제" onclick="javascript: form.action='post_rec_del.do';">
+				</c:if>
+				<c:if test="${page_no==2 }">
+					<input type="submit" value="삭제" onclick="javascript: form.action='post_send_del.do';">
 				</c:if>
 				<input type="button" value="뒤로가기" onclick="history.back()"> 
 			</td>

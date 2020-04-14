@@ -8,8 +8,17 @@ public class PostDTO {
 	private String post_cont;
 	private int post_read;
 	private int mem_no;
+	private String del_check;
 	private String id;
 	private String nickname;
+	
+	public String getDel_check() {
+		return del_check;
+	}
+	public void setDel_check(String del_check) {
+		this.del_check = del_check;
+	}
+
 	
 	public int getPost_no() {
 		return post_no;

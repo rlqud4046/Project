@@ -9,9 +9,9 @@
 </head>
 
 		
-	<frameset rows="10%, *" frameborder=0>
+	<frameset rows="7%, *" frameborder=0>
 				<frame src="post_button.do?mem_no=${mem_no }" scrolling="no">
-				<frame src="post_receive.do?mem_no=${mem_no }" name="post_list">
+				<frame src="post_receive.do?mem_no=${mem_no }" name="post_list" scrolling="no">
 	</frameset>
 <body>
 <c:set value="${mem_no }" var="mem_no"/>

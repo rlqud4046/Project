@@ -8,20 +8,21 @@ import javax.servlet.http.HttpServletResponse;
 
 import model.PostDAO;
 
-public class PostDelAction implements Action {
+public class PostSDelAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		
 		ActionForward forward = new ActionForward();
 		
 		int post_no = Integer.parseInt(request.getParameter("post_no"));
-		int mem_no = Integer.parseInt(request.getParameter("receiver"));
+		int mem_no = Integer.parseInt(request.getParameter("sender"));
 		PostDAO dao = PostDAO.getInstance();
-		int result = dao.PostDel(post_no);
+		int result = dao.SendDel(post_no);
 		
 		if(result==1) {
 			forward.setRedirect(false);
-			forward.setPath("post_receive.do?mem_no"+mem_no);
+			forward.setPath("post_send.do?mem_no="+mem_no);
 		}else {
 			PrintWriter out = response.getWriter();
 			out.println("<script>");

@@ -18,7 +18,7 @@ public class PostReceiveAction implements Action {
 		int mem_no =Integer.parseInt(request.getParameter("mem_no"));
 		
 		
-		System.out.println("메[ㅁ버넘ㅅ버"+mem_no);//sender값이 온당.
+		System.out.println("메[ㅁ버넘ㅅ버"+mem_no);//sender값이 온당...?receiver값이 와야하는데?... 뭘보낸거지..? 어디서보낸거지?
 		ActionForward forward = new ActionForward();
 		
 		PostDAO dao = PostDAO.getInstance();

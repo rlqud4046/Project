@@ -175,7 +175,7 @@ ul {
 				</c:if>
 	
 					
-				<button onclick="window.open('../letter.do?mem_no=5','window_name','width=500,height=500,location=no,status=no,scrollbars=yes');">
+				<button onclick="window.open('../letter.do?mem_no=5','window_name','width=500,height=700,location=no,status=no,scrollbars=yes');">
 				<img src="../images/letter.jpg" width="30"></button>
 				
 
