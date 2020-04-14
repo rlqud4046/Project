@@ -7,8 +7,7 @@
 <title>Insert title here</title>
 
 
-<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
-
+<script src="//cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
 
 <style type="text/css">
 .pagination {
@@ -31,7 +30,6 @@ display: none;
 
 
 </style>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
 </head>
 <body>
@@ -79,9 +77,22 @@ display: none;
 
 			</table>
 			<script type="text/javascript">
-$(document).ready( function () {
-    $('#table_list').DataTable();
-} );	
+			$(document).ready( function () {
+			    $('#table_list').DataTable({
+			    	
+			    	"lengthChange" : false,
+			    	"info" : false,
+					"order" : [[0,"desc"]],
+					"paingType" : "full_numbers",
+					"language": {
+						"search" : "검색 : ",
+						"paginate" : { 
+							"next" : "다음",
+							"previous" : "이전"
+						}
+					}
+				});
+			} );	
 </script>
 
 			<%-- <div align="center">

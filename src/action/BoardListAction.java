@@ -31,11 +31,11 @@ public class BoardListAction implements Action {
 		request.setAttribute("board_category", board_category);					// O
 		
 		String path = "board_list.jsp";
-		request.setAttribute("page", path);
+		request.setAttribute("include", path);
 		// view page로 포워딩
 		ActionForward forward = new ActionForward();
 		forward.setRedirect(false);
-		forward.setPath("samplePage.jsp"); // ㄴ므ㅔ
+		forward.setPath("sampleGroup.jsp"); // ㄴ므ㅔ
 		return forward; 
 	}
 

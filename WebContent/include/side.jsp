@@ -288,7 +288,7 @@ html { height: 100%;}
     z-index: 1;
 }
 </style>
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!-- <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
 
 <script>
 $(document).ready(function () {
@@ -330,7 +330,7 @@ $(document).ready(function () {
                     <a href="#"><h3>관.종.들.모.여.라</h3></a>
                 </li>
                 <li>
-                    <a href="#">모임전체보기</a>
+                    <a href="allGroupList.do">모임전체보기</a>
                 </li>
                 <li>
                     <a href="#">전체 공지</a>

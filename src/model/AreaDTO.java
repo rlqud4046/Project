@@ -1,7 +1,7 @@
 package model;
 
 public class AreaDTO {
-	
+
 	private String city;
 	private String town;
 	private int area_no;
@@ -25,7 +25,5 @@ public class AreaDTO {
 	public void setArea_no(int area_no) {
 		this.area_no = area_no;
 	}
-	
-	
-	
+
 }

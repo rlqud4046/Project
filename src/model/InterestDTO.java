@@ -1,9 +1,11 @@
 package model;
 
 public class InterestDTO {
+
 	private String l_category;
 	private String s_category;
 	private int interest_no;
+	
 	
 	public String getL_category() {
 		return l_category;
@@ -23,6 +25,5 @@ public class InterestDTO {
 	public void setInterest_no(int interest_no) {
 		this.interest_no = interest_no;
 	}
-	
-	
+
 }

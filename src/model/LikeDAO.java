@@ -152,6 +152,47 @@ public class LikeDAO {
 	      }
 	      return memList;
 	   }//end
+	   
+	   
+	   public List<JoinDTO> getLikeBoardList(int mem_no) {
+			
+			 List<JoinDTO> list = new ArrayList<JoinDTO>();
+			
+		      try {
+
+			    con = openConn();
+			    sql = "select * from join_view where mem_no = ?";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setInt(1, mem_no);
+				
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					
+					JoinDTO dto = new JoinDTO();
+					dto.setMgn_no(rs.getInt("mgn_no"));
+					dto.setGroup_no(rs.getInt("group_no"));
+					dto.setGroup_name(rs.getString("group_name"));
+					dto.setBoard_category(rs.getInt("board_category"));
+					dto.setBoard_title(rs.getString("board_title"));
+					dto.setBoard_writer(rs.getString("board_writer"));
+					dto.setBoard_date(rs.getString("board_date"));
+					dto.setBoard_hit(rs.getInt("board_hit"));
+					dto.setBoard_like(rs.getInt("board_like"));
+
+					list.add(dto);
+					
+				}
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				closeConn(rs, pstmt, con);
+			}
+			 
+			 return list;
+		}
 	
 	
 

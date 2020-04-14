@@ -6,119 +6,191 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="./css/bootstrap_3-3-2.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<script src="./js/header.js"></script>
 
 
 <style type="text/css">
 header {
-/*    position: relative;
+	/*    position: relative;
    margin: 0 auto;
    width: 100%; */
-   background-color: #fff;
-   border-top: 1px solid #fff;
-   /* z-index: 30; */
+	background-color: #fff;
+	border-top: 1px solid #fff;
+	/* z-index: 30; */
 }
+
 header #notice {
-   /* position: absolute; */
-   /* left: 12px; */
-/*    top: 30px; */
-   /* width: 470px; */
-   /* height: 15px; */
-   /* padding: 0 0 0 18px; */
-   font-size: 12px;
-   text-align: left;
-   letter-spacing: 0;
+	/* position: absolute; */
+	/* left: 12px; */
+	/*    top: 30px; */
+	/* width: 470px; */
+	/* height: 15px; */
+	/* padding: 0 0 0 18px; */
+	font-size: 12px;
+	text-align: left;
+	letter-spacing: 0;
 }
+
 header #notice {
-   /* display: block; */
-   /* position: relative; */
-   /* width: 400px; */
-   /* height: 15px; */
-   /* list-style: none; */
+	/* display: block; */
+	/* position: relative; */
+	/* width: 400px; */
+	/* height: 15px; */
+	/* list-style: none; */
+	
 }
+
 .marquee {
-   height: 25px;
-   width: 420px;
-   overflow: hidden;
-   position: relative;
+	height: 25px;
+	width: 420px;
+	overflow: hidden;
+	position: relative;
 }
+
 .marquee li {
-   /* display: block; */
-   width: 200%;
-   /* height: 30px; */
-   position: relative;
-   overflow: hidden;
-   animation: marquee 5s linear infinite;
+	/* display: block; */
+	width: 200%;
+	/* height: 30px; */
+	position: relative;
+	overflow: hidden;
+	animation: marquee 5s linear infinite;
 }
+
 .marquee li {
-   /* float: left;
+	/* float: left;
    width: 50%; */
+	
 }
-@keyframes marquee {
-  0% { top: 0; }
-  100% { top: -100%; }
+
+@
+keyframes marquee { 0% {
+	top: 0;
+}
+
+100%{
+top
+
+
+
+
+
+
+:
+
+
+
+
+
+
+-100%;
+}
 }
 #logo {
-   /* position: fixed;
+	/* position: fixed;
    left: 855px;
    top: 30px; */
+	
 }
-#top_login {
-/*    position: fixed;
+
+#top_login a {
+	/*    position: fixed;
    left: 1650px;
    top: 30px; */
+	color: #222;
+	text-decoration: none;
 }
+
 ul {
-   list-style: none;
-   padding-left: 0px;
+	list-style: none;
+	padding-left: 0px;
 }
 </style>
 </head>
 <body>
-   <header class="container">
-      <div class="row" style="margin-top: 10px;">
-         <div class="pull-left" id="notice">
-            <span>NOTICE&nbsp;</span>
-         </div>
-         <div class="pull-left">
-            <ul id="marquee2" class="marquee">
-               <li><a href="">글 제목이 나오는 공간</a></li>
-               <!-- <li><a href="">112321323</a></li> -->
-            </ul>
-         </div>
-         <div class="pull-right" id="top_login">
-            <a href="./main.jsp">홈</a>
-            <c:if test="${!empty name }">
-               <a href="<%=request.getContextPath()%>/logout.do">로그아웃</a>
-            </c:if>
-            <c:if test="${empty name }">
-               <a href="<%=request.getContextPath()%>/login.do">로그인</a>
-            </c:if>
-            <c:if test="${!empty name }">
-               <a href="">${name }님</a>
-            </c:if>
-            <c:if test="${empty name }">
-               <a href="<%=request.getContextPath()%>/join.do">회원가입</a>
-            </c:if>
-            <a href=""><img src="./images/letter.jpg" width="30"></a> 
-         </div>
-      </div>
-      <span style="clear: both;"></span>
-   <div class="col-md-12" id="logo">
-      <a href="./main.jsp"><img src="./images/sist.jpg" width="100%" border="0" height="30px"></a>
-   </div>
-   <br> <br> <br><br>
-   <hr>
-   <div align="center">
-   <c:set var="g_no" value="null" />
-   <%-- <c:if test="${!empty g_no }"> 비어있지 않으면 해당 그룹 메인화면으로 가는 이미지
-      <a href="main.do?group_no=<%=%>"><img src="./images/sist.jpg" width="200" border="0"></a>
-   </c:if> --%>
-   
-   <%-- <c:if test="${empty g_no }"> 비어있으면 메인화면으로 가는 이미지 --%>
-      <a href="main.jsp"><img src="./images/sist.jpg" width="200" border="0"></a>
-   <%-- </c:if> --%>
-   </div>
-      <hr>
-   </header>
+	<header class="container">
+		<div class="row" style="margin-top: 10px;">
+			<div class="pull-left" id="notice">
+				<span>NOTICE&nbsp;</span>
+			</div>
+			<div class="pull-left">
+				<ul id="marquee2" class="marquee">
+					<li><a href="">글 제목이 나오는 공간</a></li>
+					<!-- <li><a href="">112321323</a></li> -->
+				</ul>
+			</div>
+
+			<div class="pull-right" id="top_login">
+				<a href="samplePage.jsp">홈</a>
+				<c:if test="${!empty name }">
+					<a href="<%=request.getContextPath()%>/logout.jsp">로그아웃</a>
+
+				</c:if>
+				<c:if test="${empty name }">
+					<a href="<%=request.getContextPath()%>/login.do">로그인</a>
+				</c:if>
+				<c:if test="${!empty name }">
+					<a tabindex="0" id="pop" role="button" data-trigger="focus" data-placement="bottom">${name }님</a>
+
+				</c:if>
+				<c:if test="${empty name }">
+					<a href="<%=request.getContextPath()%>/join.do">회원가입</a>
+				</c:if>
+				<img src="images/letter.jpg" onclick="window.open('letter.do?mem_no=${sessionScope.mem_no}','window_name','width=500,height=700,location=no,status=no,scrollbars=yes');" width="30">
+
+			</div>
+		</div>
+		<div class="clearfix"></div>
+
+		<div class="row">
+			<div id="mypop" class="container hide">
+				<div class="row">
+					<div class="col-sm-3 col-sm-offset-1">
+						<img id="profile_popover" class="img-circle" alt="" src="https://cdn.pixabay.com/photo/2017/06/13/12/54/profile-2398783_960_720.png" width="50px" height="50px">
+					</div>
+					<div class="col-sm-8">
+						<ul style="list-style: none;">
+							<li id="nickId_popover">닉네임(아이디)</li>
+							<li id="name_popover">이름</li>
+							<li id="e_mail_popover">이메일</li>
+						</ul>
+					</div>
+					<div class="col-sm-12">
+						<div class="col-sm-6">
+							<button class="btn btn-default btn-sm" onclick="location.href='mypage.do'">마이페이지</button>
+						</div>
+						<div class="col-sm-6">
+							<button class="btn btn-default btn-sm" onclick="location.href='mygroup_list.do?mem_no=${sessionScope.mem_no}'">가입한 모임</button>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<span style="clear: both;"></span>
+		<c:set value="${group_no }" var="gno">
+		</c:set>
+		<c:if test="${!empty gno }">
+			<div class="row">
+				<div class="col-md-12" align="center" id="logo">
+					<a href="samplePage.jsp"><img src="./images/sist.jpg" width="60%" border="0"></a>
+				</div>
+			</div>
+		</c:if>
+
+		<c:if test="${empty gno }">
+			<div class="row">
+				<div class="col-md-12" align="center" id="logo">
+					<a href="samplePage.jsp"><img src="./images/main.png" width="60%" border="0"></a>
+				</div>
+			</div>
+		</c:if>
+
+		<hr>
+	</header>
 </body>
 </html>

@@ -92,31 +92,92 @@ public class InterestDAO {
 		return l_category;
 	}//selectLC() end;
 	
-	//selectSC(): interest_table에서 선택한 대분류의 해당 소분류를 받아오는 메서드(대분류 부터 받아와야함)
-	public List<InterestDTO> selectSC(String lc){  
-		List<InterestDTO> s_category = new ArrayList<InterestDTO>();
+	//selectSC(): interest_table에서 모든 튜플을 가져오는 메서드
+		public List<InterestDTO> selectSC(){
+			List<InterestDTO> s_category = new ArrayList<InterestDTO>();
+			
+			try {
+				openConn();
+				sql="select * from interest_table order by l_category desc";
+				
+				pstmt = con.prepareStatement(sql);
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					InterestDTO dto = new InterestDTO();
+					dto.setS_category(rs.getString("s_category"));
+					dto.setL_category(rs.getString("l_category"));
+					dto.setInterest_no(rs.getInt("interest_no"));
+					
+					s_category.add(dto);
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				closeConn(rs, pstmt, con);
+			}
+			return s_category;
+			
+		}//selectSC() end;
+	
+	public List<InterestDTO> getInterList() {
 		
-		try {
-			openConn();
-			sql="select s_category from interest_table where l_category=?";
+		List<InterestDTO> list = new ArrayList<InterestDTO>();
+	
+	try {
+		
+		con = openConn();
+		sql ="SELECT DISTINCT(L_CATEGORY) FROM INTEREST_TABLE";
+		pstmt = con.prepareStatement(sql);
+		rs = pstmt.executeQuery();
+		
+		while(rs.next()) {
+			InterestDTO dto = new InterestDTO();
+			dto.setL_category(rs.getString("l_category"));
+			list.add(dto);
+		}
+		
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} finally {
+		closeConn(rs, pstmt, con);
+	}
+	return list;
+}
+	
+	//선ㅊ택한 대,소분류에 맞는 관심사의 interest_no 찾는 메서드
+		public int searchI_no(String lc,String sc) {
+			int interest_no=0;
 			
-			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1,lc);
-			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
-				InterestDTO dto = new InterestDTO();
-				dto.setS_category(rs.getString("s_category"));
-				s_category.add(dto);
+			try {
+				openConn();
+				sql="select interest_no from interest_table where l_category=? and s_category=?";
+				
+				pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, lc);
+				pstmt.setString(2, sc);
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					interest_no= rs.getInt(1);
+				}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+				
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				closeConn(rs, pstmt, con);
 			}
 			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			closeConn(rs, pstmt, con);
-		}
-		return s_category;
-	}//selectSC() end;
+			
+			return interest_no;
+		}//searchI_no() end;
+		
+		
+	
+	
 }
 	
