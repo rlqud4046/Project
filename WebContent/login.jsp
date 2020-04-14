@@ -13,13 +13,13 @@
 
 	<div align="center" style="padding-top: 330px">
 
-	<form class="form-inline">
+	<form class="form-inline" action="<%= request.getContextPath() %>/Login_Ok.do" method="post">
 		
 	<table width="200" height="150">
 		<tr>
 			<td>
   				<div class="form-group">
-    				<input type="text" class="form-control" placeholder="아이디">
+    				<input type="text" class="form-control" placeholder="아이디" name="id">
 	   	 		</div>
 	    	</td>
 	    </tr>
@@ -27,7 +27,7 @@
 	 	<tr>
 	 		<td>
  				<div class="form-group">
-    				<input type="email" class="form-control" placeholder="비밀번호">
+    				<input type="password" class="form-control" placeholder="비밀번호" name="pwd">
  	 			</div>
  	 		 </td>
  	 	</tr>
