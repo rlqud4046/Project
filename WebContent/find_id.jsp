@@ -13,13 +13,13 @@
 
 <div align="center" style="padding-top: 330px">
 
-	<form class="form-inline">
+	<form class="form-inline" action="find_id_email.do" method="post">
 		
 	<table width="200" height="150">
 		<tr>
 			<td>
 				<div class="form-group">
-  					<input type="text" class="form-control" placeholder="이름">
+  					<input type="text" class="form-control" name="name" placeholder="이름" >
 	    		</div>
 	    	</td>
 	    </tr>
@@ -27,7 +27,7 @@
 	 	<tr>
 	 		<td>
  				<div class="form-group">
-    				<input type="email" class="form-control" placeholder="이메일">
+    				<input type="email" class="form-control" name="email" placeholder="이메일">
  	 			</div>
  	 		 </td>
  	 	</tr>

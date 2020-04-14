@@ -71,57 +71,24 @@ public class LikeDAO {
 		
 	}  // closeconn() 메서드 end
 	
-	public int getListCount(int mem_no) {
-		
-		int count = 0;
-		
-		try {
-			
-			con = openConn();
-			sql="select count(*) from join_view where mem_no =?";
-			pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, mem_no);
-			
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
-				count = rs.getInt(1);
-			}
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			closeConn(rs, pstmt, con);
-		}
-		
-		return count;
-		
-	} // getListCount() 메서드 end
-	
-	public List<JoinDTO> getLikeBoardList(int page, int rowsize, int mem_no) {
+	public List<JoinDTO> getLikeBoardList(int mem_no) {
 		
 		 List<JoinDTO> list = new ArrayList<JoinDTO>();
 		
-		 // 해당 페이지의 시작 번호
-	      int startNo = (page * rowsize) - (rowsize - 1);
-	      // 해당 페이지의 끝 번호
-	      int endNo = page * rowsize;
-	      
 	      try {
 
 		    con = openConn();
-		    sql = "select * from (select j.*, row_number() over(order by mgn_no desc) rnum from join_view j where mem_no=?) where rnum >=? and rnum<=?";
+		    sql = "select * from join_view where mem_no = ?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, mem_no);
-			pstmt.setInt(2, startNo);
-			pstmt.setInt(3, endNo);
 			
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
 				
 				JoinDTO dto = new JoinDTO();
+				dto.setMgn_no(rs.getInt("mgn_no"));
+				dto.setGroup_no(rs.getInt("group_no"));
 				dto.setGroup_name(rs.getString("group_name"));
 				dto.setBoard_category(rs.getInt("board_category"));
 				dto.setBoard_title(rs.getString("board_title"));
@@ -144,210 +111,5 @@ public class LikeDAO {
 		 return list;
 	}
 	
-	public int getSearchLikeListCount(String field, String name, int mem_no) {
-		 
-		 int count = 0;
-		 
-		 con = openConn();;
-		 
-		 if(field.equals("title")) {
-			
-			 try {
-				
-				
-				 sql="select count(*) from join_view where mem_no = ? and board_title like ?";
-				 pstmt = con.prepareStatement(sql);
-				 pstmt.setInt(1, mem_no);
-				 pstmt.setString(2, "%"+name+"%");
-				 rs = pstmt.executeQuery();
-				 
-				 if(rs.next()) {
-					 count = rs.getInt(1);
-				 }
-				 
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} finally {
-				
-				closeConn(rs, pstmt, con);
-				
-			}
-			 
-		 }else if(field.equals("category")) {
-			 
-			 try {
-				 
-				 sql="select count(*) from join_view where mem_no = ? and board_category like ?";
-				 pstmt = con.prepareStatement(sql);
-				 pstmt.setInt(1, mem_no);
-				 pstmt.setString(2, "%"+name+"%");
-				 rs = pstmt.executeQuery();
-				 
-				 if(rs.next()) {
-					 count = rs.getInt(1);
-				 }
-				 
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} finally {
-				
-				closeConn(rs, pstmt, con);
-				
-			}
-			 
-		 }else if(field.equals("writer")) {
-			 
-			 try {
-					
-				 sql="select count(*) from join_view where mem_no = ? and board_writer like ?";
-				 pstmt = con.prepareStatement(sql);
-				 pstmt.setInt(1, mem_no);
-				 pstmt.setString(2, "%"+name+"%");
-				 rs = pstmt.executeQuery();
-				 
-				 if(rs.next()) {
-					 count = rs.getInt(1);
-				 }
-				 
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} finally {
-				
-				closeConn(rs, pstmt, con);
-				
-			}
-			 
-		 }
-		 
-		 return count;
-		 
-	 } // getSearchListCount() 메서드 end
-	
-	
-	public List<JoinDTO> searchLikeBoardList(String field, String name, int page, int rowsize, int mem_no) {
-		
-		List<JoinDTO> list = new ArrayList<JoinDTO>();
-		
-		 // 해당 페이지의 시작 번호
-	     int startNo = (page * rowsize) - (rowsize - 1);
-	     // 해당 페이지의 끝 번호
-	     int endNo = (page * rowsize);
-		 
-	     con = openConn();
-	     
-	     if(field.equals("title")) {  
-	    	 
-		    	try {
-		    		
-		    		sql = "SELECT * FROM( SELECT J.*, ROW_NUMBER() OVER (ORDER BY MGN_NO DESC) RNUM FROM JOIN_VIEW J WHERE MEM_NO=? AND board_title like ?)WHERE RNUM>=? and RNUM<=?";
-					pstmt = con.prepareStatement(sql);
-					pstmt.setInt(1, mem_no);
-					pstmt.setString(2, "%"+name+"%");
-					pstmt.setInt(3, startNo);
-					pstmt.setInt(4, endNo);
-					rs = pstmt.executeQuery();
-					
-					while(rs.next()) {
-						
-						JoinDTO dto = new JoinDTO();
-						dto.setGroup_name(rs.getString("group_name"));
-						dto.setBoard_category(rs.getInt("board_category"));
-						dto.setBoard_title(rs.getString("board_title"));
-						dto.setBoard_writer(rs.getString("board_writer"));
-						dto.setBoard_date(rs.getString("board_date"));
-						dto.setBoard_hit(rs.getInt("board_hit"));
-						dto.setBoard_like(rs.getInt("board_like"));
-
-						list.add(dto);
-			            
-					}
-					
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} finally {
-					
-					closeConn(rs, pstmt, con);
-					
-				}
-		    	 
-		     }else if(field.equals("category")) {
-		    	 
-		    	 try {
-			    		
-		    		 sql = "SELECT * FROM( SELECT J.*, ROW_NUMBER() OVER (ORDER BY MGN_NO DESC) RNUM FROM JOIN_VIEW J WHERE MEM_NO=? AND board_category like ?)WHERE RNUM>=? and RNUM<=?\"";
-						pstmt = con.prepareStatement(sql);
-						pstmt.setInt(1, mem_no);
-						pstmt.setString(2, "%"+name+"%");
-						pstmt.setInt(3, startNo);
-						pstmt.setInt(4, endNo);
-						rs = pstmt.executeQuery();
-						
-						while(rs.next()) {
-							
-							JoinDTO dto = new JoinDTO();
-							dto.setBoard_category(rs.getInt("board_category"));
-							dto.setBoard_title(rs.getString("board_title"));
-							dto.setBoard_writer(rs.getString("board_writer"));
-							dto.setBoard_date(rs.getString("board_date"));
-							dto.setBoard_hit(rs.getInt("board_hit"));
-							dto.setBoard_like(rs.getInt("board_like"));
-
-							list.add(dto);
-				            
-						}
-						
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} finally {
-						
-						closeConn(rs, pstmt, con);
-						
-					}
-		    	 
-		     }else if(field.equals("writer")) {
-		    	 
-		    	 try {
-			    		
-		    		 sql = "SELECT * FROM( SELECT J.*, ROW_NUMBER() OVER (ORDER BY MGN_NO DESC) RNUM FROM JOIN_VIEW J WHERE MEM_NO=? AND board_writer like ?)WHERE RNUM>=? and RNUM<=?";
-						pstmt = con.prepareStatement(sql);
-						pstmt.setInt(1, mem_no);
-						pstmt.setString(2, "%"+name+"%");
-						pstmt.setInt(3, startNo);
-						pstmt.setInt(4, endNo);
-						rs = pstmt.executeQuery();
-						
-						while(rs.next()) {
-							
-							JoinDTO dto = new JoinDTO();
-							dto.setBoard_category(rs.getInt("board_category"));
-							dto.setBoard_title(rs.getString("board_title"));
-							dto.setBoard_writer(rs.getString("board_writer"));
-							dto.setBoard_date(rs.getString("board_date"));
-							dto.setBoard_hit(rs.getInt("board_hit"));
-							dto.setBoard_like(rs.getInt("board_like"));
-
-							list.add(dto);
-				            
-						}
-						
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} finally {
-						
-						closeConn(rs, pstmt, con);
-						
-					}
-		    	 
-		     }
-		     
-		     return list;
-			 
-		 } // searchBoardList() 메서드 end
 		
 }

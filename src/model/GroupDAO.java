@@ -109,50 +109,136 @@ public class GroupDAO {
 
 	} // getMyGroupList 메서드 end
 
-	public int getListCount() {
+	public List<JoinDTO> SearchAllGroupList(String area, String interest){
+		
+		List<JoinDTO> list = new ArrayList<JoinDTO>();
+		
+		if(area != "" && interest != "") {
+			
+			try {
 
-		int count = 0;
-
-		try {
-
-			con = openConn();
-			sql = "select count(*) from aig_join_view";
-			pstmt = con.prepareStatement(sql);
-
-			rs = pstmt.executeQuery();
-
-			if (rs.next()) {
-				count = rs.getInt(1);
+				con = openConn();
+				sql="select * from AIG_JOIN_VIEW where city = ? and L_CATEGORY = ?";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, area);
+				pstmt.setString(2, interest);
+				
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					
+					 JoinDTO dto = new JoinDTO();
+			    	 dto.setGroup_no(rs.getInt("group_no"));
+			    	 dto.setGroup_name(rs.getString("group_name"));
+			    	 dto.setGroup_intro(rs.getString("group_intro"));
+			    	 dto.setGroup_area(rs.getInt("group_area"));
+			    	 dto.setGroup_interest(rs.getInt("group_interest"));
+			    	 dto.setGroup_currmem(rs.getInt("group_currmem"));
+			    	 dto.setGroup_main_img(rs.getString("group_main_img"));
+			    	 dto.setArea_no(rs.getInt("area_no"));
+			    	 dto.setCity(rs.getString("city"));
+			    	 dto.setTown(rs.getString("town"));
+			    	 dto.setInterest_no(rs.getInt("interest_no"));
+			    	 dto.setS_category(rs.getString("s_category"));
+			    	 dto.setL_category(rs.getString("l_category"));
+			    	 list.add(dto);
+					
+				}
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				closeConn(rs, pstmt, con);
 			}
+			
+		}else if(area != "" && interest == "") {
+			try {
 
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			closeConn(rs, pstmt, con);
+				con = openConn();
+				sql="select * from AIG_JOIN_VIEW where city = ?";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, area);
+				
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					
+					 JoinDTO dto = new JoinDTO();
+			    	 dto.setGroup_no(rs.getInt("group_no"));
+			    	 dto.setGroup_name(rs.getString("group_name"));
+			    	 dto.setGroup_intro(rs.getString("group_intro"));
+			    	 dto.setGroup_area(rs.getInt("group_area"));
+			    	 dto.setGroup_interest(rs.getInt("group_interest"));
+			    	 dto.setGroup_currmem(rs.getInt("group_currmem"));
+			    	 dto.setGroup_main_img(rs.getString("group_main_img"));
+			    	 dto.setArea_no(rs.getInt("area_no"));
+			    	 dto.setCity(rs.getString("city"));
+			    	 dto.setTown(rs.getString("town"));
+			    	 dto.setInterest_no(rs.getInt("interest_no"));
+			    	 dto.setS_category(rs.getString("s_category"));
+			    	 dto.setL_category(rs.getString("l_category"));
+			    	 list.add(dto);
+					
+				}
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				closeConn(rs, pstmt, con);
+			}
+		}else if(area == "" && interest != "") {
+			try {
+
+				con = openConn();
+				sql="select * from AIG_JOIN_VIEW where L_CATEGORY = ?";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, interest);
+				
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					
+					 JoinDTO dto = new JoinDTO();
+			    	 dto.setGroup_no(rs.getInt("group_no"));
+			    	 dto.setGroup_name(rs.getString("group_name"));
+			    	 dto.setGroup_intro(rs.getString("group_intro"));
+			    	 dto.setGroup_area(rs.getInt("group_area"));
+			    	 dto.setGroup_interest(rs.getInt("group_interest"));
+			    	 dto.setGroup_currmem(rs.getInt("group_currmem"));
+			    	 dto.setGroup_main_img(rs.getString("group_main_img"));
+			    	 dto.setArea_no(rs.getInt("area_no"));
+			    	 dto.setCity(rs.getString("city"));
+			    	 dto.setTown(rs.getString("town"));
+			    	 dto.setInterest_no(rs.getInt("interest_no"));
+			    	 dto.setS_category(rs.getString("s_category"));
+			    	 dto.setL_category(rs.getString("l_category"));
+			    	 list.add(dto);
+					
+				}
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				closeConn(rs, pstmt, con);
+			}
 		}
+		return list;
+	}
+	
 
-		return count;
-
-	} // getListCount() 메서드 end
-
-	public List<JoinDTO> getBoardList(int page, int rowsize) {
+	public List<JoinDTO> getBoardList() {
 
 		List<JoinDTO> list = new ArrayList<JoinDTO>();
 
-		// 해당 페이지의 시작 번호
-		int startNo = (page * rowsize) - (rowsize - 1);
-		// 해당 페이지의 끝 번호
-		int endNo = page * rowsize;
-
 		try {
 
 			con = openConn();
 
-			sql = "select * from(select A.*, row_number() over(order by GROUP_NO desc) rnum from AIG_JOIN_VIEW A)where rnum >=? and rnum<=?";
+			sql = "select * from AIG_JOIN_VIEW";
 			pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, startNo);
-			pstmt.setInt(2, endNo);
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
@@ -179,210 +265,6 @@ public class GroupDAO {
 		return list;
 	}
 	
-	public int getSearchAllGroupListCount(String area, String interest) {
-		 
-		int count = 0;
-		
-		if(area != "" && interest != "") {
-			
-			try {
-
-				con = openConn();;
-				sql="SELECT COUNT(*) FROM AIG_JOIN_VIEW WHERE CITY = ? AND L_CATEGORY = ?";
-				pstmt = con.prepareStatement(sql);
-				pstmt.setString(1, area);
-				pstmt.setString(2, interest);
-				rs = pstmt.executeQuery();
-				
-				if(rs.next()) {
-					count = rs.getInt(1);
-				}
-				
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} finally {
-				closeConn(rs, pstmt, con);
-			}	
-			
-		}else if(area != "" && interest == ""){
-			
-			try {
-
-				con = openConn();;
-				sql="SELECT COUNT(*) FROM AIG_JOIN_VIEW WHERE CITY = ?";
-				pstmt = con.prepareStatement(sql);
-				pstmt.setString(1, area);
-				rs = pstmt.executeQuery();
-				
-				if(rs.next()) {
-					count = rs.getInt(1);
-				}
-				
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} finally {
-				closeConn(rs, pstmt, con);
-			}
-			
-		}else if(area == "" && interest != "") {
-			
-			try {
-
-				con = openConn();;
-				sql="SELECT COUNT(*) FROM AIG_JOIN_VIEW WHERE L_CATEGORY = ?";
-				pstmt = con.prepareStatement(sql);
-				pstmt.setString(1, interest);
-				rs = pstmt.executeQuery();
-				
-				if(rs.next()) {
-					count = rs.getInt(1);
-				}
-				
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} finally {
-				closeConn(rs, pstmt, con);
-			}
-			
-		}
-		
-		return count;
-	} // getSearchAllGroupListCount 메서드 end
-	
-	public List<JoinDTO> SearchAllGroupList(String area, String interest, int page, int rowsize) {
-		
-		List<JoinDTO> list = new ArrayList<JoinDTO>();
-		 
-		 // 해당 페이지의 시작 번호
-	     int startNo = (page * rowsize) - (rowsize - 1);
-	     // 해당 페이지의 끝 번호
-	     int endNo = (page * rowsize);
-		 
-	     if(area != "" && interest != "") {
-	    	 
-	    	 try {
-
-			     con = openConn();
-			     sql="select * from(select A.*, row_number() over(order by GROUP_NO desc) rnum "
-			     		+ "from AIG_JOIN_VIEW A WHERE CITY = ? AND L_CATEGORY = ? )where rnum >= ? and rnum <= ?";
-			     pstmt = con.prepareStatement(sql);
-			     pstmt.setString(1, area);
-			     pstmt.setString(2, interest);
-			     pstmt.setInt(3, page);
-			     pstmt.setInt(4, rowsize);
-			     rs = pstmt.executeQuery();
-			     
-			     while(rs.next()) {
-			    	 
-			    	 JoinDTO dto = new JoinDTO();
-			    	 dto.setGroup_no(rs.getInt("group_no"));
-			    	 dto.setGroup_name(rs.getString("group_name"));
-			    	 dto.setGroup_intro(rs.getString("group_intro"));
-			    	 dto.setGroup_area(rs.getInt("group_area"));
-			    	 dto.setGroup_interest(rs.getInt("group_interest"));
-			    	 dto.setGroup_currmem(rs.getInt("group_currmem"));
-			    	 dto.setGroup_main_img(rs.getString("group_main_img"));
-			    	 dto.setArea_no(rs.getInt("area_no"));
-			    	 dto.setCity(rs.getString("city"));
-			    	 dto.setTown(rs.getString("town"));
-			    	 dto.setInterest_no(rs.getInt("interest_no"));
-			    	 dto.setS_category(rs.getString("s_category"));
-			    	 dto.setL_category(rs.getString("l_category"));
-			    	 list.add(dto);
-			     }
-			     
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} finally {
-				closeConn(rs, pstmt, con);
-			}
-	    	 
-	     }else if(area != "" && interest == "") {
-	    	 
-	    	 try {
-
-			     con = openConn();
-			     sql="select * from(select A.*, row_number() over(order by GROUP_NO desc) rnum "
-			     		+ "from AIG_JOIN_VIEW A WHERE CITY = ?)where rnum >= ? and rnum <= ?";
-			     pstmt = con.prepareStatement(sql);
-			     pstmt.setString(1, area);
-			     pstmt.setInt(2, page);
-			     pstmt.setInt(3, rowsize);
-			     rs = pstmt.executeQuery();
-			     
-			     while(rs.next()) {
-			    	 
-			    	 JoinDTO dto = new JoinDTO();
-			    	 dto.setGroup_no(rs.getInt("group_no"));
-			    	 dto.setGroup_name(rs.getString("group_name"));
-			    	 dto.setGroup_intro(rs.getString("group_intro"));
-			    	 dto.setGroup_area(rs.getInt("group_area"));
-			    	 dto.setGroup_interest(rs.getInt("group_interest"));
-			    	 dto.setGroup_currmem(rs.getInt("group_currmem"));
-			    	 dto.setGroup_main_img(rs.getString("group_main_img"));
-			    	 dto.setArea_no(rs.getInt("area_no"));
-			    	 dto.setCity(rs.getString("city"));
-			    	 dto.setTown(rs.getString("town"));
-			    	 dto.setInterest_no(rs.getInt("interest_no"));
-			    	 dto.setS_category(rs.getString("s_category"));
-			    	 dto.setL_category(rs.getString("l_category"));
-			    	 list.add(dto);
-			     }
-			     
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} finally {
-				closeConn(rs, pstmt, con);
-			}
-	    	 
-	     }else if(area == "" && interest != "") {
-	    	 
-	    	 try {
-
-			     con = openConn();
-			     sql="select * from(select A.*, row_number() over(order by GROUP_NO desc) rnum "
-			     		+ "from AIG_JOIN_VIEW A WHERE L_CATEGORY = ? )where rnum >= ? and rnum <= ?";
-			     pstmt = con.prepareStatement(sql);
-			     pstmt.setString(1, interest);
-			     pstmt.setInt(2, page);
-			     pstmt.setInt(3, rowsize);
-			     rs = pstmt.executeQuery();
-			     
-			     while(rs.next()) {
-			    	 
-			    	 JoinDTO dto = new JoinDTO();
-			    	 dto.setGroup_no(rs.getInt("group_no"));
-			    	 dto.setGroup_name(rs.getString("group_name"));
-			    	 dto.setGroup_intro(rs.getString("group_intro"));
-			    	 dto.setGroup_area(rs.getInt("group_area"));
-			    	 dto.setGroup_interest(rs.getInt("group_interest"));
-			    	 dto.setGroup_currmem(rs.getInt("group_currmem"));
-			    	 dto.setGroup_main_img(rs.getString("group_main_img"));
-			    	 dto.setArea_no(rs.getInt("area_no"));
-			    	 dto.setCity(rs.getString("city"));
-			    	 dto.setTown(rs.getString("town"));
-			    	 dto.setInterest_no(rs.getInt("interest_no"));
-			    	 dto.setS_category(rs.getString("s_category"));
-			    	 dto.setL_category(rs.getString("l_category"));
-			    	 list.add(dto);
-			     }
-			     
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} finally {
-				closeConn(rs, pstmt, con);
-			}
-	    	 
-	     }
-	     
-	     return list;	     
-	}
 
 	public GroupDTO getGroupInfor(int group_no) {
 		
@@ -424,11 +306,128 @@ public class GroupDAO {
 		return dto;
 	}
 
+	public int pwdcheck(String pwd,int mem_no) {
+		
+		int res = 0;
+		
+		try {
 
+			con = openConn();
+			sql="select * from MSG_JOIN_VIEW where mem_no=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, mem_no);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				if(pwd.equals(rs.getString("pwd")) && rs.getInt("rating") == 5 ) {
+					res = 1 ;  // 일치
+				}else {
+					res = -1;  // 비번 틀림 또는 모임장이 아님 
+				}
+			}
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return res;
+	}
 
+	public int deleteGroup(int group_no) {
+		
+		int result = 0;
+		
+		try {
 
+			con = openConn();
+			sql="delete from group_table where group_no = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, group_no);
+			result = pstmt.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return result;
+	}
 
+	public int getpremium_no(int group_no) {
+		
+		int count = 0;
+		
+		try {
 
+			con = openConn();
+			sql = "select group_premium from group_table where group_no=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, group_no);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				count = rs.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		return count;
+		
+	}
+	
+	public int changGroupPremium(int group_no) {
+		
+		int result = 0;
+		
+		try {
+			con = openConn();
+			sql="update group_table set group_premium=1 , group_limitmem=400 where group_no=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, group_no);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return result;
+	}
+
+	public int releaseGroupPremium(int group_no) {
+		
+		int result = 0;
+		
+		try {
+			con = openConn();
+			sql="update group_table set group_premium=0 , group_limitmem=200 where group_no=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, group_no);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return result;
+	}
 
 
 

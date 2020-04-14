@@ -22,7 +22,7 @@ footer {
 <jsp:include page="include/header.jsp"></jsp:include>
 </header>
 <section>
-<article><jsp:include page="include/faq.jsp"></jsp:include></article>
+<article><jsp:include page="${page }"></jsp:include></article>
 </section>
 <aside><jsp:include page="include/sidebar.jsp"></jsp:include></aside>
 

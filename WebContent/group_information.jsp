@@ -18,7 +18,7 @@
 			<tr>
 				<th>대문 사진 변경</th> <th>오픈 카톡</th>
 			</tr>
-			
+				
 			<tr>	
 				<td>
 					<img alt="" src="${dto.getGroup_front_img() }"	>

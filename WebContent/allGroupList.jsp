@@ -6,6 +6,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+<script src="//cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="//cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
+
+<style type="text/css">
+</style>
+
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 </head>
@@ -40,12 +48,15 @@
 
 	<br /><br /><br /><br /><br />
 
-	<table class="table table-bordered table-hover">
+	<table class="table table-bordered table-hover" id="table_list">
 		
+		<thead>
 		<tr>
 			<th>모임이미지</th><th>모임명</th><th>카테고리</th><th>지역</th><th>회원수</th><th>모임설명</th>
 		</tr>
+		</thead>
 		
+		<tbody>
 		<c:set var="list" value="${List }" />
 			<c:if test="${!empty list }">
 				<c:forEach items="${list }" var="dto">
@@ -66,36 +77,13 @@
 						</td>
 					</tr>
 				</c:if>
-		
+		</tbody>
 	</table>
 	
-	<div align="center">
-			<ul class="pagination">
-					<c:if test="${page > block }">
-						<li class="paginate_button previous">
-							<a href="allGroupList.do?page=1">◀◀</a></li>
-						<li> <a href="allGroupList.do?page=${startBlock - 1 }">◀</a></li>
-					</c:if>
-					
-					<c:forEach begin="${startBlock }" end="${endBlock }" var="i">
-						<c:if test="${i == page }">
-							<li class="active"> <a href="allGroupList.do?page=${i }">${i }</a></li>
-						</c:if>
-						
-						<c:if test="${i != page }">
-							<li> <a href="allGroupList.do?page=${i }">${i }</a></li>
-						</c:if>
-					</c:forEach>
-					
-					<c:if test="${endBlock < allPage }">
-						<li> <a href="allGroupList.do?page=${endBlock + 1 }">▶</a></li>
-						<li class="paginate_button next">
-							<a href="allGroupList.do?page=${allPage }">▶▶</a></li>
-					</c:if>
-			</ul>
-	</div>
-
-
-
+			<script type="text/javascript">
+$(document).ready( function () {
+    $('#table_list').DataTable();
+} );   
+</script>
 </body>
 </html>

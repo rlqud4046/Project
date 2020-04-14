@@ -70,7 +70,7 @@
       <div class="caption">
         <h3>프리미엄 전환</h3>
         <p>설명설명~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</p>
-        <p><a href="mygroup_list.do?mem_no=2" class="btn btn-primary btn-lg" role="button">전환/해제</a></p>
+        <p><a href="premium.do?group_no=3" class="btn btn-primary btn-lg" role="button">전환/해제</a></p>
       </div>
     </div>
   </div>
@@ -84,7 +84,7 @@
       <div class="caption">
         <h3>모임 해체</h3>
         <p>설명설명~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</p>
-        <p><a href="#" class="btn btn-primary btn-lg" role="button">관리</a></p>
+        <p><a href="group_dismantle.do?group_no=16&mem_no=1" class="btn btn-primary btn-lg" role="button">관리</a></p>
       </div>
     </div>
   </div>

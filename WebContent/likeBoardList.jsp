@@ -11,18 +11,29 @@
 <link rel="stylesheet" type="text/css"
 	href="//cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
 
-<style type="text/css">
-
-
-
-</style>
 
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<style type="text/css">
+.pagination {
+	margin-top: 32px;
+	height: 40px;
+	padding-top: 16px;
+	text-align: center;
+}
+
+.dataTables_length {
+	display: none;
+}
+
+.dataTables_info {
+	display: none;
+}
+</style>
 </head>
 <body>
 <div align="center">
-	<table class="table table-bordered table-hover" id="table_list" width="700">
+	<table class="table table-bordered table-hover" id="table_list">
 		<thead>
 			<tr class="form-inline">
 				<td>모임이름</td><td>게시판이름</td> <td>글제목</td> <td>작성자</td>
@@ -54,7 +65,7 @@
 							<c:if test="${dto.getBoard_category() == 6}">
 							<td> 사진첩 </td>
 							</c:if>
-						<td> ${dto.getBoard_title() } </td>
+						<td> <a href="글상세보기.do?mgn_no=${dto.getMgn_no() }">${dto.getBoard_title() } </a></td>
 						<td> ${dto.getBoard_writer() } </td>
 						<td> ${dto.getBoard_date().substring(0,10) } </td>
 						<td> ${dto.getBoard_hit() } </td>

@@ -35,7 +35,6 @@
 
   <div class="col-sm-6 col-md-4">
     <div class="thumbnail">
-      <img src="./images/naver.png" alt="...">
       <div class="caption">
         <h3>회원정보</h3>
         <p>설명설명~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</p>
@@ -46,7 +45,6 @@
   
   <div class="col-sm-6 col-md-4">
     <div class="thumbnail">
-      <img src="./images/naver.png" alt="...">
       <div class="caption">
         <h3>좋아요 한 글 목록</h3>
         <p>설명설명~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</p>
@@ -61,7 +59,6 @@
 
   <div class="col-sm-6 col-md-4">
     <div class="thumbnail">
-      <img src="./images/naver.png" alt="...">
       <div class="caption">
         <h3>스케쥴&캘린더</h3>
         <p>설명설명~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</p>
@@ -72,7 +69,6 @@
   
   <div class="col-sm-6 col-md-4">
     <div class="thumbnail">
-      <img src="./images/naver.png" alt="...">
       <div class="caption">
         <h3>내가 가입한 모임</h3>
         <p>설명설명~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</p>
