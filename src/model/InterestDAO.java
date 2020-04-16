@@ -52,7 +52,7 @@ public class InterestDAO {
 		return con;
 	}// openConn() end
 
-	// closeConn()
+	// closeConn(rs, pstmt, con)
 	public void closeConn(ResultSet rs, PreparedStatement pstmt, Connection con) {
 		try {
 			if (rs != null)
@@ -64,7 +64,7 @@ public class InterestDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}// closeConn() end
+	}// closeConn(rs, pstmt, con) end
 	
 	//selectLC(): interest_table에서 대분류를 받아오는 메서드
 	public List<InterestDTO> selectLC(){  
@@ -176,6 +176,55 @@ public class InterestDAO {
 			return interest_no;
 		}//searchI_no() end;
 		
+		
+		
+		// 회원가입폼에 관심사 대분류를 출력하기 위한 데이터를 가져온다
+		public List<String> getLCategory() {
+			List<String> l_category = new ArrayList<String>();
+			try {
+				openConn();
+				sql = "SELECT DISTINCT l_category FROM interest_table ORDER BY l_category";
+				pstmt = con.prepareStatement(sql);
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
+					l_category.add(rs.getString(1));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				closeConn(rs, pstmt, con);
+			}
+			return l_category;
+		}	// getLCategory() end
+		
+		// 회원가입폼에 관심사 소분류를 출력하기 위한 데이터를 가져온다
+		public List<List<InterestDTO>> getInterestList(List<String> lCategorys){
+			List<List<InterestDTO>> allCate = new ArrayList<List<InterestDTO>>();
+			
+			openConn();
+			try {
+				for(String k : lCategorys) {
+					List<InterestDTO> cate = new ArrayList<InterestDTO>();
+					sql = "SELECT * FROM interest_table WHERE l_category = ?";
+					pstmt = con.prepareStatement(sql);
+					pstmt.setString(1, k);
+					rs = pstmt.executeQuery();
+					while(rs.next()) {
+						InterestDTO dto = new InterestDTO();
+						dto.setL_category(rs.getString("l_category"));
+						dto.setS_category(rs.getString("s_category"));
+						dto.setInterest_no(rs.getInt("interest_no"));
+						cate.add(dto);
+					}
+					allCate.add(cate);
+				}			
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				closeConn(rs, pstmt, con);
+			}
+			return allCate;
+		}	// getInterestList() end
 		
 	
 	

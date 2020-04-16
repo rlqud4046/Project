@@ -246,7 +246,7 @@ a {
 
 	// 대댓글 등록
 
-	/* function replyCmt() {
+	function replyCmt() {
 		var form = document.getElementById("replyCommentForm");
 
 		var board = form.mgn_no.value;
@@ -268,10 +268,10 @@ a {
 					'application/x-www-form-urlencoded;charset=EUC-KR');
 			httpRequest.send(param);
 		}
-	} */
+	} 
 
 	// 좋아요 
-	/* function like() {
+	function like() {
 		var form = document.getElementById("likeForm");
 
 		var board = form.mgn_no.value;
@@ -291,9 +291,9 @@ a {
 					'application/x-www-form-urlencoded;charset=EUC-KR');
 			httpRequest.send(param);
 		}
-	} */
+	} 
 	
-	function like(){
+	/* function like(){
 	      
 	      var form = document.getElementById("likeForm");
 
@@ -303,7 +303,7 @@ a {
 	      
 	      
 	    
-	     $.ajax({
+	      $.ajax({
 	      type: "get",
 	      url: "LikeMem.jsp",
 	      data: {"board" : board},
@@ -336,7 +336,7 @@ a {
 	       }                     
 	      });
 	   }
-	   
+	    */
 
 	function checkFunc() {
 		if (httpRequest.readyState == 4) {
@@ -353,10 +353,7 @@ a {
 
 </head>
 <body>
-	<jsp:include page="include/header.jsp"></jsp:include>
-
-	<section class="container">
-		<article>
+	
 
 			<div class="container" id="con_box">
 
@@ -410,7 +407,7 @@ a {
 								<ul style="list-style: none;">
 
 									<li><span><font size="2"><a href="#">활동 정보</a></font></span></li>
-									<li><span><font size="2"><a href="#">쪽지 보내기</a></font></span></li>
+									<li><span><font size="2"><a href="letter.do?mem_no=${sessionScope.mem_no}" onclick="window.open(this.href, '_blank', 'width=550,height=700,location=no,status=no,scrollbars=yes'); return false;">쪽지 보내기</a></font></span></li>
 								</ul>
 							</div>
 						</div>
@@ -429,16 +426,12 @@ a {
 						<div class="row">
 							<c:set value="${aList }" var="alist" />
 							<c:if test="${!empty alist }">
-								<a tabindex="0" id="pop" role="button" data-triger="focus" data-placement="bottom">첨부파일<span>(${fn:length(alist) })</span></a>
-
+								<a tabindex="0" id="attach_pop" role="button" data-triger="focus" data-placement="bottom">첨부파일<span>(${fn:length(alist) })</span></a>
 							</c:if>
-
-
 						</div>
-
 					</div>
 
-					<div id="mypop" class="container hide">
+					<div id="a_pop" class="container hide">
 						<div class="row">
 
 							<div class="col-sm-12">
@@ -452,9 +445,9 @@ a {
 						</div>
 					</div>
 					<script>
-						$('#pop').popover({
+						$('#attach_pop').popover({
 							html : true,
-							content : $('#mypop').html()
+							content : $('#a_pop').html()
 						});
 					</script>
 
@@ -747,11 +740,6 @@ a {
 				</div>
 
 			</div>
-		</article>
-	</section>
-
-	<aside><jsp:include page="include/side.jsp"></jsp:include></aside>
-	<footer><jsp:include page="include/foot.jsp"></jsp:include></footer>
 
 
 

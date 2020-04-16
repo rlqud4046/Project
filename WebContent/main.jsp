@@ -77,43 +77,44 @@
 	<br/>
 	<div class="container0">
 		<div class="container1">
-			<%-- <c:set var="information" value="${받아온이름 }"></c:set> --%>
+			 <c:set var="information" value="${sessionScope.sessionID }"></c:set> 
 			<div id="random1" class="carousel slide" data-ride="carousel">
 
 				<!-- Wrapper for slides -->
 				<div class="carousel-inner">
 					<!-- 로그인 안했을 때 랜덤으로 뜨는 모임↓ -->
-					<%-- <c:if test="${empty information}"> --%>
+					<c:set value="${rand }" var="random"/>
+					 <c:if test="${empty information}"> 
 					<div class="carousel-item active"> <!-- 경로 수정 -->
 						<img class="w-100 p-3" src="images/tiger.jpg" height="400px"
-							alt="first" onclick="window.open('http://www.naver.com')">
+							alt="first" onclick="location.href='main.do?group_no=2'">
 					</div>
 					<div class="carousel-item">
 						<img class="w-100 p-3" src="images/2.png" height="400px"
-							alt="second" onclick="window.open('http://www.daum.net')">
+							alt="second" onclick="location.href='main.do?group_no=2'">
 					</div>
 					<div class="carousel-item">
 						<img class="w-100 p-3" src="images/3.png" height="400px"
-							alt="third" onclick="window.open('http://www.nate.com')">
+							alt="third" onclick="location.href='main.do?group_no=2'">
 					</div>
-				<%-- 	</c:if> --%>
+					</c:if> 
 					
 					
 					<!-- 로그인했을때: 관심사를 알 때 소개할 모임 ↓ -->
-					<%-- <c:if test="${!empty information}">
+					 <c:if test="${!empty information}">
 					<div class="carousel-item active">
 						<img class="w-100 p-3" src="images/tiger.jpg" height="400px"
-							alt="first" onclick="window.open('http://www.naver.com')">
+							alt="first" onclick="location.href='main.do?group_no=2'">
 					</div>
 					<div class="carousel-item">
 						<img class="w-100 p-3" src="images/2.png" height="400px"
-							alt="second" onclick="window.open('http://www.daum.net')">
+							alt="second" onclick="location.href='main.do?group_no=2'">
 					</div>
 					<div class="carousel-item">
 						<img class="w-100 p-3" src="images/3.png" height="400px"
-							alt="third" onclick="window.open('http://www.nate.com')">
+							alt="third" onclick="location.href='main.do?group_no=2'">
 					</div>
-					</c:if> --%>
+					</c:if> 
 				</div>
 				
 

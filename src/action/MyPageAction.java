@@ -9,8 +9,13 @@ public class MyPageAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		String path = "mypage.jsp";
+		request.setAttribute("page", path);
+		ActionForward forward = new ActionForward();
+		forward.setRedirect(false);
+		forward.setPath("samplePage.jsp");
+		
+		return forward;
 	}
 
 }

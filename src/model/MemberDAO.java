@@ -155,7 +155,6 @@ public class MemberDAO {
 				dto.setCheck_q(rs.getString("check_q"));
 				dto.setCheck_a(rs.getString("check_a"));
 				dto.setInterests(rs.getString("interests"));
-
 			}
 
 		} catch (SQLException e) {
@@ -451,7 +450,7 @@ public class MemberDAO {
 			List<String> qList = new ArrayList<String>();
 			try {
 				openConn();
-				sql = "SELECT question FROM checkq_table";
+				sql = "SELECT question FROM check_q";
 				pstmt = con.prepareStatement(sql);
 				rs = pstmt.executeQuery();
 				while (rs.next()) {
@@ -511,7 +510,7 @@ public class MemberDAO {
 			try {
 				openConn();
 				con.setAutoCommit(false);
-				sql = "INSERT INTO member_test "
+				sql = "INSERT INTO member_table "
 						+ "(id, pwd, mem_name, nickname, profile_img, birth, e_mail, phone, check_q, check_a, city, area1, area2, area3, interests) "
 						+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				pstmt = con.prepareStatement(sql);
@@ -553,7 +552,7 @@ public class MemberDAO {
 			try {
 				openConn();
 				con.setAutoCommit(false);
-				sql = "UPDATE member_test "
+				sql = "UPDATE member_table "
 						+ "SET pwd=?, mem_name=?, nickname=?, profile_img=?, birth=?, e_mail=?, phone=?, check_q=?, check_a=?, "
 						+ "city=?, area1=?, area2=?, area3=?, interests=? " + "WHERE id=?";
 				pstmt = con.prepareStatement(sql);
@@ -590,7 +589,7 @@ public class MemberDAO {
 		public int pwdCheck(String id, String pwd) {
 			int result = 0;
 			openConn();
-			sql = "SELECT * FROM member_test WHERE id=? AND pwd=?";
+			sql = "SELECT * FROM member_table WHERE id=? AND pwd=?";
 			try {
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, id);
@@ -606,7 +605,6 @@ public class MemberDAO {
 			}
 			return result;
 		}
-		
 		
 		
 		

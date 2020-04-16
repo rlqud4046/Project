@@ -22,12 +22,12 @@ public class BoardListAction implements Action {
 		if(request.getParameter("group_no")!=null) {
 			group_no = Integer.parseInt(request.getParameter("group_no"));
 			list = dao.getBoardList(group_no, board_category);
+			request.setAttribute("group_no", group_no);					// O
 		}else {
 			list = dao.getBoardList(0, board_category);
 		}
 		
 		request.setAttribute("List", list);					// O
-		request.setAttribute("group_no", group_no);					// O
 		request.setAttribute("board_category", board_category);					// O
 		
 		String path = "board_list.jsp";

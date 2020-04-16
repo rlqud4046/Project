@@ -1,6 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,32 +7,31 @@
 <title>Insert title here</title>
 
 <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="//cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-	
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
 
 
 <style type="text/css">
 .pagination {
-   margin-top: 32px;
-   height: 40px;
-   padding-top: 16px;
-   text-align: center;
+	margin-top: 32px;
+	height: 40px;
+	padding-top: 16px;
+	text-align: center;
 }
 
-.dataTables_filter{
-display: none;
-}
-.dataTables_length{
-display: none;
+.dataTables_filter {
+	display: none;
 }
 
-.dataTables_info{
-display: none;
+.dataTables_length {
+	display: none;
+}
+
+.dataTables_info {
+	display: none;
 }
 </style>
 
@@ -53,7 +51,9 @@ display: none;
 			<c:forEach items="${send_list }" var="list">
 				<tr>
 					<td>${list.getNickname() }(${list.getId() })</td>
-					<td><a href="post_cont.do?post_no=${list.getPost_no() }&page_no=2">${list.getPost_cont() }</a></td>
+					<td>
+						<a href="post_cont.do?post_no=${list.getPost_no() }&page_no=2">${list.getPost_cont() }</a>
+					</td>
 					<td>${list.getPost_date() }</td>
 					<td align="center">
 						<c:if test="${list.getPost_read()==1 }"> x </c:if>
@@ -65,7 +65,21 @@ display: none;
 	</table>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			$('#table_list').DataTable();
+			$('#table_list').DataTable({
+
+				"lengthChange" : false,
+				"info" : false,
+				"order" : [ [ 0, "desc" ] ],
+				"paingType" : "full_numbers",
+				"language" : {
+					"infoEmpty" : "보낸 메세지가 없습니다.",
+					"search" : "검색 : ",
+					"paginate" : {
+						"next" : "다음",
+						"previous" : "이전"
+					}
+				}
+			});
 		});
 	</script>
 

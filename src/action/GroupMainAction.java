@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import model.BoardDAO;
 import model.BoardDTO;
@@ -16,8 +17,11 @@ public class GroupMainAction implements Action{
 		
 		
 		int group_no = Integer.parseInt(request.getParameter("group_no"));
+		HttpSession session = request.getSession();
+		
 		
 		request.setAttribute("group_no", group_no);
+		session.setAttribute("group_No", group_no);
 		
 		//group_no에 해당하는 board_table의 값(mgn_no,board_category,board_title,board_photo)을 받아온다
 		BoardDAO dao = BoardDAO.getInstance();

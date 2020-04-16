@@ -22,6 +22,43 @@
 <link rel="stylesheet" type="text/css"
 	href="//cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
 	
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+<style type="text/css">
+.mar {
+	margin-top: 100px;
+	margin-left: 450px;
+}
+
+.btn {
+	width: 40%;
+	margin-left: 250px;
+}
+
+.thumbnail {
+	background-color: #d5d5d5;
+	border-radius: 15px;
+}
+</style>
+
+
+<style type="text/css">
+.mar {
+	margin-top: 100px;
+	margin-left: 450px;
+}
+
+.btn {
+	width: 40%;
+	margin-left: 250px;
+}
+
+.thumbnail {
+	background-color: #d5d5d5;
+	border-radius: 15px;
+}
+</style>
+	
 
 <style type="text/css">
 

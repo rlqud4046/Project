@@ -58,7 +58,7 @@ public class BoardDAO {
 		} catch (Exception e) {
 
 		}
-	} // closeConn() 메서드 끝
+	} // closeConn(rs, pstmt, con); 메서드 끝
 
 	// board 테이블의 전체 게시물의 수를 조회하는 메서드
 	public int getListCount(int group_no,int board_category) {
@@ -239,28 +239,7 @@ public class BoardDAO {
 		return attachList;
 	}
 	
-	public int insertBoard(BoardDTO dto) {
-
-	      int result = 0;
-
-	      try {
-	         con = openConn();
-	         sql = "insert into board_table values(1,5,7,5, ? , ? ,'BOARD_WRITER 57',sysdate,0,0, 'PHOTO', ? ,1,0,0, ? )";
-	         pstmt = con.prepareStatement(sql);
-	         pstmt.setString(1, dto.getBoard_title());
-	         pstmt.setString(2, dto.getBoard_cont());
-	         pstmt.setString(3, dto.getBoard_file());
-	         pstmt.setInt(4, dto.getBoard_imp());
-
-	         result = pstmt.executeUpdate();
-	      } catch (SQLException e) {
-	         // TODO Auto-generated catch block
-	         e.printStackTrace();
-	      } finally {
-	         closeConn(rs, pstmt, con);
-	      }
-	      return result;
-	   }
+	
 	
 	
 	public void likeIncrease(int mgn_no) {
@@ -520,6 +499,207 @@ public class BoardDAO {
 				}
 				return list;
 			}//listPhoto() end;
+			
+			// 게시판에 글 작성하는 메서드
+			public int insertBoard(BoardDTO dto) {
+				int result = 0;
+				int board_no = 0;
+				try {
+					openConn();
+					con.setAutoCommit(false);
+					sql = "SELECT MAX(board_no) FROM board_table WHERE group_no=?";
+					pstmt = con.prepareStatement(sql);
+					pstmt.setInt(1, dto.getGroup_no());
+					rs = pstmt.executeQuery();
+					if(rs.next()) {
+						board_no = rs.getInt(1)+1;
+					}
+//					System.out.println("글번호 최대값:"+board_no); // 글이 없을경우 0			
+					sql = "INSERT INTO board_table "
+						+ "(group_no, board_no, board_category, board_title, board_cont, "
+						+ "board_writer, nickname, board_date, board_hit, board_like, board_photo, board_file, "
+						+ "board_group, board_step, board_indent, board_imp) "
+						+ "VALUES(?,?,?,?,?,?,?,sysdate,0,0,?,?,board_table_seq.currval,0,0,?)";
+					pstmt = con.prepareStatement(sql);
+					pstmt.setInt(1, dto.getGroup_no());
+					pstmt.setInt(2, board_no);
+					pstmt.setInt(3, dto.getBoard_category());
+					pstmt.setString(4, dto.getBoard_title());
+					pstmt.setString(5, dto.getBoard_cont());
+					pstmt.setString(6, dto.getBoard_writer());
+					pstmt.setString(7, dto.getNickname());
+					pstmt.setString(8, dto.getBoard_photo());
+					pstmt.setString(9, dto.getBoard_file());
+					pstmt.setInt(10, dto.getBoard_imp());
+					result = pstmt.executeUpdate();
+					con.commit();
+					
+				} catch (SQLException e) {
+					e.printStackTrace();
+					try {
+						con.rollback();
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+				} finally {
+					closeConn(rs, pstmt, con);
+				}
+				return result;
+			}
+			
+			// 특정 게시판의 모든 개시물 갯수를 구하는 메서드
+			public int getRowCount(int group_no, int board_category) {
+				int result = 0;
+				
+				try {
+					openConn();
+					sql = "SELECT COUNT(*) FROM board_table WHERE group_no=? AND board_category=?";
+					pstmt = con.prepareStatement(sql);
+					pstmt.setInt(1, group_no);
+					pstmt.setInt(2, board_category);
+					rs = pstmt.executeQuery();
+					if(rs.next()) {
+						result = rs.getInt(1);
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} finally {
+					closeConn(rs, pstmt, con);
+				}
+				return result;
+			}
+			
+			// 특정 게시판의 검색어에 해당하는 데이터 갯수를 구하는 메서드
+			public int getRowCount(int group_no, int board_category, String keyword) {
+				int result = 0;
+				
+				try {
+					openConn();
+					sql = "SELECT COUNT(*) FROM board_table WHERE group_no=? "
+						+ "AND board_category=? " 
+						+ "AND (UPPER(board_title) LIKE UPPER(?) OR UPPER(board_writer) LIKE UPPER(?) OR UPPER(board_cont) LIKE UPPER(?))";
+					pstmt = con.prepareStatement(sql);
+					pstmt.setInt(1, group_no);
+					pstmt.setInt(2, board_category);
+					pstmt.setString(3, "%"+keyword+"%");
+					pstmt.setString(4, "%"+keyword+"%");
+					pstmt.setString(5, "%"+keyword+"%");
+					rs = pstmt.executeQuery();
+					if(rs.next()) {
+						result = rs.getInt(1);
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} finally {
+					closeConn(rs, pstmt, con);
+				}
+				return result;
+			}
+			
+			// 사진첩 글 목록을 불러오는 메서드
+			public List<BoardDTO> getGalleryList(int startNo, int endNo, int group_no, int board_category){
+				List<BoardDTO> list = new ArrayList<BoardDTO>();
+				
+				try {
+					openConn();
+					sql = "SELECT * "
+							+ "FROM(SELECT p.*, ROW_NUMBER() OVER(ORDER BY board_no DESC) rnum " 
+							+ "FROM board_table p " 
+							+ "WHERE group_no=? AND board_category=? " 
+							+ "ORDER BY board_no DESC, board_step) " 
+							+ "WHERE rnum >= ? AND rnum <= ?";
+					pstmt = con.prepareStatement(sql);
+					pstmt.setInt(1, group_no);
+					pstmt.setInt(2, board_category);
+					pstmt.setInt(3, startNo);
+					pstmt.setInt(4, endNo);
+					rs = pstmt.executeQuery();
+					while(rs.next()) {
+						BoardDTO dto = new BoardDTO();
+						dto.setMgn_no(rs.getInt("mgn_no"));
+						dto.setGroup_no(rs.getInt("group_no"));
+						dto.setBoard_no(rs.getInt("board_no"));
+						dto.setBoard_category(rs.getInt("board_category"));
+						dto.setBoard_title(rs.getString("board_title"));
+						dto.setBoard_cont(rs.getString("board_cont"));
+						dto.setBoard_writer(rs.getString("board_writer"));
+						dto.setNickname(rs.getString("nickname"));
+						dto.setBoard_date(rs.getString("board_date"));
+						dto.setBoard_hit(rs.getInt("board_hit"));
+						dto.setBoard_like(rs.getInt("board_like"));
+						dto.setBoard_photo(rs.getString("board_photo"));
+						dto.setBoard_file(rs.getString("board_file"));
+						dto.setBoard_group(rs.getInt("board_group"));
+						dto.setBoard_step(rs.getInt("board_step"));
+						dto.setBoard_indent(rs.getInt("board_indent"));
+						dto.setBoard_imp(rs.getInt("board_imp"));
+						list.add(dto);
+					}
+					
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} finally {
+					closeConn(rs, pstmt, con);
+				}
+				return list;
+			}
+			
+			// 게시판의 특정 검색어에 해당하는 데이터를 가져오는 메서드
+			public List<BoardDTO> getGalleryList(int startNo, int endNo, int group_no, int board_category, String keyword){
+				List<BoardDTO> list = new ArrayList<BoardDTO>();
+				
+				try {
+					openConn();
+					sql = "SELECT * "
+						+ "FROM(SELECT p.*, ROW_NUMBER() OVER(ORDER BY board_no DESC) rnum " 
+						+ "FROM board_table p " 
+						+ "WHERE group_no=? AND board_category=? "
+						+ "AND (UPPER(board_title) LIKE UPPER(?) OR UPPER(board_writer) LIKE UPPER(?) OR UPPER(board_cont) LIKE UPPER(?))" 
+						+ "ORDER BY board_no DESC, board_step) " 
+						+ "WHERE rnum >= ? AND rnum <= ?";
+					pstmt = con.prepareStatement(sql);
+					pstmt.setInt(1, group_no);
+					pstmt.setInt(2, board_category);
+					pstmt.setString(3, "%"+keyword+"%");
+					pstmt.setString(4, "%"+keyword+"%");
+					pstmt.setString(5, "%"+keyword+"%");
+					pstmt.setInt(6, startNo);
+					pstmt.setInt(7, endNo);
+					rs = pstmt.executeQuery();
+					while(rs.next()) {
+						BoardDTO dto = new BoardDTO();
+						dto.setMgn_no(rs.getInt("mgn_no"));
+						dto.setGroup_no(rs.getInt("group_no"));
+						dto.setBoard_no(rs.getInt("board_no"));
+						dto.setBoard_category(rs.getInt("board_category"));
+						dto.setBoard_title(rs.getString("board_title"));
+						dto.setBoard_cont(rs.getString("board_cont"));
+						dto.setBoard_writer(rs.getString("board_writer"));
+						dto.setNickname(rs.getString("nickname"));
+						dto.setBoard_date(rs.getString("board_date"));
+						dto.setBoard_hit(rs.getInt("board_hit"));
+						dto.setBoard_like(rs.getInt("board_like"));
+						dto.setBoard_photo(rs.getString("board_photo"));
+						dto.setBoard_file(rs.getString("board_file"));
+						dto.setBoard_group(rs.getInt("board_group"));
+						dto.setBoard_step(rs.getInt("board_step"));
+						dto.setBoard_indent(rs.getInt("board_indent"));
+						dto.setBoard_imp(rs.getInt("board_imp"));
+						list.add(dto);
+					}
+					
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} finally {
+					closeConn(rs, pstmt, con);
+				}
+				return list;
+			}
+			
+			
+			
+			
+			
 	
 	
 

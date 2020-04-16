@@ -6,8 +6,8 @@
 	// 회원정보 수정 페이지에서 ajax로 통신을 하기 위한 페이지
 	// 세션에서 아이디를 가져온다고 가정.
 	 String id = (String)session.getAttribute("id");
-	//String id = "yks1111";
 	
+
 	// db 연동을 위한 객체 생성
 	MemberDAO dao = MemberDAO.getInstance();
 	

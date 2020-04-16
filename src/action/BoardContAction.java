@@ -46,9 +46,13 @@ public class BoardContAction implements Action {
 		request.setAttribute("aList", attachList);
 		request.setAttribute("lCheck", lcheck);
 		
+		String path = "board_cont.jsp";
+		request.setAttribute("page", path);
+		
+		
 		ActionForward forward = new ActionForward();
 		forward.setRedirect(false);
-		forward.setPath("board_cont.jsp");
+		forward.setPath("samplePage.jsp");
 		return forward;
 	}
 

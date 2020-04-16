@@ -333,13 +333,14 @@ $(document).ready(function () {
                     <a href="allGroupList.do">모임전체보기</a>
                 </li>
                 <li>
-                    <a href="#">전체 공지</a>
+                    <a href="board_list.do?board_category=1">전체 공지</a>
                 </li>
                 <li>
-                    <a href="#">모임 개설</a>
+                    <a href="group_insert.do">모임 개설</a>
+                    <!--  <a href="group_insert.do?mem_no=${sessionScope.id}">모임 개설</a> -->
                 </li>
                 <li>
-                    <a href="#">가입한 모임</a>
+                    <a href="mygroup_list.do?mem_no=${sessionScope.mem_no }">가입한 모임</a>
                 </li>
                 <li>
                     <a href="#">캘린더</a>

@@ -108,6 +108,15 @@ ul {
 	padding-left: 0px;
 }
 </style>
+
+
+<script type="text/javascript">
+$(function invali() {
+	<% session.removeAttribute("group_no");%>
+})
+
+
+</script>
 </head>
 <body>
 	<header class="container">
@@ -123,7 +132,7 @@ ul {
 			</div>
 
 			<div class="pull-right" id="top_login">
-				<a href="samplePage.jsp">홈</a>
+				<a href="samplePage.jsp" onclick="invali()">홈</a>
 				<c:if test="${!empty name }">
 					<a href="<%=request.getContextPath()%>/logout.jsp">로그아웃</a>
 
@@ -138,7 +147,7 @@ ul {
 				<c:if test="${empty name }">
 					<a href="<%=request.getContextPath()%>/join.do">회원가입</a>
 				</c:if>
-				<img src="images/letter.jpg" onclick="window.open('letter.do?mem_no=${sessionScope.mem_no}','window_name','width=500,height=700,location=no,status=no,scrollbars=yes');" width="30">
+				<img src="images/letter.jpg" onclick="window.open('letter.do?mem_no=${sessionScope.mem_no}','window_name','width=550,height=700,location=no,status=no,scrollbars=yes');" width="30">
 
 			</div>
 		</div>
@@ -152,9 +161,9 @@ ul {
 					</div>
 					<div class="col-sm-8">
 						<ul style="list-style: none;">
-							<li id="nickId_popover">닉네임(아이디)</li>
-							<li id="name_popover">이름</li>
-							<li id="e_mail_popover">이메일</li>
+							<li id="nickId_popover">${sessionScope.nickname }(${sessionScope.id })</li>
+							<li id="name_popover">${sessionScope.name }</li>
+							<li id="e_mail_popover">${sessionScope.email }</li>
 						</ul>
 					</div>
 					<div class="col-sm-12">
@@ -172,17 +181,16 @@ ul {
 
 
 		<span style="clear: both;"></span>
-		<c:set value="${group_no }" var="gno">
-		</c:set>
-		<c:if test="${!empty gno }">
+		
+		<c:if test="${!empty group_No }">
 			<div class="row">
 				<div class="col-md-12" align="center" id="logo">
-					<a href="samplePage.jsp"><img src="./images/sist.jpg" width="60%" border="0"></a>
+					<a href="main.do?group_no=${group_No }"><img src="./images/group_main/gukbab.png" width="60%" border="0"></a>
 				</div>
 			</div>
 		</c:if>
 
-		<c:if test="${empty gno }">
+		<c:if test="${empty group_No }">
 			<div class="row">
 				<div class="col-md-12" align="center" id="logo">
 					<a href="samplePage.jsp"><img src="./images/main.png" width="60%" border="0"></a>

@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import model.GroupDAO;
 import model.MemberDAO;
 import model.MemberDTO;
 
@@ -31,8 +32,8 @@ public class LoginOkAction implements Action {
 			session.setAttribute("name", dto.getMem_name());
 			session.setAttribute("nickname", dto.getNickname());
 			session.setAttribute("mem_no", dto.getMem_no());
-			String path = "mypage.jsp";
-			request.setAttribute("page", path);
+			session.setAttribute("email", dto.getE_mail());
+			
 
 			System.out.println("로그인성공");
 
@@ -50,14 +51,19 @@ public class LoginOkAction implements Action {
 
 		}
 
+		GroupDAO gdao = GroupDAO.getInstance();
+		String[][] rand = gdao.random();
+
+		request.setAttribute("rand", rand);
+
 		ActionForward forward = new ActionForward();
 		String path = "main.jsp";
 		request.setAttribute("page", path);
 		// view page로 포워딩
-		
+
 		forward.setRedirect(false);
 		forward.setPath("samplePage.jsp"); // ㄴ므ㅔ
-		return forward; 
+		return forward;
 	}
 
 }
