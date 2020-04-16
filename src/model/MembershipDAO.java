@@ -199,7 +199,51 @@ public class MembershipDAO {
 		return result;
 	}
 	
-	
+
+	   //모임 개설시 개설한사람을 모임장으로 만들어주는 메서드
+	   public void master(int mem_no,int group_no) {
+	      try {
+	         openConn();
+	         sql="insert into membership_table (mem_no,group_no,rating) values (?,?,?)";
+	         
+	         pstmt = con.prepareStatement(sql);
+	         pstmt.setInt(1, mem_no);
+	         pstmt.setInt(2, group_no);
+	         pstmt.setInt(3, 5);
+	         
+	         pstmt.executeUpdate();
+	         
+	      } catch (SQLException e) {
+	         // TODO Auto-generated catch block
+	         e.printStackTrace();
+	      } finally {
+	         closeConn(rs, pstmt, con);
+	      }
+	      
+	   }//master() end;
+	   
+	   //모임 가입시 가입한 사람의 등급을 1로 만들어주는 메서드
+	   public void group_join(int mem_no,int group_no) {
+	      try {
+	         openConn();
+	         sql="insert into membership_table (mem_no,group_no,rating) values (?,?,?)";
+	         
+	         pstmt = con.prepareStatement(sql);
+	         pstmt.setInt(1, mem_no);
+	         pstmt.setInt(2, group_no);
+	         pstmt.setInt(3, 1);
+	         
+	         pstmt.executeUpdate();
+	         
+	      } catch (SQLException e) {
+	         // TODO Auto-generated catch block
+	         e.printStackTrace();
+	      } finally {
+	         closeConn(rs, pstmt, con);
+	      }
+	      
+	   }//group_join() end;
+	   
 	
 	
 	

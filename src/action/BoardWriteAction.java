@@ -7,6 +7,7 @@ import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.websocket.Session;
 
 import com.oreilly.servlet.MultipartRequest;
@@ -26,7 +27,7 @@ public class BoardWriteAction implements Action {
 		BoardDTO dto = new BoardDTO();
 
 		// 첨부파일이 저장될 위치
-		String saveFolder = "C:\\ncs\\workspace(jsp)\\00_somoim\\WebContent\\upload\\board";
+		String saveFolder = "C:\\NCS\\workspace(jsp)\\Project\\WebContent\\upload\\board";
 
 		// 첨부파일의 최대 크기00cs
 		int fileSize = 1024 * 1024 * 10; // => 1024(kb) * 1024(kb) * 10 => 10MB
@@ -41,20 +42,25 @@ public class BoardWriteAction implements Action {
 
 		// 작성자, 모임번호, 게시판 분류 등은 request로 전달받는다
 		// String board_writer =
-		String board_writer = "leess"; // 아이디
-		String nickname = "이순신";
-		int group_no = 1; // 모임번호
-		int board_category = 6; // 게시판 분류 - 1:사이트공지 ,2:공지사항, 3:가입인사, 4:정모게시판, 5:자유게시판, 6:사진첩
+		
+		HttpSession session = request.getSession();
+		
+		String board_writer = (String)session.getAttribute("id"); // 아이디
+		String nickname = (String)session.getAttribute("nickname");
+		int group_no = (int)(session.getAttribute("group_No"));
+		int board_category = Integer.parseInt(request.getParameter("board_category")); 
+		// 게시판 분류 - 1:사이트공지 ,2:공지사항, 3:가입인사, 4:정모게시판, 5:자유게시판, 6:사진첩
 
 		String board_title = multi.getParameter("title").trim();
 		String board_cont = multi.getParameter("context").trim();
 		String tempThumb = multi.getParameter("thumb").trim();
+		
 		int Board_imp = 0;
 
 		if (multi.getParameter("imp") != null) {
 			Board_imp = 1;
 		}
-
+		
 		// 이미지 썸네일 업로드 부분
 		// 이미지파일 url값이 비어있는지 확인
 		if (!tempThumb.isEmpty()) {
@@ -126,20 +132,24 @@ public class BoardWriteAction implements Action {
 		dto.setBoard_writer(board_writer);
 		dto.setNickname(nickname);
 		dto.setBoard_category(board_category);
-		dto.setGroup_no(group_no);		
+		dto.setGroup_no(group_no);
 		dto.setBoard_title(board_title);
 		dto.setBoard_cont(board_cont);
 		dto.setBoard_imp(Board_imp);
+		
 
 		BoardDAO dao = BoardDAO.getInstance();
 //		System.out.println(dto.toString());
 
 		int res = dao.insertBoard(dto);
+		request.setAttribute("board_category", board_category);
 
+		String path = "board_list.do";
+		
+		// view page로 포워딩
 		ActionForward forward = new ActionForward();
 		forward.setRedirect(false);
-		forward.setPath("board_list.do");
-
-		return null;
+		forward.setPath(path); // ㄴ므ㅔ
+		return forward; 
 	}
 }

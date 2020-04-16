@@ -1,3 +1,6 @@
+<%@page import="model.BoardDTO"%>
+<%@page import="java.util.List"%>
+<%@page import="model.BoardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
@@ -65,29 +68,11 @@ header #notice {
 	
 }
 
-@
-keyframes marquee { 0% {
-	top: 0;
+@keyframes marquee {
+  0% { top: 0; }
+  100% { top: -100%; }
 }
 
-100%{
-top
-
-
-
-
-
-
-:
-
-
-
-
-
-
--100%;
-}
-}
 #logo {
 	/* position: fixed;
    left: 855px;
@@ -122,6 +107,8 @@ $(function(){
 		});
 	});
 });
+
+
 </script>
 
 <%-- 
@@ -131,6 +118,14 @@ $(function invali() {
  --%>
 </head>
 <body>
+<%
+BoardDAO dao = BoardDAO.getInstance();
+
+List<BoardDTO> list = dao.noticeList();
+%>
+
+
+
 	<header class="container">
 		<div class="row" style="margin-top: 10px;">
 			<div class="pull-left" id="notice">
@@ -138,7 +133,10 @@ $(function invali() {
 			</div>
 			<div class="pull-left">
 				<ul id="marquee2" class="marquee">
-					<li><a href="">글 제목이 나오는 공간</a></li>
+				<c:forEach items="<%=list %>" var="notice"> 
+				
+					<li><a href="board_cont.do?no=${notice.getMgn_no() }">${notice.getBoard_title() }</a></li>
+				</c:forEach>
 					<!-- <li><a href="">112321323</a></li> -->
 				</ul>
 			</div>
@@ -198,6 +196,7 @@ $(function invali() {
 			<div class="row">
 				<div class="col-md-12" align="center" id="logo">
 					<a href="main.do?group_no=${group_No }"><img src="./images/group_main/gukbab.png" width="60%" border="0"></a>
+					<input type="button" name="a" onclick="location.href='group_join.do?mem_no=${mem_no}&group_no=${group_No }'" value="가입하깅">
 				</div>
 			</div>
 		</c:if>

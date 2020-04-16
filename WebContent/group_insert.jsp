@@ -116,7 +116,7 @@
 
             <tr>
                <td colspan="2"><input type="text" class=inline-block
-                  placeholder="모임명을 입력하세요" required size="98%;"></td>
+                  placeholder="모임명을 입력하세요" required size="98%;" name="group_name"></td>
             </tr>
 
             <tr>
@@ -172,7 +172,10 @@
                   name="select_s_category" id="select_s_category"
                   required="required"> <input type="hidden" value=""
                   name="select_city" id="select_city"> <input type="hidden"
-                  value="" name="select_town" id="select_town" required="required"></td>
+                  value="" name="select_town" id="select_town" required="required">
+                  <input type="hidden" value="${mem_no }" name="mem_no">
+                  
+                  </td>
             </tr>
 
 

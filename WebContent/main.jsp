@@ -75,8 +75,6 @@
       String[][] new_g =dao.newgroup();
       
       String[][] big = dao.big();
-      
-   
    %>
    
    

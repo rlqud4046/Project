@@ -10,6 +10,7 @@ import model.AreaDAO;
 import model.GroupDAO;
 import model.GroupDTO;
 import model.InterestDAO;
+import model.MembershipDAO;
 
 public class GroupInsertOkAction implements Action {
 
@@ -49,6 +50,11 @@ public class GroupInsertOkAction implements Action {
 		dto.setGroup_intro(group_intro);
 		dto.setGroup_area(area_no);
 		dto.setGroup_interest(interest_no);
+		//mem_no에 해당하는사람을 group_no 그룹의 모임장으로 만들어주기
+        int mem_no = Integer.parseInt(request.getParameter("mem_no"));
+        MembershipDAO dao = MembershipDAO.getInstance();
+        dao.master(mem_no,group_no);
+        
 		
 		//DB에 ㄱㄱ
 		int res = dao3.insertOK(dto);
