@@ -64,13 +64,14 @@
 				</tr>
 			</c:forEach>
 		</tbody>
-
-		<tr>
+			<tr>
 
 			<td colspan="4" align="center">
-				<input type="button" onclick="total_d()" value="삭제!"> <input type="button" onclick="location.href='post_total_del.do?mem_no=${list.getReceiver() }'" value="전체삭제!">
+				<input type="button" onclick="total_d()" value="삭제!"> 
 			</td>
 		</tr>
+
+		
 	</table>
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -91,17 +92,17 @@
 			});
 		});
 
-		function total_d() {
-			var total_check = new Array();
-			var checkbox = $('input[name="checkPost"]:checked');
-			//alert(checkbox.length);
-			for (var i = 0; i < checkbox.length; i++) {
-				total_check.push(checkbox[i].value);
-			}
-			location.href = 'post_check_del.do?total_check='
-					+ encodeURI(total_check);
-
-		};
+		function total_d(){
+		      var total_check = new Array();
+		      var checkbox = $('input[name="checkPost"]:checked');
+		      //alert(checkbox.length);
+		      for(var i=0; i<checkbox.length; i++){
+		         total_check.push(checkbox[i].value);
+		      }
+		      location.href='post_check_del.do?total_check='+encodeURI(total_check)+'&post_page=1';
+		      
+		      
+		      };
 	</script>
 
 

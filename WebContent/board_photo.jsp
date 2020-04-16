@@ -31,7 +31,7 @@
         </div>
       </div>
       <%-- 필터 영역 end --%>
-      
+      <c:if test="${!empty list }">
       <c:if test="${list.size() < 4 }">
       	<c:set var="row1Size" value="${list.size() }"/>
       </c:if>
@@ -92,6 +92,15 @@
         </div>
       </c:forEach>
       </div>
+      </c:if>
+      <c:if test="${empty list }">
+      <div class="row">
+        <div align="center">
+          <h3>게시글이 없습니다</h3>
+        </div>
+      </div>
+      </c:if>
+      
       <%-- 사진첩 게시물 목록 하단 end --%>
       
     </div>

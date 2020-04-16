@@ -71,7 +71,7 @@ display: none;
 				</c:if>
 				<tr>
 					<td colspan="6" align="right">
-						<input type="button" value="글쓰기" onclick="location.href='<%=request.getContextPath()%>/board_write.do'">
+						<input type="button" value="글쓰기" onclick="location.href='<%=request.getContextPath()%>/board_write.jsp'">
 					</td>
 				</tr>
 

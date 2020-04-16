@@ -402,76 +402,95 @@ public class PostDAO {
 	}// postDel() end;
 	
 	
-	//받은편지함에서 체크된 post_no에 해당하는 쪽지를 지우는 메서드
-	public int checkDel(String check) {
-		int res=0;
-		List<PostDTO> del_check= new ArrayList<PostDTO>();
-		
-		try {
-			openConn();
-			sql="update post_table set del_check = del_check||'a' where post_no in ("+check+")";
-			
-			pstmt = con.prepareStatement(sql);
-			res = pstmt.executeUpdate();
-			
-			//수정해준 아이들의 del_check를 확인해서 cba인 경우엔 해당post_no의 글을 지움!
-			sql = "select del_check,post_no from post_table where post_no in ("+check+")";
+	   //받은편지함에서 체크된 post_no에 해당하는 쪽지를 지우는 메서드
+	   public int checkRDel(String check) {
+	      int res=0;
+	      List<PostDTO> del_check= new ArrayList<PostDTO>();
+	      
+	      try {
+	         openConn();
+	         sql="update post_table set del_check = del_check||'a' where post_no in ("+check+")";
+	         
+	         pstmt = con.prepareStatement(sql);
+	         res = pstmt.executeUpdate();
+	         
+	         //수정해준 아이들의 del_check를 확인해서 cba인 경우엔 해당post_no의 글을 지움!
+	         sql = "select del_check,post_no from post_table where post_no in ("+check+")";
 
-			pstmt = con.prepareStatement(sql);
-			rs = pstmt.executeQuery();
+	         pstmt = con.prepareStatement(sql);
+	         rs = pstmt.executeQuery();
 
-			while(rs.next()) {
-				PostDTO dto = new PostDTO();
-				dto.setDel_check(rs.getString("del_check"));
-				dto.setPost_no(rs.getInt("post_no"));
-				
-				del_check.add(dto);
-			}
-			
-			for(int i=0; i<del_check.size();i++) {
-				if(del_check.get(i).getDel_check().equals("cba")) {
-					sql = "delete from post_table where post_no="+del_check.get(i).getPost_no();
-					pstmt = con.prepareStatement(sql);
+	         while(rs.next()) {
+	            PostDTO dto = new PostDTO();
+	            dto.setDel_check(rs.getString("del_check"));
+	            dto.setPost_no(rs.getInt("post_no"));
+	            
+	            del_check.add(dto);
+	         }
+	         
+	         for(int i=0; i<del_check.size();i++) {
+	            if(del_check.get(i).getDel_check().equals("cba")) {
+	               sql = "delete from post_table where post_no="+del_check.get(i).getPost_no();
+	               pstmt = con.prepareStatement(sql);
 
-					pstmt.executeUpdate();
-					res=2;
-				}
-				
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			closeConn(rs, pstmt, con);
-		}
-		
-		return res;
-	}//checkDel() end;
-	
-	//받은편지함에서 전체 쪽지를 지우는 메서드
-/*	public int totalDel(int mem_no) {
-		int res=0;
-		String del_check=null;
-		
-		try {
-			openConn();
-			sql="update post_table set del_check = del_check||'a' where receiver=? and del_check not in 'ca'";
-			
-			pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, mem_no);
-			
-			res =pstmt.executeUpdate();
-			
-			sql="select "
-			
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-		return res;
-	}
-*/
+	               pstmt.executeUpdate();
+	               res=2;
+	            }
+	            
+	         }
+	      } catch (SQLException e) {
+	         // TODO Auto-generated catch block
+	         e.printStackTrace();
+	      } finally {
+	         closeConn(rs, pstmt, con);
+	      }
+	      
+	      return res;
+	   }//checkRDel() end;
+	   
+	   //보낸편지함에서 체크된 post_no에 해당하는 쪽지를 지우는 메서드
+	   public int checkSDel(String check) {
+	      int res=0;
+	      List<PostDTO> del_check= new ArrayList<PostDTO>();
+	      
+	      try {
+	         openConn();
+	         sql="update post_table set del_check = del_check||'b' where post_no in ("+check+")";
+	         
+	         pstmt = con.prepareStatement(sql);
+	         res = pstmt.executeUpdate();
+	         
+	         //수정해준 아이들의 del_check를 확인해서 cba인 경우엔 해당post_no의 글을 지움!
+	         sql = "select del_check,post_no from post_table where post_no in ("+check+")";
+
+	         pstmt = con.prepareStatement(sql);
+	         rs = pstmt.executeQuery();
+
+	         while(rs.next()) {
+	            PostDTO dto = new PostDTO();
+	            dto.setDel_check(rs.getString("del_check"));
+	            dto.setPost_no(rs.getInt("post_no"));
+	            
+	            del_check.add(dto);
+	         }
+	         
+	         for(int i=0; i<del_check.size();i++) {
+	            if(del_check.get(i).getDel_check().equals("cab")) {
+	               sql = "delete from post_table where post_no="+del_check.get(i).getPost_no();
+	               pstmt = con.prepareStatement(sql);
+
+	               pstmt.executeUpdate();
+	               res=2;
+	            }
+	            
+	         }
+	      } catch (SQLException e) {
+	         // TODO Auto-generated catch block
+	         e.printStackTrace();
+	      } finally {
+	         closeConn(rs, pstmt, con);
+	      }
+	      
+	      return res;
+	   }//checkSDel() end;
 }

@@ -10,8 +10,6 @@ import java.util.List;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
-
-
 public class GroupDAO {
 
 	Connection con = null;
@@ -109,115 +107,115 @@ public class GroupDAO {
 
 	} // getMyGroupList 메서드 end
 
-	public List<JoinDTO> SearchAllGroupList(String area, String interest){
-		
+	public List<JoinDTO> SearchAllGroupList(String area, String interest) {
+
 		List<JoinDTO> list = new ArrayList<JoinDTO>();
-		
-		if(area != "" && interest != "") {
-			
+
+		if (area != "" && interest != "") {
+
 			try {
 
 				con = openConn();
-				sql="select * from AIG_JOIN_VIEW where city = ? and L_CATEGORY = ?";
+				sql = "select * from AIG_JOIN_VIEW where city = ? and L_CATEGORY = ?";
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, area);
 				pstmt.setString(2, interest);
-				
+
 				rs = pstmt.executeQuery();
-				
-				while(rs.next()) {
-					
-					 JoinDTO dto = new JoinDTO();
-			    	 dto.setGroup_no(rs.getInt("group_no"));
-			    	 dto.setGroup_name(rs.getString("group_name"));
-			    	 dto.setGroup_intro(rs.getString("group_intro"));
-			    	 dto.setGroup_area(rs.getInt("group_area"));
-			    	 dto.setGroup_interest(rs.getInt("group_interest"));
-			    	 dto.setGroup_currmem(rs.getInt("group_currmem"));
-			    	 dto.setGroup_main_img(rs.getString("group_main_img"));
-			    	 dto.setArea_no(rs.getInt("area_no"));
-			    	 dto.setCity(rs.getString("city"));
-			    	 dto.setTown(rs.getString("town"));
-			    	 dto.setInterest_no(rs.getInt("interest_no"));
-			    	 dto.setS_category(rs.getString("s_category"));
-			    	 dto.setL_category(rs.getString("l_category"));
-			    	 list.add(dto);
-					
+
+				while (rs.next()) {
+
+					JoinDTO dto = new JoinDTO();
+					dto.setGroup_no(rs.getInt("group_no"));
+					dto.setGroup_name(rs.getString("group_name"));
+					dto.setGroup_intro(rs.getString("group_intro"));
+					dto.setGroup_area(rs.getInt("group_area"));
+					dto.setGroup_interest(rs.getInt("group_interest"));
+					dto.setGroup_currmem(rs.getInt("group_currmem"));
+					dto.setGroup_main_img(rs.getString("group_main_img"));
+					dto.setArea_no(rs.getInt("area_no"));
+					dto.setCity(rs.getString("city"));
+					dto.setTown(rs.getString("town"));
+					dto.setInterest_no(rs.getInt("interest_no"));
+					dto.setS_category(rs.getString("s_category"));
+					dto.setL_category(rs.getString("l_category"));
+					list.add(dto);
+
 				}
-				
+
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} finally {
 				closeConn(rs, pstmt, con);
 			}
-			
-		}else if(area != "" && interest == "") {
+
+		} else if (area != "" && interest == "") {
 			try {
 
 				con = openConn();
-				sql="select * from AIG_JOIN_VIEW where city = ?";
+				sql = "select * from AIG_JOIN_VIEW where city = ?";
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, area);
-				
+
 				rs = pstmt.executeQuery();
-				
-				while(rs.next()) {
-					
-					 JoinDTO dto = new JoinDTO();
-			    	 dto.setGroup_no(rs.getInt("group_no"));
-			    	 dto.setGroup_name(rs.getString("group_name"));
-			    	 dto.setGroup_intro(rs.getString("group_intro"));
-			    	 dto.setGroup_area(rs.getInt("group_area"));
-			    	 dto.setGroup_interest(rs.getInt("group_interest"));
-			    	 dto.setGroup_currmem(rs.getInt("group_currmem"));
-			    	 dto.setGroup_main_img(rs.getString("group_main_img"));
-			    	 dto.setArea_no(rs.getInt("area_no"));
-			    	 dto.setCity(rs.getString("city"));
-			    	 dto.setTown(rs.getString("town"));
-			    	 dto.setInterest_no(rs.getInt("interest_no"));
-			    	 dto.setS_category(rs.getString("s_category"));
-			    	 dto.setL_category(rs.getString("l_category"));
-			    	 list.add(dto);
-					
+
+				while (rs.next()) {
+
+					JoinDTO dto = new JoinDTO();
+					dto.setGroup_no(rs.getInt("group_no"));
+					dto.setGroup_name(rs.getString("group_name"));
+					dto.setGroup_intro(rs.getString("group_intro"));
+					dto.setGroup_area(rs.getInt("group_area"));
+					dto.setGroup_interest(rs.getInt("group_interest"));
+					dto.setGroup_currmem(rs.getInt("group_currmem"));
+					dto.setGroup_main_img(rs.getString("group_main_img"));
+					dto.setArea_no(rs.getInt("area_no"));
+					dto.setCity(rs.getString("city"));
+					dto.setTown(rs.getString("town"));
+					dto.setInterest_no(rs.getInt("interest_no"));
+					dto.setS_category(rs.getString("s_category"));
+					dto.setL_category(rs.getString("l_category"));
+					list.add(dto);
+
 				}
-				
+
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} finally {
 				closeConn(rs, pstmt, con);
 			}
-		}else if(area == "" && interest != "") {
+		} else if (area == "" && interest != "") {
 			try {
 
 				con = openConn();
-				sql="select * from AIG_JOIN_VIEW where L_CATEGORY = ?";
+				sql = "select * from AIG_JOIN_VIEW where L_CATEGORY = ?";
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, interest);
-				
+
 				rs = pstmt.executeQuery();
-				
-				while(rs.next()) {
-					
-					 JoinDTO dto = new JoinDTO();
-			    	 dto.setGroup_no(rs.getInt("group_no"));
-			    	 dto.setGroup_name(rs.getString("group_name"));
-			    	 dto.setGroup_intro(rs.getString("group_intro"));
-			    	 dto.setGroup_area(rs.getInt("group_area"));
-			    	 dto.setGroup_interest(rs.getInt("group_interest"));
-			    	 dto.setGroup_currmem(rs.getInt("group_currmem"));
-			    	 dto.setGroup_main_img(rs.getString("group_main_img"));
-			    	 dto.setArea_no(rs.getInt("area_no"));
-			    	 dto.setCity(rs.getString("city"));
-			    	 dto.setTown(rs.getString("town"));
-			    	 dto.setInterest_no(rs.getInt("interest_no"));
-			    	 dto.setS_category(rs.getString("s_category"));
-			    	 dto.setL_category(rs.getString("l_category"));
-			    	 list.add(dto);
-					
+
+				while (rs.next()) {
+
+					JoinDTO dto = new JoinDTO();
+					dto.setGroup_no(rs.getInt("group_no"));
+					dto.setGroup_name(rs.getString("group_name"));
+					dto.setGroup_intro(rs.getString("group_intro"));
+					dto.setGroup_area(rs.getInt("group_area"));
+					dto.setGroup_interest(rs.getInt("group_interest"));
+					dto.setGroup_currmem(rs.getInt("group_currmem"));
+					dto.setGroup_main_img(rs.getString("group_main_img"));
+					dto.setArea_no(rs.getInt("area_no"));
+					dto.setCity(rs.getString("city"));
+					dto.setTown(rs.getString("town"));
+					dto.setInterest_no(rs.getInt("interest_no"));
+					dto.setS_category(rs.getString("s_category"));
+					dto.setL_category(rs.getString("l_category"));
+					list.add(dto);
+
 				}
-				
+
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -227,7 +225,6 @@ public class GroupDAO {
 		}
 		return list;
 	}
-	
 
 	public List<JoinDTO> getBoardList() {
 
@@ -240,9 +237,9 @@ public class GroupDAO {
 			sql = "select * from AIG_JOIN_VIEW";
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
-				
+
+			while (rs.next()) {
+
 				JoinDTO dto = new JoinDTO();
 				dto.setGroup_main_img(rs.getString("group_main_img"));
 				dto.setGroup_name(rs.getString("group_name"));
@@ -253,9 +250,9 @@ public class GroupDAO {
 				dto.setL_category(rs.getString("l_category"));
 				dto.setCity(rs.getString("city"));
 				list.add(dto);
-				
+
 			}
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -264,22 +261,21 @@ public class GroupDAO {
 		}
 		return list;
 	}
-	
 
 	public GroupDTO getGroupInfor(int group_no) {
-		
+
 		GroupDTO dto = new GroupDTO();
-		
+
 		try {
 
 			con = openConn();
-			sql="SELECT * FROM GROUP_TABLE WHERE GROUP_NO = ?";
+			sql = "SELECT * FROM GROUP_TABLE WHERE GROUP_NO = ?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, group_no);
 			rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
-				
+
+			if (rs.next()) {
+
 				dto.setGroup_no(rs.getInt("group_no"));
 				dto.setGroup_name(rs.getString("group_name"));
 				dto.setGroup_intro(rs.getString("group_intro"));
@@ -293,10 +289,9 @@ public class GroupDAO {
 				dto.setGroup_insta(rs.getString("group_insta"));
 				dto.setGroup_facebook(rs.getString("group_facebook"));
 				dto.setGroup_chatroom(rs.getString("group_chatroom"));
-				
+
 			}
-			
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -306,65 +301,63 @@ public class GroupDAO {
 		return dto;
 	}
 
-	public int pwdcheck(String pwd,int mem_no) {
-		
+	public int pwdcheck(String pwd, int mem_no) {
+
 		int res = 0;
-		
+
 		try {
 
 			con = openConn();
-			sql="select * from MSG_JOIN_VIEW where mem_no=?";
+			sql = "select * from MSG_JOIN_VIEW where mem_no=?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, mem_no);
-			
+
 			rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
-				if(pwd.equals(rs.getString("pwd")) && rs.getInt("rating") == 5 ) {
-					res = 1 ;  // 일치
-				}else {
-					res = -1;  // 비번 틀림 또는 모임장이 아님 
+
+			if (rs.next()) {
+				if (pwd.equals(rs.getString("pwd")) && rs.getInt("rating") == 5) {
+					res = 1; // 일치
+				} else {
+					res = -1; // 비번 틀림 또는 모임장이 아님
 				}
 			}
-			
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			closeConn(rs, pstmt, con);
 		}
-		
+
 		return res;
 	}
 
 	public int deleteGroup(int group_no) {
-		
+
 		int result = 0;
-		
+
 		try {
 
 			con = openConn();
-			sql="delete from group_table where group_no = ?";
+			sql = "delete from group_table where group_no = ?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, group_no);
 			result = pstmt.executeUpdate();
-			
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			closeConn(rs, pstmt, con);
 		}
-		
+
 		return result;
 	}
 
 	public int getpremium_no(int group_no) {
-		
+
 		int count = 0;
-		
+
 		try {
 
 			con = openConn();
@@ -372,11 +365,11 @@ public class GroupDAO {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, group_no);
 			rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
+
+			if (rs.next()) {
 				count = rs.getInt(1);
 			}
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -384,19 +377,19 @@ public class GroupDAO {
 			closeConn(rs, pstmt, con);
 		}
 		return count;
-		
+
 	}
-	
+
 	public int changGroupPremium(int group_no) {
-		
+
 		int result = 0;
-		
+
 		try {
 			con = openConn();
-			sql="update group_table set group_premium=1 , group_limitmem=400 where group_no=?";
+			sql = "update group_table set group_premium=1 , group_limitmem=400 where group_no=?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, group_no);
-			
+
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -404,20 +397,20 @@ public class GroupDAO {
 		} finally {
 			closeConn(rs, pstmt, con);
 		}
-		
+
 		return result;
 	}
 
 	public int releaseGroupPremium(int group_no) {
-		
+
 		int result = 0;
-		
+
 		try {
 			con = openConn();
-			sql="update group_table set group_premium=0 , group_limitmem=200 where group_no=?";
+			sql = "update group_table set group_premium=0 , group_limitmem=200 where group_no=?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, group_no);
-			
+
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -425,164 +418,347 @@ public class GroupDAO {
 		} finally {
 			closeConn(rs, pstmt, con);
 		}
-		
+
 		return result;
 	}
-	
-	
-	//searchG_no():그룹테이블에 있는 그룹번호중 가장 큰 값을 받아오자!
-			public int searchG_no() {
-				int group_no = 0;
-				
-				
-				try {
-					openConn();
-					sql="select max(group_no) from group_table";
-					pstmt = con.prepareStatement(sql);
-					rs = pstmt.executeQuery();
-					
-					if(rs.next()) {
-						group_no = rs.getInt(1)+1;
-					}
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} finally {
-					closeConn(rs, pstmt, con);
-				}
-				
-				return group_no;
-			}//searchG_no() end:
-			
-			
-			//insertOK():모임개설시 그룹테이블에 값 추가하는메서드
-			public int insertOK(GroupDTO dto) {
-				int res = 0;
-				
-				try {
-					openConn();
-					sql="insert into group_table (group_no,group_name,group_intro,group_area,group_interest,group_premium,group_limitmem,group_currmem) values(?,?,?,?,?,?,?,?)";
-					
-					pstmt = con.prepareStatement(sql);
-					pstmt.setInt(1, dto.getGroup_no());
-					pstmt.setString(2, dto.getGroup_name());
-					pstmt.setString(3, dto.getGroup_intro());
-					pstmt.setInt(4, dto.getGroup_interest());
-					pstmt.setInt(5, dto.getGroup_area());
-					pstmt.setInt(6, 0);
-					pstmt.setInt(7, 200);
-					pstmt.setInt(8, 1);
-					res = pstmt.executeUpdate();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} finally {
-					closeConn(rs, pstmt, con);
-				}
-				return res;
-			}//insertOK() end;
-			
-			// 모임 정보를 수정하는 메서드
-			public int updateGroupInfo(GroupDTO dto) {
-				int result = 0;
-				try {
-					openConn();
-					con.setAutoCommit(false);
-					sql = "UPDATE group_table "
-							+ "SET group_name=?, group_intro=?, group_front_img=?, group_main_img=?, group_insta=?, group_facebook=?, group_chatroom=? "
-							+ "WHERE group_no=?";
-					pstmt = con.prepareStatement(sql);
-					pstmt.setString(1, dto.getGroup_name());
-					pstmt.setString(2, dto.getGroup_intro());
-					pstmt.setString(3, dto.getGroup_front_img());
-					pstmt.setString(4, dto.getGroup_main_img());
-					pstmt.setString(5, dto.getGroup_insta());
-					pstmt.setString(6, dto.getGroup_facebook());
-					pstmt.setString(7, dto.getGroup_chatroom());
-					pstmt.setInt(8, dto.getGroup_no());
-					result = pstmt.executeUpdate();
-					con.commit();
-				} catch (SQLException e) {
-					e.printStackTrace();
-					try {
-						con.rollback();
-					} catch (SQLException e1) {
-						e1.printStackTrace();
-					}
-				} finally {
-					closeConn(rs, pstmt, con);
-				}		
-				return result;
-			}
-			
-			// 모임 정보 수정 시 기존 정보를 불러오는 메서드
-			public GroupDTO getGorupInfo(int group_no) {
-				GroupDTO dto = new GroupDTO();
-				try {
-					openConn();
-					sql = "SELECT * FROM group_table WHERE group_no=?";
-					pstmt = con.prepareStatement(sql);
-					pstmt.setInt(1, group_no);
-					rs = pstmt.executeQuery();
-					if(rs.next()) {
-						dto.setGroup_no(rs.getInt("group_no"));
-						dto.setGroup_name(rs.getString("group_name"));
-						dto.setGroup_intro(rs.getString("group_intro"));
-						dto.setGroup_area(rs.getInt("group_area"));
-						dto.setGroup_interest(rs.getInt("group_interest"));
-						dto.setGroup_premium(rs.getInt("group_premium"));
-						dto.setGroup_limitmem(rs.getInt("group_limitmem"));
-						dto.setGroup_currmem(rs.getInt("group_currmem"));
-						dto.setGroup_front_img(rs.getString("group_front_img"));
-						dto.setGroup_main_img(rs.getString("group_main_img"));
-						dto.setGroup_insta(rs.getString("group_insta"));
-						dto.setGroup_facebook(rs.getString("group_facebook"));
-						dto.setGroup_chatroom(rs.getString("group_chatroom"));
-					}
-				} catch (SQLException e) {
-					e.printStackTrace();
-				} finally {
-					closeConn(rs, pstmt, con);
-				}		
-				return dto;
-			}
-			
-			//랜덤으로 3개의 group_no,group_main_img를 받아오는 메서드
-		      public String[][] random(){
-		         
-		         String[][] rand = new String[3][2];
-		         int count =0;
-		         
-		         try {
-		            openConn();
-		            sql="SELECT group_no,group_main_img FROM (SELECT * FROM group_table ORDER BY DBMS_RANDOM.RANDOM()) WHERE ROWNUM <= 3";
-		            
-		            pstmt = con.prepareStatement(sql);
-		            rs = pstmt.executeQuery();
-		            
-		            
-		            while(rs.next()) {
-		               rand[count][0]=rs.getInt(1)+"";
-		               rand[count][1]=rs.getString(2);
-		               count++;
-		            }
-		            
-		            System.out.println(rand[0][0]+rand[0][1]+" / "+rand[1][0]+rand[1][1]+" / "+rand[2][0]+rand[2][1]);
-		         } catch (SQLException e) {
-		            // TODO Auto-generated catch block
-		            e.printStackTrace();
-		         } finally {
-		            closeConn(rs, pstmt, con);
-		         }
-		         
-		         return rand;
-		         
-		      }
-		      
-		      
-			
 
+	// searchG_no():그룹테이블에 있는 그룹번호중 가장 큰 값을 받아오자!
+	public int searchG_no() {
+		int group_no = 0;
 
+		try {
+			openConn();
+			sql = "select max(group_no) from group_table";
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				group_no = rs.getInt(1) + 1;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+
+		return group_no;
+	}// searchG_no() end:
+
+	// insertOK():모임개설시 그룹테이블에 값 추가하는메서드
+	public int insertOK(GroupDTO dto) {
+		int res = 0;
+
+		try {
+			openConn();
+			sql = "insert into group_table (group_no,group_name,group_intro,group_area,group_interest,group_premium,group_limitmem,group_currmem) values(?,?,?,?,?,?,?,?)";
+
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, dto.getGroup_no());
+			pstmt.setString(2, dto.getGroup_name());
+			pstmt.setString(3, dto.getGroup_intro());
+			pstmt.setInt(4, dto.getGroup_interest());
+			pstmt.setInt(5, dto.getGroup_area());
+			pstmt.setInt(6, 0);
+			pstmt.setInt(7, 200);
+			pstmt.setInt(8, 1);
+			res = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		return res;
+	}// insertOK() end;
+
+	// 모임 정보를 수정하는 메서드
+	public int updateGroupInfo(GroupDTO dto) {
+		int result = 0;
+		try {
+			openConn();
+			con.setAutoCommit(false);
+			sql = "UPDATE group_table "
+					+ "SET group_name=?, group_intro=?, group_front_img=?, group_main_img=?, group_insta=?, group_facebook=?, group_chatroom=? "
+					+ "WHERE group_no=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, dto.getGroup_name());
+			pstmt.setString(2, dto.getGroup_intro());
+			pstmt.setString(3, dto.getGroup_front_img());
+			pstmt.setString(4, dto.getGroup_main_img());
+			pstmt.setString(5, dto.getGroup_insta());
+			pstmt.setString(6, dto.getGroup_facebook());
+			pstmt.setString(7, dto.getGroup_chatroom());
+			pstmt.setInt(8, dto.getGroup_no());
+			result = pstmt.executeUpdate();
+			con.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				con.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		return result;
+	}
+
+	// 모임 정보 수정 시 기존 정보를 불러오는 메서드
+	public GroupDTO getGorupInfo(int group_no) {
+		GroupDTO dto = new GroupDTO();
+		try {
+			openConn();
+			sql = "SELECT * FROM group_table WHERE group_no=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, group_no);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				dto.setGroup_no(rs.getInt("group_no"));
+				dto.setGroup_name(rs.getString("group_name"));
+				dto.setGroup_intro(rs.getString("group_intro"));
+				dto.setGroup_area(rs.getInt("group_area"));
+				dto.setGroup_interest(rs.getInt("group_interest"));
+				dto.setGroup_premium(rs.getInt("group_premium"));
+				dto.setGroup_limitmem(rs.getInt("group_limitmem"));
+				dto.setGroup_currmem(rs.getInt("group_currmem"));
+				dto.setGroup_front_img(rs.getString("group_front_img"));
+				dto.setGroup_main_img(rs.getString("group_main_img"));
+				dto.setGroup_insta(rs.getString("group_insta"));
+				dto.setGroup_facebook(rs.getString("group_facebook"));
+				dto.setGroup_chatroom(rs.getString("group_chatroom"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		return dto;
+	}
+
+	// 랜덤으로 3개의 group_no,group_main_img를 받아오는 메서드
+	public String[][] random() {
+
+		String[][] rand = new String[3][2];
+		int count = 0;
+
+		try {
+			openConn();
+			sql = "SELECT group_no,group_main_img FROM (SELECT * FROM group_table ORDER BY DBMS_RANDOM.RANDOM()) WHERE ROWNUM <= 3";
+
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				rand[count][0] = rs.getInt(1) + "";
+				rand[count][1] = rs.getString(2);
+				count++;
+			}
+
+			System.out.println(
+					rand[0][0] + rand[0][1] + " / " + rand[1][0] + rand[1][1] + " / " + rand[2][0] + rand[2][1]);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+
+		return rand;
+
+	}
+
+	public List<JoinDTO> getmemMgn(int group_no) {
+		List<JoinDTO> list = new ArrayList<JoinDTO>();
+
+		try {
+			con = openConn();
+
+			sql = "SELECT * FROM ms_join_view where group_no = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, group_no);
+
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				JoinDTO dto = new JoinDTO();
+				dto.setRating(rs.getInt("rating"));
+				dto.setMem_name(rs.getString("mem_name"));
+				dto.setNickname(rs.getString("nickname"));
+				dto.setId(rs.getString("id"));
+				dto.setMem_no(rs.getInt("mem_no"));
+				dto.setGroup_no(rs.getInt("group_no"));
+				list.add(dto);
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		return list;
+	}
+
+	// mem_no애 해당하는 등급을 받아오는 메서드
+	public int MyRating(int mem_no, int group_no) {
+		int rating = 0;
+
+		try {
+			con = openConn();
+			sql = "select rating from ms_join_view where mem_no=? and group_no=?";
+			pstmt = con.prepareStatement(sql);
+
+			pstmt.setInt(1, mem_no);
+			pstmt.setInt(2, group_no);
+
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				rating = rs.getInt(1);
+				System.out.println(rating);
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		return rating;
+	}
+
+	public void chubang(String id, int group_no) {
+
+		try {
+
+			con = openConn();
+			sql = "UPDATE MSG_JOIN_VIEW SET RATING = 0 WHERE ID=? AND GROUP_NO=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setInt(2, group_no);
+			pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+
+	}
+
+	// 가장 최근에 만들어진 그룹 3개의 group_no,group_main_img를 받아오는 메서드
+	public String[][] newgroup() {
+		String[][] new_g = new String[3][2];
+		int count = 0;
+
+		try {
+			openConn();
+			sql = "SELECT group_no,group_main_img FROM (SELECT * FROM group_table ORDER BY group_no desc) WHERE ROWNUM <= 3";
+
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				new_g[count][0] = rs.getInt(1) + "";
+				new_g[count][1] = rs.getString(2);
+				count++;
+			}
+
+			System.out.println(
+					new_g[0][0] + new_g[0][1] + " / " + new_g[1][0] + new_g[1][1] + " / " + new_g[2][0] + new_g[2][1]);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+
+		return new_g;
+	}// newgroup() end;
+
+	// 회원수가 가장 많은 그룹 top3의 group_no와 group_main_img를 받아오는 메서드
+	public String[][] big() {
+		String[][] big = new String[3][2];
+		int count = 0;
+
+		try {
+			openConn();
+			sql = "SELECT group_no,group_main_img,group_currmem FROM (SELECT * FROM group_table ORDER BY group_currmem desc) WHERE ROWNUM <= 3";
+
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				big[count][0] = rs.getInt(1) + "";
+				big[count][1] = rs.getString(2);
+				count++;
+			}
+
+			System.out.println(big[0][0] + big[0][1] + " / " + big[1][0] + big[1][1] + " / " + big[2][0] + big[2][1]);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+
+		return big;
+	}// big() end;
+
+	// mem_no에 해당하는 관심사를 불러오는 ㅁ[ㅔ서드
+	public String MyInterests(int mem_no) {
+		String myInterests = null;
+
+		try {
+			openConn();
+			sql = "select interests from member_table where mem_no=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, mem_no);
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				myInterests = rs.getString("interests");
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		return myInterests;
+	}// MyInterests() end;
+
+	public String[][] rec_interest(String str) {
+		String[][] rec = new String[3][2];
+		int count = 0;
+
+		try {
+			openConn();
+			sql = "select group_no,group_main_img from (select * from group_table where group_interest in (" + str
+					+ ")) where rownum <= 3";
+
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				rec[count][0] = rs.getInt(1) + "";
+				rec[count][1] = rs.getString(2);
+				count++;
+			}
+
+			System.out.println(rec[0][0] + rec[0][1] + " / " + rec[1][0] + rec[1][1] + " / " + rec[2][0] + rec[2][1]);
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+
+		return rec;
+	}
 
 }
-

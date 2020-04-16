@@ -40,7 +40,9 @@
 <body>
 	<table class="table" id="table_list">
 		<thead>
+
 			<tr>
+				<th></th>
 				<th>받은사람</th>
 				<th>쪽지내용</th>
 				<th>보낸날짜</th>
@@ -50,6 +52,9 @@
 		<tbody>
 			<c:forEach items="${send_list }" var="list">
 				<tr>
+					<td>
+						<input type="checkbox" name="checkPost" value="${list.getPost_no() }">
+					</td>
 					<td>${list.getNickname() }(${list.getId() })</td>
 					<td>
 						<a href="post_cont.do?post_no=${list.getPost_no() }&page_no=2">${list.getPost_cont() }</a>
@@ -62,6 +67,11 @@
 				</tr>
 			</c:forEach>
 		</tbody>
+			<tr>
+            
+            <td colspan="5" align="center"><input type="button" onclick="total_d()" value="삭제!">
+            </td>
+         </tr>
 	</table>
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -81,6 +91,19 @@
 				}
 			});
 		});
+		
+		function total_d() {
+	         var total_check = new Array();
+	         var checkbox = $('input[name="checkPost"]:checked');
+	         //alert(checkbox.length);
+	         for (var i = 0; i < checkbox.length; i++) {
+	            total_check.push(checkbox[i].value);
+	         }
+	         location.href = 'post_check_del.do?total_check='
+	               + encodeURI(total_check)+'&post_page=2';
+
+	      };
+	      
 	</script>
 
 </body>

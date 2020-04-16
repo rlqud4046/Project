@@ -607,7 +607,196 @@ public class MemberDAO {
 		}
 		
 		
-		
+		public JoinDTO getMemberActivitiesList(int group_no, String id) {
+		      
+		      JoinDTO dto = new JoinDTO();
+		      
+		      try {
+		    	  System.out.println("id => " +id+ "group_no => " + group_no);
+		         con = openConn();
+		         sql = "SELECT * FROM MLB_JOIN_VIEW WHERE id = ? and group_no = ?";
+		         pstmt = con.prepareStatement(sql);
+		         
+		         pstmt.setString(1, id);
+		         pstmt.setInt(2, group_no);
+		         rs = pstmt.executeQuery();
+		         
+		         if(rs.next()) {
+		            
+		            dto.setMgn_no(rs.getInt("mgn_no"));
+		            dto.setMem_no(rs.getInt("mem_no"));
+		            dto.setId(rs.getString("id"));
+		            dto.setPwd(rs.getString("pwd"));
+		            dto.setMem_name(rs.getString("mem_name"));
+		            dto.setNickname(rs.getString("nickname"));
+		            dto.setProfile_img(rs.getString("profile_img"));
+		            dto.setComment_no(rs.getInt("comment_no"));
+		            dto.setComment_writer(rs.getString("comment_writer"));
+		            dto.setBoard_no(rs.getInt("board_no"));
+		            dto.setBoard_title(rs.getString("board_title"));
+		            dto.setBoard_date(rs.getString("board_date"));
+		            dto.setBoard_hit(rs.getInt("board_hit"));
+		            dto.setBoard_writer(rs.getString("board_writer"));
+		         }
+		         
+		      } catch (SQLException e) {
+		         // TODO Auto-generated catch block
+		         e.printStackTrace();
+		      } finally {
+		         closeConn(rs, pstmt, con);
+		      }
+		      return dto;
+		   }
+		   
+		   public int totalBoardNo(int group_no, String id ){
+		      
+		      int count = 0;
+		      
+		      try {
+
+		         con = openConn();
+		         sql="SELECT COUNT(BOARD_NO) FROM MLB_JOIN_VIEW WHERE BOARD_WRITER = ? and group_no = ?";
+		         pstmt = con.prepareStatement(sql);
+		         pstmt.setString(1, id);
+		         pstmt.setInt(2, group_no);
+		         
+		         rs = pstmt.executeQuery();
+		         
+		         if(rs.next()) {
+		            
+		            count = rs.getInt(1);
+		            
+		         }
+		         
+		      } catch (SQLException e) {
+		         // TODO Auto-generated catch block
+		         e.printStackTrace();
+		      } finally {
+				closeConn(rs, pstmt, con);
+			}
+		      
+		      return count;
+		   }
+		   
+		   public int totalReplyNo(int group_no, String id) {
+		      
+		      int count = 0;
+		      
+		      try {
+
+		         con = openConn();
+		         sql="SELECT COUNT(COMMENT_NO) FROM MLB_JOIN_VIEW WHERE COMMENT_WRITER = ? and group_no = ?";
+		         pstmt = con.prepareStatement(sql);
+		         pstmt.setString(1, id);
+		         pstmt.setInt(2, group_no);
+		         
+		         rs = pstmt.executeQuery();
+		         
+		         if(rs.next()) {
+		            
+		            count = rs.getInt(1);
+		            
+		         }
+		         
+		      } catch (SQLException e) {
+		         // TODO Auto-generated catch block
+		         e.printStackTrace();
+		      } finally {
+		         closeConn(rs, pstmt, con);
+		      }
+		      return count;
+		   }
+		   
+		   public List<JoinDTO> getRegisterBoardList(int group_no, String id) {
+		      
+		      List<JoinDTO> list = new ArrayList<JoinDTO>();
+		      
+		      try {
+
+		         con = openConn();
+		         sql="SELECT * FROM MLB_JOIN_VIEW WHERE BOARD_WRITER = ? and group_no = ?";
+		         pstmt = con.prepareStatement(sql);
+		         pstmt.setString(1, id);
+		         pstmt.setInt(2, group_no);
+		         rs = pstmt.executeQuery();
+		         
+		         while(rs.next()) {
+		            
+		            JoinDTO dto = new JoinDTO();
+		            dto.setMgn_no(rs.getInt("mgn_no"));
+		            dto.setMem_no(rs.getInt("mem_no"));
+		            dto.setId(rs.getString("id"));
+		            dto.setPwd(rs.getString("pwd"));
+		            dto.setMem_name(rs.getString("mem_name"));
+		            dto.setNickname(rs.getString("nickname"));
+		            dto.setProfile_img(rs.getString("profile_img"));
+		            dto.setComment_no(rs.getInt("comment_no"));
+		            dto.setComment_writer(rs.getString("comment_writer"));
+		            dto.setBoard_no(rs.getInt("board_no"));
+		            dto.setBoard_title(rs.getString("board_title"));
+		            dto.setBoard_date(rs.getString("board_date"));
+		            dto.setBoard_hit(rs.getInt("board_hit"));
+		            dto.setBoard_writer(rs.getString("board_writer"));
+		            
+		            list.add(dto);
+		            
+		         }
+		         
+		         
+		         
+		      } catch (SQLException e) {
+		         // TODO Auto-generated catch block
+		         e.printStackTrace();
+		      } finally {
+		         closeConn(rs, pstmt, con);
+		      }
+		      return list;
+		   }
+
+		   public List<JoinDTO> getReplyList(int group_no, String id) {
+		      
+		      List<JoinDTO> list = new ArrayList<JoinDTO>();
+		      
+		      try {
+
+		         con = openConn();
+		         sql="SELECT * FROM MLB_JOIN_VIEW WHERE COMMENT_WRITER = ? and group_no = ?";
+		         pstmt = con.prepareStatement(sql);
+		         pstmt.setString(1, id);
+		         pstmt.setInt(2, group_no);
+		         
+		         rs = pstmt.executeQuery();
+		         
+		         while(rs.next()) {
+		            
+		            JoinDTO dto = new JoinDTO();
+		            dto.setMgn_no(rs.getInt("mgn_no"));
+		            dto.setMem_no(rs.getInt("mem_no"));
+		            dto.setId(rs.getString("id"));
+		            dto.setPwd(rs.getString("pwd"));
+		            dto.setMem_name(rs.getString("mem_name"));
+		            dto.setNickname(rs.getString("nickname"));
+		            dto.setProfile_img(rs.getString("profile_img"));
+		            dto.setComment_no(rs.getInt("comment_no"));
+		            dto.setComment_writer(rs.getString("comment_writer"));
+		            dto.setBoard_no(rs.getInt("board_no"));
+		            dto.setBoard_title(rs.getString("board_title"));
+		            dto.setBoard_date(rs.getString("board_date"));
+		            dto.setBoard_hit(rs.getInt("board_hit"));
+		            dto.setBoard_writer(rs.getString("board_writer"));
+		            
+		            list.add(dto);
+		            
+		         }
+		         
+		      } catch (SQLException e) {
+		         // TODO Auto-generated catch block
+		         e.printStackTrace();
+		      } finally {
+		         closeConn(rs, pstmt, con);
+		      }
+		      return list;
+		   }
 		
 		
 		

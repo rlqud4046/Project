@@ -1,3 +1,4 @@
+<%@page import="model.GroupDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -66,8 +67,19 @@
 			interval : 1000
 		});
 	</script>
-
-
+	
+	<%
+      GroupDAO dao = GroupDAO.getInstance();
+      String[][] rand= dao.random();
+      
+      String[][] new_g =dao.newgroup();
+      
+      String[][] big = dao.big();
+      
+   
+   %>
+   
+   
 
 	<br/><br/>
 	<div align="center">
@@ -77,45 +89,50 @@
 	<br/>
 	<div class="container0">
 		<div class="container1">
-			 <c:set var="information" value="${sessionScope.sessionID }"></c:set> 
+			<c:set value="${sessionScope.mem_no }" var="mem_no"/>
 			<div id="random1" class="carousel slide" data-ride="carousel">
 
 				<!-- Wrapper for slides -->
 				<div class="carousel-inner">
 					<!-- 로그인 안했을 때 랜덤으로 뜨는 모임↓ -->
-					<c:set value="${rand }" var="random"/>
-					 <c:if test="${empty information}"> 
-					<div class="carousel-item active"> <!-- 경로 수정 -->
-						<img class="w-100 p-3" src="images/tiger.jpg" height="400px"
-							alt="first" onclick="location.href='main.do?group_no=2'">
-					</div>
-					<div class="carousel-item">
-						<img class="w-100 p-3" src="images/2.png" height="400px"
-							alt="second" onclick="location.href='main.do?group_no=2'">
-					</div>
-					<div class="carousel-item">
-						<img class="w-100 p-3" src="images/3.png" height="400px"
-							alt="third" onclick="location.href='main.do?group_no=2'">
-					</div>
-					</c:if> 
+					<c:if test="${empty mem_no}">
+               <div id="left1" class="carousel-item active">
+                  <img class="w-100 p-3" src="<%=rand[0][1]%>" height="400px"
+                     alt="first" onclick="location.href='main.do?group_no=<%=rand[0][0]%>'">
+               </div>
+               <div class="carousel-item">
+                  <img class="w-100 p-3" src="<%=rand[1][1]%>" height="400px"
+                     alt="second" onclick="location.href='main.do?group_no=<%=rand[1][0]%>'">
+               </div>
+               <div class="carousel-item">
+                  <img class="w-100 p-3" src="<%=rand[2][1]%>" height="400px"
+                     alt="third" onclick="location.href='main.do?group_no=<%=rand[2][0]%>'">
+               </div>
+               </c:if>
 					
 					
 					<!-- 로그인했을때: 관심사를 알 때 소개할 모임 ↓ -->
-					 <c:if test="${!empty information}">
-					<div class="carousel-item active">
-						<img class="w-100 p-3" src="images/tiger.jpg" height="400px"
-							alt="first" onclick="location.href='main.do?group_no=2'">
-					</div>
-					<div class="carousel-item">
-						<img class="w-100 p-3" src="images/2.png" height="400px"
-							alt="second" onclick="location.href='main.do?group_no=2'">
-					</div>
-					<div class="carousel-item">
-						<img class="w-100 p-3" src="images/3.png" height="400px"
-							alt="third" onclick="location.href='main.do?group_no=2'">
-					</div>
-					</c:if> 
-				</div>
+					 <c:if test="${!empty mem_no}">
+               <% String interests = dao.MyInterests((int)session.getAttribute("mem_no"));
+                  String str =interests.trim().substring(1,interests.trim().length()-1);
+                  
+                  String[][] rec = dao.rec_interest(str);
+                  
+               %>
+               <div class="carousel-item active">
+                  <img class="w-100 p-3" src="<%=rec[0][1]%>" height="400px"
+                     alt="first" onclick="location.href='main.do?group_no=<%=rec[0][0]%>'">
+               </div>
+               <div class="carousel-item">
+                  <img class="w-100 p-3" src="<%=rec[1][1]%>" height="400px"
+                     alt="second" onclick="location.href='main.do?group_no=<%=rec[1][0]%>'">
+               </div>
+               <div class="carousel-item">
+                  <img class="w-100 p-3" src="<%=rec[2][1]%>" height="400px"
+                     alt="third" onclick="location.href='main.do?group_no=<%=rec[2][0]%>'">
+               </div>
+               </c:if>
+            </div>
 				
 
 				<!-- Indicators -->
@@ -147,19 +164,19 @@
 
 				<!-- Wrapper for slides -->
 				<div class="carousel-inner">
-					<div class="carousel-item active">
-						<img class="w-100 p-3" src="images/tiger.jpg" height="400px"
-							alt="first" onclick="window.open('http://www.naver.com')">
-					</div>
-					<div class="carousel-item">
-						<img class="w-100 p-3" src="images/2.png" height="400px"
-							alt="second" onclick="window.open('http://www.daum.net')">
-					</div>
-					<div class="carousel-item">
-						<img class="w-100 p-3" src="images/3.png" height="400px"
-							alt="third" onclick="window.open('http://www.nate.com')">
-					</div>
-				</div>
+               <div class="carousel-item active">
+                  <img class="w-100 p-3" src="<%=big[0][1]%>" height="400px"
+                     alt="first" onclick="location.href='main.do?group_no=<%=big[0][0]%>'">
+               </div>
+               <div class="carousel-item">
+                  <img class="w-100 p-3" src="<%=big[1][1]%>" height="400px"
+                     alt="second" onclick="location.href='main.do?group_no=<%=big[1][0]%>'">
+               </div>
+               <div class="carousel-item">
+                  <img class="w-100 p-3" src="<%=big[2][1]%>" height="400px"
+                     alt="third" onclick="location.href='main.do?group_no=<%=big[2][0]%>'">
+               </div>
+            </div>
 
 				<!-- Indicators -->
 				<ol class="carousel-indicators">
@@ -189,19 +206,19 @@
 
 				<!-- Wrapper for slides -->
 				<div class="carousel-inner">
-					<div class="carousel-item active">
-						<img class="w-100 p-3" src="images/tiger.jpg" height="400px"
-							alt="first" onclick="window.open('http://www.naver.com')">
-					</div>
-					<div class="carousel-item">
-						<img class="w-100 p-3" src="images/2.png" height="400px"
-							alt="second" onclick="window.open('http://www.daum.net')">
-					</div>
-					<div class="carousel-item">
-						<img class="w-100 p-3" src="images/3.png" height="400px"
-							alt="third" onclick="window.open('http://www.nate.com')">
-					</div>
-				</div>
+               <div class="carousel-item active">
+                  <img class="w-100 p-3" src="<%=new_g[0][1]%>" height="400px"
+                     alt="first" onclick="location.href='main.do?group_no=<%=new_g[0][0]%>'">
+               </div>
+               <div class="carousel-item">
+                  <img class="w-100 p-3" src="<%=new_g[1][1]%>" height="400px"
+                     alt="second" onclick="location.href='main.do?group_no=<%=new_g[1][0]%>'">
+               </div>
+               <div class="carousel-item">
+                  <img class="w-100 p-3" src="<%=new_g[2][1]%>" height="400px"
+                     alt="third" onclick="location.href='main.do?group_no=<%=new_g[2][0]%>'">
+               </div>
+            </div>
 
 				<!-- Indicators -->
 				<ol class="carousel-indicators">

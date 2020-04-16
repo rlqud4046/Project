@@ -38,6 +38,30 @@ public class JoinDTO {
 	private String interests;
 	
 	
+	private int comment_no;
+	private String comment_writer;
+	private int board_no;
+	
+	
+	
+	public int getComment_no() {
+		return comment_no;
+	}
+	public void setComment_no(int comment_no) {
+		this.comment_no = comment_no;
+	}
+	public String getComment_writer() {
+		return comment_writer;
+	}
+	public void setComment_writer(String comment_writer) {
+		this.comment_writer = comment_writer;
+	}
+	public int getBoard_no() {
+		return board_no;
+	}
+	public void setBoard_no(int board_no) {
+		this.board_no = board_no;
+	}
 	public int getMgn_no() {
 		return mgn_no;
 	}

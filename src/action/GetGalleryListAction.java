@@ -69,9 +69,14 @@ public class GetGalleryListAction implements Action {
 		request.setAttribute("endBlock", endBlock);
 		request.setAttribute("group_no", group_no);
 				
+		
+		String path = "board_photo.jsp";
+		request.setAttribute("include", path);
+		
+		
 		ActionForward forward = new ActionForward();
 		forward.setRedirect(false);
-		forward.setPath("board_photo.jsp");
+		forward.setPath("sampleGroup.jsp");
 		return forward;
 	}
 }

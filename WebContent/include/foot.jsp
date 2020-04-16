@@ -27,7 +27,7 @@
 	 	
 	 	<br/>
 	 	
-	 	<img alt="로고임" src="">	
+	 	<img alt="로고임" src="images/footerlogo.png" width="10%" height="auto">	
 	 	
 	 	<br/><br/>
 	 	
@@ -35,7 +35,7 @@
      		<li> <a href="http://jeong2.com/shopinfo/company.html">about us</a> </li>
      		<li> <a href="http://jeong2.com/member/agreement.html">이용 약관</a> </li>
      		<li> <a href="http://jeong2.com/member/privacy.html">개인정보 취급방안</a> </li>
-     		<li> <a href="https://www.nate.com/?f=autorefresh">고객 센터</a> </li>
+     		<li> <a href=# onclick="window.open('faq.jsp')">고객 센터</a> </li>
      	</ul>
      	<ul class ="list-unstyled"> 
      		<li>상호: 행복한 자산관리 | 대표자: 헤헿 | 대표번호: 070-5017-1777 | E-mail: dlfhs25@nate.com</li>

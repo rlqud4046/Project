@@ -91,7 +91,113 @@ public class MembershipDAO {
 	}
 	
 	
+	public int updateRationg(String[] rating, String[] mem_no, int group_no) {
+		int result = 0;
+
+		try {
+			con = openConn();
+			sql = "UPDATE  membership_table SET rating = CASE ";
+			String memNo = "";
+			
+			for (int i = 0; i < mem_no.length; i++) {
+				sql += "WHEN mem_no = " + mem_no[i] + " THEN " + rating[i] + " ";
+			}
+			
+			for (int i = 0; i < mem_no.length; i++) {
+				if (i == mem_no.length - 1) {
+					memNo += mem_no[i];
+					break;
+				}
+				memNo += mem_no[i] + ",";
+			}
+			
+			sql = sql + "END WHERE group_no = " + group_no + " and mem_no IN(" + memNo + ")";
+			System.out.println("sql => " +sql);
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.executeQuery();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		
+		return result;
+	}
 	
+	// 추방회원 삭제 시키는 메서드	
+	public int deleteBlack(int mem_no, int group_no, String id) {
+		
+		int result = 0;
+		
+		try {
+			con = openConn();
+			sql = "delete from membership_table s "
+					+ "where exists"
+					+ "( select 1 from member_table m, group_table g "
+					+ "where s.mem_no = m.mem_no and s.group_no = g.group_no and s.rating =0)";
+			pstmt = con.prepareStatement(sql);
+			
+			result=pstmt.executeUpdate();
+			
+			System.out.println("result => " + result);
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		return result;
+		
+	}
+	
+	// 모임장으로 등급 변경해주는 메서드
+	public int weim(int mem_no, int group_no) {
+		
+		int result = 0;
+		
+		try {
+			con = openConn();
+			sql="update membership_table set rating = 5 where group_no=? and mem_no=?";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, group_no);
+			pstmt.setInt(2, mem_no);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		return result;
+		
+	} // weim() end
+	
+	public int unyoung(int group_no, int moim) {
+		 int result = 0;
+		
+		try {
+			con = openConn();
+			sql ="update membership_table set rating = 4 where mem_no=? and group_no = ?";
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, moim);
+			pstmt.setInt(2, group_no);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		return result;
+	}
 	
 	
 	

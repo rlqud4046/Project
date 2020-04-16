@@ -111,12 +111,24 @@ ul {
 
 
 <script type="text/javascript">
-$(function invali() {
-	<% session.removeAttribute("group_no");%>
-})
-
-
+$(function(){
+	$('#homebtn').on('click', function(){
+		$.ajax({
+			type: "get",
+			url: "home.jsp",
+			success: function(data){
+				
+			}
+		});
+	});
+});
 </script>
+
+<%-- 
+$(function invali() {
+	<% session.removeAttribute("group_No");%>
+})
+ --%>
 </head>
 <body>
 	<header class="container">
@@ -132,7 +144,7 @@ $(function invali() {
 			</div>
 
 			<div class="pull-right" id="top_login">
-				<a href="samplePage.jsp" onclick="invali()">홈</a>
+				<a href="samplePage.jsp" id="homebtn">홈</a>
 				<c:if test="${!empty name }">
 					<a href="<%=request.getContextPath()%>/logout.jsp">로그아웃</a>
 

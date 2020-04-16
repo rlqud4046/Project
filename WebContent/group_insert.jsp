@@ -96,7 +96,7 @@
 }
 
 #selectBox1,#selectBox2,#selectBox3,#selectBox4 {
-	width: 15%;
+	width: 90%;
 }
 </style>
 
@@ -104,56 +104,86 @@
 </head>
 <body>
 
-	<form action="group_insert_ok.do">
-		<div align="center">
-			<c:set var="l_category" value="${l_category }" />
-			<c:set var="city" value="${city }"/>
-			<div class="form-group">
-				<label for="groupName">그룹 명칭</label> 
-				<input type="text" class="form-control" id="groupName" name="group_name" placeholder="모임명을 입력하세요" required="required">
-			</div>
-				<label for="groupName">모임 관심사</label>
-			
-			<select class="form-control" id="selectBox1" onchange="selectsc(this.value)">
-				<option value=''>관심사</option>
-				<c:forEach items="${l_category }" var="dto">
-					<option value="${dto.getL_category() }">${dto.getL_category() }</option>
-				</c:forEach>
-			</select> 
-			
-			<select class="form-control" id="selectBox2" onchange="selectLike(this.value)">
-				<option value=''>전체</option>
-			</select>
-			
-			<!-- 선택한 관심사의 대분류,소분류의 값을 form을통해 보내줘야징 -->
-			<input type="hidden" value="" name="select_l_category" id="select_l_category">
-			<input type="hidden" value="" name="select_s_category" id="select_s_category" required="required">
-			
-			<br/>
-			
-			
-			<label for="groupName">모임지역</label>
-			<select class="form-control" id="selectBox3" onchange="selectcity(this.value)">
-				<option value=''>지역</option>
-				<c:forEach items="${city }" var="dto">
-					<option value="${dto.getCity() }">${dto.getCity() }</option>
-				</c:forEach>
-			</select> 
-			<select class="form-control" id="selectBox4" onchange="selectArea(this.value)">
-				<option value=''>전체</option>
-			</select>
-			<!-- 선택한 지역의 대분류,소분류의 값을 form을통해 보내줌-->
-			<input type="hidden" value="" name="select_city" id="select_city">
-			<input type="hidden" value="" name="select_town" id="select_town" required="required">
-			<br/>
-			
-			<label for="groupName">모임소개글</label><br/>
-			<textarea rows="7" cols="30" name="group_intro"></textarea><br/>
-			
-			<button type="submit" class="btn btn-default">제출</button>
+	<form action="group_insert_ok.do" style="margin-left: 15%; margin-right: 15%;">
+      <div align="center">
+         <c:set var="l_category" value="${l_category }" />
+         <c:set var="city" value="${city }" />
 
-		</div>
-	</form>
+         <table class="table">
+            <tr>
+               <td colspan="2">그룹명칭</td>
+            </tr>
+
+            <tr>
+               <td colspan="2"><input type="text" class=inline-block
+                  placeholder="모임명을 입력하세요" required size="98%;"></td>
+            </tr>
+
+            <tr>
+               <td colspan="2">모임 관심사</td>
+            </tr>
+            <tr>
+               <td><select class="form-control" id="selectBox1"
+                  onchange="selectsc(this.value)">
+                     <option value=''>관심사</option>
+                     <c:forEach items="${l_category }" var="dto">
+                        <option value="${dto.getL_category() }">${dto.getL_category() }</option>
+                     </c:forEach>
+               </select></td>
+
+               <td><select class="form-control" id="selectBox2"
+                  onchange="selectLike(this.value)">
+                     <option value=''>전체</option>
+               </select></td>
+            </tr>
+
+            <tr>
+               <td colspan="2">모임 지역</td>
+            </tr>
+
+            <tr>
+               <td><select class="form-control" id="selectBox3"
+                  onchange="selectcity(this.value)">
+                     <option value=''>지역</option>
+                     <c:forEach items="${city }" var="dto">
+                        <option value="${dto.getCity() }">${dto.getCity() }</option>
+                     </c:forEach>
+               </select></td>
+
+               <td><select class="form-control" id="selectBox4"
+                  onchange="selectArea(this.value)">
+                     <option value=''>전체</option>
+               </select></td>
+            </tr>
+
+            <tr>
+               <td colspan="2">모임 소개글</td>
+            </tr>
+
+            <tr>
+               <td colspan="2"><textarea rows="7" cols="100"
+                     name="group_intro" style="resize: none;"></textarea></td>
+            </tr>
+
+            <tr>
+               <td colspan="2"><button type="submit" class="btn btn-default">제출</button>
+                  <input type="hidden" value="" name="select_l_category"
+                  id="select_l_category"> <input type="hidden" value=""
+                  name="select_s_category" id="select_s_category"
+                  required="required"> <input type="hidden" value=""
+                  name="select_city" id="select_city"> <input type="hidden"
+                  value="" name="select_town" id="select_town" required="required"></td>
+            </tr>
+
+
+
+         </table>
+
+
+
+
+      </div>
+   </form>
 
 </body>
 </html>
