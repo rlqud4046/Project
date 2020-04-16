@@ -196,7 +196,7 @@ List<BoardDTO> list = dao.noticeList();
 			<div class="row">
 				<div class="col-md-12" align="center" id="logo">
 					<a href="main.do?group_no=${group_No }"><img src="./images/group_main/gukbab.png" width="60%" border="0"></a>
-					<input type="button"  class="btn btn-success btn-lg" name="a" onclick="location.href='group_join.do?mem_no=${mem_no}&group_no=${group_No }'" value="가입하깅">
+					<input type="button" class="btn-success btn-lg" name="a" onclick="location.href='group_join.do?mem_no=${mem_no}&group_no=${group_No }'" value="가입하깅">
 				</div>
 			</div>
 		</c:if>

@@ -215,15 +215,18 @@ public class BoardDAO {
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				urls = rs.getString(1);
+				if (urls != null) {
+					StringTokenizer st = new StringTokenizer(urls, ",");
+					String[] url = new String[st.countTokens()];
+					int i = 0;
+					while (st.hasMoreElements()) {
+						url[i++] = st.nextToken();
+					}
+					for (i = 0; i < url.length; i++)
+						attachList.add(url[i]);
+
+				}
 			}
-			StringTokenizer st = new StringTokenizer(urls, ",");
-			String[] url = new String[st.countTokens()];
-			int i = 0;
-			while (st.hasMoreElements()) {
-				url[i++] = st.nextToken();
-			}
-			for (i = 0; i < url.length; i++)
-				attachList.add(url[i]);
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -679,7 +682,7 @@ public class BoardDAO {
 	}
 
 	public List<BoardDTO> noticeList() {
-		
+
 		List<BoardDTO> list = new ArrayList<BoardDTO>();
 		try {
 			openConn();

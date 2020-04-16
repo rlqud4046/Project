@@ -131,7 +131,6 @@ div.upload-btn_wrap button { /*버튼 div*/
                   success : function(data) {
                      $(editor).summernote('editor.insertImage', data.url);
                      $('.note-editable').append('<img src="'+data.url+'" width="480" height="auto"/>');
-                     alert(data.url);
                      
                      if($('#thumb').val() == ""){
                         $('#thumb').val(data.localPath);

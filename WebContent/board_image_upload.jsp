@@ -6,7 +6,7 @@
 <%@page import="com.oreilly.servlet.MultipartRequest"%>
 <%
 	
-	String uploadPath = "C:/ncs/workspace(jsp)/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/00_somoim/upload/";
+	String uploadPath = "C:/ncs/workspace(jsp)/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/Project/upload/";
 
 	int size = 10 * 1024 * 1024; // 업로드 사이즈 제한 10M 이하
 
@@ -28,7 +28,7 @@
 	//String uploadPath2 += "/upload/"+fileName;
 	//uploadPath += "/" + fileName;
 	String localPath = uploadPath+fileName;
-	String uploadPath2 = "http://localhost:8282/00_somoim/upload/" + fileName;
+	String uploadPath2 = "http://localhost:8282/Project/upload/" + fileName;
 	//http://localhost:8282/00_somoim/upload/2.jpg
 
 	// 생성된 경로를 JSON 형식으로 보내주기 위한 설정

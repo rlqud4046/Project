@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import model.BoardDAO;
 import model.BoardDTO;
@@ -20,8 +21,11 @@ public class BoardContAction implements Action {
 
 		int mgn_no = Integer.parseInt(request.getParameter("no"));
 		/*int mem_no = Integer.parseInt(request.getParameter("id"));*/
-		int mem_no = 2;
+		HttpSession session = request.getSession();
 		
+		int mem_no = (int) session.getAttribute("mem_no");
+		
+		System.out.println(mem_no);
 		BoardDAO dao =BoardDAO.getInstance();
 		dao.boardHit(mgn_no);		// 조회수 증가 메서드 호출
 		

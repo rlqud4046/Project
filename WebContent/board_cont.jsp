@@ -459,7 +459,8 @@ a {
 
 
 					<div class="cont">
-						<textarea id="ta" style="width: 900px; height: 70px; overflow-y: hidden;" readonly>${dto.getBoard_cont() }</textarea>
+						<textarea id="ta" style="width: 900px; height: 70px; overflow-y: hidden;" readonly></textarea>
+						${dto.getBoard_cont() }
 						<textarea id="xt" style="width: 300px; height: 1px; overflow-y: hidden; position: absolute; top: -9px" disabled></textarea>
 
 					</div>
@@ -488,8 +489,8 @@ a {
 									<td>
 										
 										<a href="#" onclick="like()">
-                                    <c:if test="${lcheck==1 }"><img alt="하트사진" src=""></c:if>
-                                    <c:if test="${lcheck!=1 }"><img alt="다른하트사진" src=""></c:if>
+                                    <c:if test="${lcheck==1 }">&ensp;<img alt="하트사진" src="images/heart.jpeg" width="10%"></c:if>
+                                    <c:if test="${lcheck!=1 }">&ensp;<img alt="다른하트사진" src="images/heart.jpeg" width="13%"></c:if>
                                     </a>
                                  
 										
