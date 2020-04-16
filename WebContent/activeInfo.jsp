@@ -45,7 +45,7 @@ function normal() {
 
    <div class="container" align="left">
    <input type="hidden" id="mem_id" value="${id }">
-   <input type="hidden" id="group_no" value="${sessionScope.group_no}">
+   <input type="hidden" id="group_no" value="${sessionScope.group_No}">
    <table class="table table-bordered table-hover">
       <c:set var="list" value="${list }"></c:set>
       <tr>

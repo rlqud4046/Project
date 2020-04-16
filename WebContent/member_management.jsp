@@ -173,10 +173,10 @@
                                        class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
                                           ${dto.getMem_name() }</a>
                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                          <a class="dropdown-item" href="InformationActivities.do?group_no=${sessionScope.group_no}&id=${dto.getId()}&rating=${dto.getRating()}" style="margin-left: 20px;">활동정보</a> <br /> <a
+                                          <a class="dropdown-item" href="InformationActivities.do?group_no=${sessionScope.group_No}&id=${dto.getId()}&rating=${dto.getRating()}" style="margin-left: 20px;">활동정보</a> <br /> <a
                                              class="dropdown-item" href="" style="margin-left: 20px;">쪽지보내기</a> <br />
                                           <c:if test="${rating == 5 }">
-                                             <a class="dropdown-item" onclick="weim(${dto.getMem_no()},${sessionScope.group_no})"
+                                             <a class="dropdown-item" onclick="weim(${dto.getMem_no()},${sessionScope.group_No})"
                                                 style="margin-left: 20px;">모임장 위임</a>
                                           </c:if>
                                        </div></li></td>
@@ -220,7 +220,7 @@
                            <td>
                               <%-- <a onclick="apologize(${dto.getMem_no()},${dto.getGroup_no()},${dto.getRating() })" class="btn btn-danger btn-block" role="button">삭제</a> --%>
                               <button name="confirm" class="btn btn-danger btn-block"
-                                 onclick="apologize(${dto.getMem_no()},${sessionScope.group_no},${dto.getRating() })">삭제</button>
+                                 onclick="apologize(${dto.getMem_no()},${sessionScope.group_No},${dto.getRating() })">삭제</button>
                            </td>
                            <td style="padding-top: 15px; padding-bottom: 15px">${dto.getMem_name() }</td>
                            <input type="hidden" id="mem_id" name="mem_id" value="${dto.getId() }" readonly>
