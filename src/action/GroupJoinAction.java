@@ -1,6 +1,7 @@
 package action;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,16 +17,17 @@ public class GroupJoinAction implements Action {
 		int group_no = Integer.parseInt(request.getParameter("group_no"));
 		
 		MembershipDAO dao = MembershipDAO.getInstance();
-		dao.group_join(mem_no, group_no);
 		
 		
-		String path = "group_main.jsp";
-		request.setAttribute("include", path);
-		// view page로 포워딩
-		ActionForward forward = new ActionForward();
-		forward.setRedirect(false);
-		forward.setPath("samplePage.jsp"); // ㄴ므ㅔ
-		return forward; 
+		boolean result = dao.group_join(mem_no, group_no);
+		if (result) {
+			response.setContentType("text/html;charset=euc-kr");
+			PrintWriter out = response.getWriter();
+			out.println("1");
+			out.close();
+		}
+
+		return null;
 	}
 
 }

@@ -12,6 +12,9 @@ import model.BoardDTO;
 import model.CommentDAO;
 import model.CommentDTO;
 import model.LikeDAO;
+import model.LikeDTO;
+import model.MemberDAO;
+import model.MemberDTO;
 
 
 public class BoardContAction implements Action {
@@ -43,12 +46,20 @@ public class BoardContAction implements Action {
 		
 		LikeDAO ldao = LikeDAO.getInstance();
 		int lcheck = ldao.likeCheck(mem_no, mgn_no);
+		List<LikeDTO> likes =  ldao.LikeMemList(mgn_no);
 		
+		MemberDAO mdao = MemberDAO.getInstance();
 		
+		List<MemberDTO> lmem = mdao.likeList(likes);
+		request.setAttribute("lmem", lmem);
+	
 		request.setAttribute("comment", cdto);
 		request.setAttribute("count", count);
 		request.setAttribute("aList", attachList);
 		request.setAttribute("lCheck", lcheck);
+		request.setAttribute("like", likes);
+		
+		
 		
 		String path = "board_cont.jsp";
 		request.setAttribute("page", path);

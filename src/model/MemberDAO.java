@@ -332,7 +332,7 @@ public class MemberDAO {
 	}
 
 	public void updatepwd(String pwd, String id) {
-			int res = 0;
+		int res = 0;
 		try {
 			con = openConn();
 			sql = "update member_table set pwd=? where id=?";
@@ -342,8 +342,7 @@ public class MemberDAO {
 
 			res = pstmt.executeUpdate();
 			System.out.println(res);
-			
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -352,459 +351,496 @@ public class MemberDAO {
 		}
 
 	}
-	
-	
-	
+
 	// 회원정보 수정시 회원정보를 불러오는 메서드
-	   public MemberDTO selectMember(String id) {
-	      MemberDTO dto = new MemberDTO();
-	      try {
-	         openConn();
-	         sql = "SELECT * FROM member_table WHERE id = ?";
-	         pstmt = con.prepareStatement(sql);
-	         pstmt.setString(1, id);
-	         rs = pstmt.executeQuery();
-	         if(rs.next()) {
-	            dto.setId(rs.getString("id"));
-	            dto.setMem_name(rs.getString("mem_name"));
-	            dto.setNickname(rs.getString("nickname"));
-	            dto.setProfile_img(rs.getString("profile_img"));
-	            dto.setBirth(rs.getString("birth"));
-	            dto.setE_mail(rs.getString("e_mail"));
-	            dto.setPhone(rs.getString("phone"));
-	            dto.setCheck_q(rs.getString("check_q"));
-	            dto.setCheck_a(rs.getString("check_a"));
-	            dto.setCity(rs.getString("city"));
-	            dto.setArea1(rs.getString("area1"));
-	            dto.setArea2(rs.getString("area2"));
-	            dto.setArea3(rs.getString("area3"));
-	            dto.setInterests(rs.getString("interests"));
-	         }
-	      } catch (SQLException e) {
-	         e.printStackTrace();
-	      } finally {
-	        closeConn(rs, pstmt, con);
-	      }
-	      return dto;
-	   }
-	   
-	   public List<String> getInterest() {
-			List<String> interestList = new ArrayList<String>();
-			try {
-				openConn();
-				sql = "SELECT DISTINCT l_category FROM interest_table";
-				pstmt = con.prepareStatement(sql);
-				rs = pstmt.executeQuery();
-				while (rs.next()) {
-					interestList.add(rs.getString(1));
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} finally {
-				closeConn(rs, pstmt, con);
-			}
-			return interestList;
-		}
-	   
-	   
-	   public List<String> getCity() {
-			List<String> cityList = new ArrayList<String>();
-			try {
-				openConn();
-				sql = "SELECT DISTINCT city FROM area_table";
-				pstmt = con.prepareStatement(sql);
-				rs = pstmt.executeQuery();
-				while (rs.next()) {
-					cityList.add(rs.getString(1).trim());
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} finally {
-				closeConn(rs, pstmt, con);
-			}
-			return cityList;
-		}
-	   
-	// 구/군 목록을 가져오는 메서드
-		public List<String> getTown(String city) {
-			List<String> towns = new ArrayList<String>();
-
-			try {
-				openConn();
-				sql = "SELECT town FROM area_table WHERE city=?";
-				pstmt = con.prepareStatement(sql);
-				pstmt.setString(1, city);
-				rs = pstmt.executeQuery();
-				while (rs.next()) {
-					towns.add(rs.getString(1));
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} finally {
-				closeConn(rs, pstmt, con);
-			}
-			return towns;
-		} // getTown() end
-		
-		public List<String> getQuestion() {
-			List<String> qList = new ArrayList<String>();
-			try {
-				openConn();
-				sql = "SELECT question FROM check_q";
-				pstmt = con.prepareStatement(sql);
-				rs = pstmt.executeQuery();
-				while (rs.next()) {
-					qList.add(rs.getString(1));
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} finally {
-				closeConn(rs, pstmt, con);
-			}
-			return qList;
-		}
-		
-		public int checkId(String id) {
-			int result = 0;
-
-			try {
-				openConn();
-				sql = "SELECT * FROM member_table WHERE id=?";
-				pstmt = con.prepareStatement(sql);
-				pstmt.setString(1, id);
-				rs = pstmt.executeQuery();
-				if (rs.next()) {
-					result = 1;
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} finally {
-				closeConn(rs, pstmt, con);
-			}
-			return result;
-		}
-		
-		
-		public int checkNickname(String nickname) {
-			int result = 0;
-			try {
-				openConn();
-				sql = "SELECT * FROM member_table WHERE nickname=?";
-				pstmt = con.prepareStatement(sql);
-				pstmt.setString(1, nickname);
-				rs = pstmt.executeQuery();
-				if (rs.next()) {
-					result = 1;
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} finally {
-				closeConn(rs, pstmt, con);
-			}
-			return result;
-		}
-		
-		public int insertMemberTable(MemberDTO dto) {
-			int result = 0;
-
-			try {
-				openConn();
-				con.setAutoCommit(false);
-				sql = "INSERT INTO member_table "
-						+ "(id, pwd, mem_name, nickname, profile_img, birth, e_mail, phone, check_q, check_a, city, area1, area2, area3, interests) "
-						+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-				pstmt = con.prepareStatement(sql);
-				pstmt.setString(1, dto.getId());
-				pstmt.setString(2, dto.getPwd());
-				pstmt.setString(3, dto.getMem_name());
-				pstmt.setString(4, dto.getNickname());
-				pstmt.setString(5, dto.getProfile_img());
-				pstmt.setString(6, dto.getBirth());
-				pstmt.setString(7, dto.getE_mail());
-				pstmt.setString(8, dto.getPhone());
-				pstmt.setString(9, dto.getCheck_q());
-				pstmt.setString(10, dto.getCheck_a());
-				pstmt.setString(11, dto.getCity());
-				pstmt.setString(12, dto.getArea1());
-				pstmt.setString(13, dto.getArea2());
-				pstmt.setString(14, dto.getArea3());
-				pstmt.setString(15, dto.getInterests());
-				result = pstmt.executeUpdate();
-				con.commit();
-			} catch (SQLException e) {
-				e.printStackTrace();
-				try {
-					con.rollback();
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-			} finally {
-				closeConn(rs, pstmt, con);
-			}
-
-			return result;
-		}
-
-
-		// 회원정보를 수정하는 메서드
-		public int updateMemberInfo(MemberDTO dto) {
-			int result = 0;
-			try {
-				openConn();
-				con.setAutoCommit(false);
-				sql = "UPDATE member_table "
-						+ "SET pwd=?, mem_name=?, nickname=?, profile_img=?, birth=?, e_mail=?, phone=?, check_q=?, check_a=?, "
-						+ "city=?, area1=?, area2=?, area3=?, interests=? " + "WHERE id=?";
-				pstmt = con.prepareStatement(sql);
-				pstmt.setString(1, dto.getPwd());
-				pstmt.setString(2, dto.getMem_name());
-				pstmt.setString(3, dto.getNickname());
-				pstmt.setString(4, dto.getProfile_img());
-				pstmt.setString(5, dto.getBirth());
-				pstmt.setString(6, dto.getE_mail());
-				pstmt.setString(7, dto.getPhone());
-				pstmt.setString(8, dto.getCheck_q());
-				pstmt.setString(9, dto.getCheck_a());
-				pstmt.setString(10, dto.getCity());
-				pstmt.setString(11, dto.getArea1());
-				pstmt.setString(12, dto.getArea2());
-				pstmt.setString(13, dto.getArea3());
-				pstmt.setString(14, dto.getInterests());
-				pstmt.setString(15, dto.getId());
-				result = pstmt.executeUpdate();
-				con.commit();
-			} catch (SQLException e) {
-				e.printStackTrace();
-				try {
-					con.rollback();
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-			} finally {
-				closeConn(rs, pstmt, con);
-			}
-			return result;
-		}
-
-		public int pwdCheck(String id, String pwd) {
-			int result = 0;
+	public MemberDTO selectMember(String id) {
+		MemberDTO dto = new MemberDTO();
+		try {
 			openConn();
-			sql = "SELECT * FROM member_table WHERE id=? AND pwd=?";
-			try {
-				pstmt = con.prepareStatement(sql);
-				pstmt.setString(1, id);
-				pstmt.setString(2, pwd);
-				rs = pstmt.executeQuery();
-				if (rs.next()) {
-					result = 1;
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} finally {
-				closeConn(rs, pstmt, con);
+			sql = "SELECT * FROM member_table WHERE id = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				dto.setId(rs.getString("id"));
+				dto.setMem_name(rs.getString("mem_name"));
+				dto.setNickname(rs.getString("nickname"));
+				dto.setProfile_img(rs.getString("profile_img"));
+				dto.setBirth(rs.getString("birth"));
+				dto.setE_mail(rs.getString("e_mail"));
+				dto.setPhone(rs.getString("phone"));
+				dto.setCheck_q(rs.getString("check_q"));
+				dto.setCheck_a(rs.getString("check_a"));
+				dto.setCity(rs.getString("city"));
+				dto.setArea1(rs.getString("area1"));
+				dto.setArea2(rs.getString("area2"));
+				dto.setArea3(rs.getString("area3"));
+				dto.setInterests(rs.getString("interests"));
 			}
-			return result;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
 		}
-		
-		
-		public JoinDTO getMemberActivitiesList(int group_no, String id) {
-		      
-		      JoinDTO dto = new JoinDTO();
-		      
-		      try {
-		    	  System.out.println("id => " +id+ "group_no => " + group_no);
-		         con = openConn();
-		         sql = "SELECT * FROM MLB_JOIN_VIEW WHERE id = ? and group_no = ?";
-		         pstmt = con.prepareStatement(sql);
-		         
-		         pstmt.setString(1, id);
-		         pstmt.setInt(2, group_no);
-		         rs = pstmt.executeQuery();
-		         
-		         if(rs.next()) {
-		            
-		            dto.setMgn_no(rs.getInt("mgn_no"));
-		            dto.setMem_no(rs.getInt("mem_no"));
-		            dto.setId(rs.getString("id"));
-		            dto.setPwd(rs.getString("pwd"));
-		            dto.setMem_name(rs.getString("mem_name"));
-		            dto.setNickname(rs.getString("nickname"));
-		            dto.setProfile_img(rs.getString("profile_img"));
-		            dto.setComment_no(rs.getInt("comment_no"));
-		            dto.setComment_writer(rs.getString("comment_writer"));
-		            dto.setBoard_no(rs.getInt("board_no"));
-		            dto.setBoard_title(rs.getString("board_title"));
-		            dto.setBoard_date(rs.getString("board_date"));
-		            dto.setBoard_hit(rs.getInt("board_hit"));
-		            dto.setBoard_writer(rs.getString("board_writer"));
-		         }
-		         
-		      } catch (SQLException e) {
-		         // TODO Auto-generated catch block
-		         e.printStackTrace();
-		      } finally {
-		         closeConn(rs, pstmt, con);
-		      }
-		      return dto;
-		   }
-		   
-		   public int totalBoardNo(int group_no, String id ){
-		      
-		      int count = 0;
-		      
-		      try {
+		return dto;
+	}
 
-		         con = openConn();
-		         sql="SELECT COUNT(BOARD_NO) FROM MLB_JOIN_VIEW WHERE BOARD_WRITER = ? and group_no = ?";
-		         pstmt = con.prepareStatement(sql);
-		         pstmt.setString(1, id);
-		         pstmt.setInt(2, group_no);
-		         
-		         rs = pstmt.executeQuery();
-		         
-		         if(rs.next()) {
-		            
-		            count = rs.getInt(1);
-		            
-		         }
-		         
-		      } catch (SQLException e) {
-		         // TODO Auto-generated catch block
-		         e.printStackTrace();
-		      } finally {
-				closeConn(rs, pstmt, con);
+	public List<String> getInterest() {
+		List<String> interestList = new ArrayList<String>();
+		try {
+			openConn();
+			sql = "SELECT DISTINCT l_category FROM interest_table";
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				interestList.add(rs.getString(1));
 			}
-		      
-		      return count;
-		   }
-		   
-		   public int totalReplyNo(int group_no, String id) {
-		      
-		      int count = 0;
-		      
-		      try {
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		return interestList;
+	}
 
-		         con = openConn();
-		         sql="SELECT COUNT(COMMENT_NO) FROM MLB_JOIN_VIEW WHERE COMMENT_WRITER = ? and group_no = ?";
-		         pstmt = con.prepareStatement(sql);
-		         pstmt.setString(1, id);
-		         pstmt.setInt(2, group_no);
-		         
-		         rs = pstmt.executeQuery();
-		         
-		         if(rs.next()) {
-		            
-		            count = rs.getInt(1);
-		            
-		         }
-		         
-		      } catch (SQLException e) {
-		         // TODO Auto-generated catch block
-		         e.printStackTrace();
-		      } finally {
-		         closeConn(rs, pstmt, con);
-		      }
-		      return count;
-		   }
-		   
-		   public List<JoinDTO> getRegisterBoardList(int group_no, String id) {
-		      
-		      List<JoinDTO> list = new ArrayList<JoinDTO>();
-		      
-		      try {
+	public List<String> getCity() {
+		List<String> cityList = new ArrayList<String>();
+		try {
+			openConn();
+			sql = "SELECT DISTINCT city FROM area_table";
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				cityList.add(rs.getString(1).trim());
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		return cityList;
+	}
 
-		         con = openConn();
-		         sql="SELECT * FROM MLB_JOIN_VIEW WHERE BOARD_WRITER = ? and group_no = ?";
-		         pstmt = con.prepareStatement(sql);
-		         pstmt.setString(1, id);
-		         pstmt.setInt(2, group_no);
-		         rs = pstmt.executeQuery();
-		         
-		         while(rs.next()) {
-		            
-		            JoinDTO dto = new JoinDTO();
-		            dto.setMgn_no(rs.getInt("mgn_no"));
-		            dto.setMem_no(rs.getInt("mem_no"));
-		            dto.setId(rs.getString("id"));
-		            dto.setPwd(rs.getString("pwd"));
-		            dto.setMem_name(rs.getString("mem_name"));
-		            dto.setNickname(rs.getString("nickname"));
-		            dto.setProfile_img(rs.getString("profile_img"));
-		            dto.setComment_no(rs.getInt("comment_no"));
-		            dto.setComment_writer(rs.getString("comment_writer"));
-		            dto.setBoard_no(rs.getInt("board_no"));
-		            dto.setBoard_title(rs.getString("board_title"));
-		            dto.setBoard_date(rs.getString("board_date"));
-		            dto.setBoard_hit(rs.getInt("board_hit"));
-		            dto.setBoard_writer(rs.getString("board_writer"));
-		            
-		            list.add(dto);
-		            
-		         }
-		         
-		         
-		         
-		      } catch (SQLException e) {
-		         // TODO Auto-generated catch block
-		         e.printStackTrace();
-		      } finally {
-		         closeConn(rs, pstmt, con);
-		      }
-		      return list;
-		   }
+	// 구/군 목록을 가져오는 메서드
+	public List<String> getTown(String city) {
+		List<String> towns = new ArrayList<String>();
 
-		   public List<JoinDTO> getReplyList(int group_no, String id) {
-		      
-		      List<JoinDTO> list = new ArrayList<JoinDTO>();
-		      
-		      try {
+		try {
+			openConn();
+			sql = "SELECT town FROM area_table WHERE city=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, city);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				towns.add(rs.getString(1));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		return towns;
+	} // getTown() end
 
-		         con = openConn();
-		         sql="SELECT * FROM MLB_JOIN_VIEW WHERE COMMENT_WRITER = ? and group_no = ?";
-		         pstmt = con.prepareStatement(sql);
-		         pstmt.setString(1, id);
-		         pstmt.setInt(2, group_no);
-		         
-		         rs = pstmt.executeQuery();
-		         
-		         while(rs.next()) {
-		            
-		            JoinDTO dto = new JoinDTO();
-		            dto.setMgn_no(rs.getInt("mgn_no"));
-		            dto.setMem_no(rs.getInt("mem_no"));
-		            dto.setId(rs.getString("id"));
-		            dto.setPwd(rs.getString("pwd"));
-		            dto.setMem_name(rs.getString("mem_name"));
-		            dto.setNickname(rs.getString("nickname"));
-		            dto.setProfile_img(rs.getString("profile_img"));
-		            dto.setComment_no(rs.getInt("comment_no"));
-		            dto.setComment_writer(rs.getString("comment_writer"));
-		            dto.setBoard_no(rs.getInt("board_no"));
-		            dto.setBoard_title(rs.getString("board_title"));
-		            dto.setBoard_date(rs.getString("board_date"));
-		            dto.setBoard_hit(rs.getInt("board_hit"));
-		            dto.setBoard_writer(rs.getString("board_writer"));
-		            
-		            list.add(dto);
-		            
-		         }
-		         
-		      } catch (SQLException e) {
-		         // TODO Auto-generated catch block
-		         e.printStackTrace();
-		      } finally {
-		         closeConn(rs, pstmt, con);
-		      }
-		      return list;
-		   }
-		
-		
-		
-		
-		
-	   
+	public List<String> getQuestion() {
+		List<String> qList = new ArrayList<String>();
+		try {
+			openConn();
+			sql = "SELECT question FROM check_q";
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				qList.add(rs.getString(1));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		return qList;
+	}
 
-	   
-	   
+	public int checkId(String id) {
+		int result = 0;
+
+		try {
+			openConn();
+			sql = "SELECT * FROM member_table WHERE id=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				result = 1;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		return result;
+	}
+
+	public int checkNickname(String nickname) {
+		int result = 0;
+		try {
+			openConn();
+			sql = "SELECT * FROM member_table WHERE nickname=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, nickname);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				result = 1;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		return result;
+	}
+
+	public int insertMemberTable(MemberDTO dto) {
+		int result = 0;
+
+		try {
+			openConn();
+			con.setAutoCommit(false);
+			sql = "INSERT INTO member_table "
+					+ "(id, pwd, mem_name, nickname, profile_img, birth, e_mail, phone, check_q, check_a, city, area1, area2, area3, interests) "
+					+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, dto.getId());
+			pstmt.setString(2, dto.getPwd());
+			pstmt.setString(3, dto.getMem_name());
+			pstmt.setString(4, dto.getNickname());
+			pstmt.setString(5, dto.getProfile_img());
+			pstmt.setString(6, dto.getBirth());
+			pstmt.setString(7, dto.getE_mail());
+			pstmt.setString(8, dto.getPhone());
+			pstmt.setString(9, dto.getCheck_q());
+			pstmt.setString(10, dto.getCheck_a());
+			pstmt.setString(11, dto.getCity());
+			pstmt.setString(12, dto.getArea1());
+			pstmt.setString(13, dto.getArea2());
+			pstmt.setString(14, dto.getArea3());
+			pstmt.setString(15, dto.getInterests());
+			result = pstmt.executeUpdate();
+			con.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				con.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+
+		return result;
+	}
+
+	// 회원정보를 수정하는 메서드
+	public int updateMemberInfo(MemberDTO dto) {
+		int result = 0;
+		try {
+			openConn();
+			con.setAutoCommit(false);
+			sql = "UPDATE member_table "
+					+ "SET pwd=?, mem_name=?, nickname=?, profile_img=?, birth=?, e_mail=?, phone=?, check_q=?, check_a=?, "
+					+ "city=?, area1=?, area2=?, area3=?, interests=? " + "WHERE id=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, dto.getPwd());
+			pstmt.setString(2, dto.getMem_name());
+			pstmt.setString(3, dto.getNickname());
+			pstmt.setString(4, dto.getProfile_img());
+			pstmt.setString(5, dto.getBirth());
+			pstmt.setString(6, dto.getE_mail());
+			pstmt.setString(7, dto.getPhone());
+			pstmt.setString(8, dto.getCheck_q());
+			pstmt.setString(9, dto.getCheck_a());
+			pstmt.setString(10, dto.getCity());
+			pstmt.setString(11, dto.getArea1());
+			pstmt.setString(12, dto.getArea2());
+			pstmt.setString(13, dto.getArea3());
+			pstmt.setString(14, dto.getInterests());
+			pstmt.setString(15, dto.getId());
+			result = pstmt.executeUpdate();
+			con.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				con.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		return result;
+	}
+
+	public int pwdCheck(String id, String pwd) {
+		int result = 0;
+		openConn();
+		sql = "SELECT * FROM member_table WHERE id=? AND pwd=?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setString(2, pwd);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				result = 1;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		return result;
+	}
+
+	public JoinDTO getMemberActivitiesList(int group_no, String id) {
+
+		JoinDTO dto = new JoinDTO();
+
+		try {
+			System.out.println("id => " + id + "group_no => " + group_no);
+			con = openConn();
+			sql = "SELECT * FROM MLB_JOIN_VIEW WHERE id = ? and group_no = ?";
+			pstmt = con.prepareStatement(sql);
+
+			pstmt.setString(1, id);
+			pstmt.setInt(2, group_no);
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+
+				dto.setMgn_no(rs.getInt("mgn_no"));
+				dto.setMem_no(rs.getInt("mem_no"));
+				dto.setId(rs.getString("id"));
+				dto.setPwd(rs.getString("pwd"));
+				dto.setMem_name(rs.getString("mem_name"));
+				dto.setNickname(rs.getString("nickname"));
+				dto.setProfile_img(rs.getString("profile_img"));
+				dto.setComment_no(rs.getInt("comment_no"));
+				dto.setComment_writer(rs.getString("comment_writer"));
+				dto.setBoard_no(rs.getInt("board_no"));
+				dto.setBoard_title(rs.getString("board_title"));
+				dto.setBoard_date(rs.getString("board_date"));
+				dto.setBoard_hit(rs.getInt("board_hit"));
+				dto.setBoard_writer(rs.getString("board_writer"));
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		return dto;
+	}
+
+	public int totalBoardNo(int group_no, String id) {
+
+		int count = 0;
+
+		try {
+
+			con = openConn();
+			sql = "SELECT COUNT(BOARD_NO) FROM MLB_JOIN_VIEW WHERE BOARD_WRITER = ? and group_no = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setInt(2, group_no);
+
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+
+				count = rs.getInt(1);
+
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+
+		return count;
+	}
+
+	public int totalReplyNo(int group_no, String id) {
+
+		int count = 0;
+
+		try {
+
+			con = openConn();
+			sql = "SELECT COUNT(COMMENT_NO) FROM MLB_JOIN_VIEW WHERE COMMENT_WRITER = ? and group_no = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setInt(2, group_no);
+
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+
+				count = rs.getInt(1);
+
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		return count;
+	}
+
+	public List<JoinDTO> getRegisterBoardList(int group_no, String id) {
+
+		List<JoinDTO> list = new ArrayList<JoinDTO>();
+
+		try {
+
+			con = openConn();
+			sql = "SELECT * FROM MLB_JOIN_VIEW WHERE BOARD_WRITER = ? and group_no = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setInt(2, group_no);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+
+				JoinDTO dto = new JoinDTO();
+				dto.setMgn_no(rs.getInt("mgn_no"));
+				dto.setMem_no(rs.getInt("mem_no"));
+				dto.setId(rs.getString("id"));
+				dto.setPwd(rs.getString("pwd"));
+				dto.setMem_name(rs.getString("mem_name"));
+				dto.setNickname(rs.getString("nickname"));
+				dto.setProfile_img(rs.getString("profile_img"));
+				dto.setComment_no(rs.getInt("comment_no"));
+				dto.setComment_writer(rs.getString("comment_writer"));
+				dto.setBoard_no(rs.getInt("board_no"));
+				dto.setBoard_title(rs.getString("board_title"));
+				dto.setBoard_date(rs.getString("board_date"));
+				dto.setBoard_hit(rs.getInt("board_hit"));
+				dto.setBoard_writer(rs.getString("board_writer"));
+
+				list.add(dto);
+
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		return list;
+	}
+
+	public List<JoinDTO> getReplyList(int group_no, String id) {
+
+		List<JoinDTO> list = new ArrayList<JoinDTO>();
+
+		try {
+
+			con = openConn();
+			sql = "SELECT * FROM MLB_JOIN_VIEW WHERE COMMENT_WRITER = ? and group_no = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setInt(2, group_no);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+
+				JoinDTO dto = new JoinDTO();
+				dto.setMgn_no(rs.getInt("mgn_no"));
+				dto.setMem_no(rs.getInt("mem_no"));
+				dto.setId(rs.getString("id"));
+				dto.setPwd(rs.getString("pwd"));
+				dto.setMem_name(rs.getString("mem_name"));
+				dto.setNickname(rs.getString("nickname"));
+				dto.setProfile_img(rs.getString("profile_img"));
+				dto.setComment_no(rs.getInt("comment_no"));
+				dto.setComment_writer(rs.getString("comment_writer"));
+				dto.setBoard_no(rs.getInt("board_no"));
+				dto.setBoard_title(rs.getString("board_title"));
+				dto.setBoard_date(rs.getString("board_date"));
+				dto.setBoard_hit(rs.getInt("board_hit"));
+				dto.setBoard_writer(rs.getString("board_writer"));
+
+				list.add(dto);
+
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		return list;
+	}
+
+	public List<MemberDTO> likeList(List<LikeDTO> likes) {
+
+		MemberDTO dto = new MemberDTO();
+		List<MemberDTO> list = new ArrayList<>();
+		LikeDTO ldto = new LikeDTO();
+		String distinct = "0";
+		try {
+
+			con = openConn();
+			if(!likes.isEmpty()) {
+			for (int i = 0; i < likes.size(); i++) {
+				
+				int str = likes.get(i).getMem_no();
+				distinct = distinct + str + ",";
+			}
+			distinct = distinct.substring(1, distinct.length() - 1);
+			System.out.println(distinct);
+			}
+
+			sql = "select distinct id from member_table where mem_no in("+distinct+")";
+			pstmt = con.prepareStatement(sql);
+			/* ldto.setMem_no(Integer.parseInt(likes. get(i).get("")toString())); */
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+
+				dto.setId(rs.getString("id"));
+				list.add(dto);
+
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (con != null)
+					con.close();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		return list;
+	}
+
 
 }

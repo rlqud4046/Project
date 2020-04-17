@@ -196,7 +196,6 @@ a {
 }
 </style>
 
-
 <script type="text/javascript">
 	var httpRequest = null;
 
@@ -278,19 +277,14 @@ a {
 		var id = form.mem_no.value;
 		var like = form.like.value;
 
-		if (id != 2) {
-			alert("회원 번호 틀림.");
-			return false;
-		} else {
-			var param = "mgn_no=" + board + "&mem_no=" + id + "&like=" + like;
-			alert("회원 번호 맞음")
+		var param = "mgn_no=" + board + "&mem_no=" + id + "&like=" + like;
 			httpRequest = getXMLHttpRequest();
 			httpRequest.onreadystatechange = checkFunc;
 			httpRequest.open("POST", "like.do", true);
 			httpRequest.setRequestHeader('Content-Type',
 					'application/x-www-form-urlencoded;charset=EUC-KR');
 			httpRequest.send(param);
-		}
+		
 	} 
 	
 	/* function like(){
@@ -363,6 +357,8 @@ a {
 				<c:set var="cdto" value="${comment }" />
 				<c:set var="count" value="${count }" />
 				<c:set var="lcheck" value="${lCheck }" />
+				<c:set var="like" value="${like }" />
+				
 
 				<c:if test="${!empty dto }">
 					<div class="t_box">
@@ -459,10 +455,10 @@ a {
 
 
 					<div class="cont">
-						<textarea id="ta" style="width: 900px; height: 70px; overflow-y: hidden;" readonly></textarea>
+						<!-- <textarea id="ta" style="width: 900px; height: 70px; overflow-y: hidden;" readonly></textarea> -->
 						${dto.getBoard_cont() }
-						<textarea id="xt" style="width: 300px; height: 1px; overflow-y: hidden; position: absolute; top: -9px" disabled></textarea>
-
+						<!-- <textarea id="xt" style="width: 300px; height: 1px; overflow-y: hidden; position: absolute; top: -9px" disabled></textarea>
+ -->
 					</div>
 
 					<div class="h-70">
@@ -470,7 +466,7 @@ a {
 					</div>
 					<div>
 						<form id="likeForm">
-							<input type="hidden" name="mgn_no" value="${dto.getMgn_no() }"> <input type="hidden" name="mem_no" value="2<%-- ${sessionScope.sessionID } --%>">
+							<input type="hidden" name="mgn_no" value="${dto.getMgn_no() }"> <input type="hidden" name="mem_no" value="${sessionScope.mem_no }">
 							<input type="hidden" name="like" value="${lcheck }">
 							
 							<table role="presentation" cellspacing="0" cellpadding="0" border="0">
@@ -511,9 +507,15 @@ a {
 
 							<div class="col-sm-12">
 								<ul style="list-style: none;">
-
-									<li><span><font size="2">좋아요 누른 사람들</font></span></li>
-								</ul>
+							<c:if test="${!empty like }">
+								<c:forEach items="${lmem}" var="likes">
+									<li><span><font size="2">${likes.getId() }</font></span></li>
+								</c:forEach>
+							</c:if>
+							<c:if test="${empty like }">
+							<li><span><font size="2">아직 좋아요가 없습니다.</font></span></li>
+							</c:if>
+						</ul>
 							</div>
 						</div>
 					</div>
@@ -617,7 +619,7 @@ a {
 
 											<div>
 												<form id="replyCommentForm">
-													<input type="hidden" name="mgn_no" value="${dto.getMgn_no() }"> <input type="hidden" name="reply_writer" value="SessinID">
+													<input type="hidden" name="mgn_no" value="${dto.getMgn_no() }"> <input type="hidden" name="reply_writer" value="${id }">
 													<c:if test="${ cdto.getComment_parent() == 0}">
 														<input type="hidden" name="comment_no" value="${cdto.getComment_no() }">
 													</c:if>
@@ -695,7 +697,7 @@ a {
 						</c:if>
 					</ul>
 					<form id="writeCommentForm">
-						<input type="hidden" name="mgn_no" value="${dto.getMgn_no() }"> <input type="hidden" name="comment_writer" value="작성자<%-- ${sessionScope.sessionID } --%>">
+						<input type="hidden" name="mgn_no" value="${dto.getMgn_no() }"> <input type="hidden" name="comment_writer" value="${id }">
 						<table>
 							<tbody>
 								<tr>

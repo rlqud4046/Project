@@ -1,3 +1,4 @@
+<%@page import="model.GroupDAO"%>
 <%@page import="model.BoardDTO"%>
 <%@page import="java.util.List"%>
 <%@page import="model.BoardDAO"%>
@@ -108,14 +109,63 @@ $(function(){
 	});
 });
 
+var httpRequest = null;
+
+// httpRequest 객체 생성
+function getXMLHttpRequest() {
+	var httpRequest = null;
+
+	if (window.ActiveXObject) {
+		try {
+			httpRequest = new ActiveXObject("Msxml2.XMLHTTP");
+		} catch (e) {
+			try {
+				httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+			} catch (e2) {
+				httpRequest = null;
+			}
+		}
+	} else if (window.XMLHttpRequest) {
+		httpRequest = new window.XMLHttpRequest();
+	}
+	return httpRequest;
+}
+
+
+function g_join() {
+	var form = document.getElementById("g_join");
+
+	var mem_no = form.mem_no.value;
+	var group_no = form.group_No.value;
+
+	var param = "mem_no=" + mem_no + "&group_no=" + group_no;
+	alert('가입 완료');
+		httpRequest = getXMLHttpRequest();
+		httpRequest.onreadystatechange = checkFunc;
+		httpRequest.open("POST", "group_join.do", true);
+		httpRequest.setRequestHeader('Content-Type',
+				'application/x-www-form-urlencoded;charset=EUC-KR');
+		httpRequest.send(param);
+	
+} 
+<%-- "location.href='group_join.do?mem_no=${mem_no}&group_no=${group_No }'" --%> 
+
+function checkFunc() {
+	if (httpRequest.readyState == 4) {
+		// 결과값을 가져온다.
+		var resultText = httpRequest.responseText;
+		if (resultText == 1) {
+			document.location.reload(); // 상세보기 창 새로고침
+		}
+	}
+}
+
+
+
 
 </script>
 
-<%-- 
-$(function invali() {
-	<% session.removeAttribute("group_No");%>
-})
- --%>
+
 </head>
 <body>
 <%
@@ -191,12 +241,30 @@ List<BoardDTO> list = dao.noticeList();
 
 
 		<span style="clear: both;"></span>
+		<%
+		GroupDAO gdao = GroupDAO.getInstance();
+		String front = null;
+		if(session.getAttribute("group_No")!=null){
+		front = gdao.Front((int)session.getAttribute("group_No"));
+		System.out.println(front);
+		}
+		%>
+		
+		
 		
 		<c:if test="${!empty group_No }">
 			<div class="row">
 				<div class="col-md-12" align="center" id="logo">
-					<a href="main.do?group_no=${group_No }"><img src="./images/group_main/gukbab.png" width="60%" border="0"></a>
-					<input type="button" class="btn-success btn-lg" name="a" onclick="location.href='group_join.do?mem_no=${mem_no}&group_no=${group_No }'" value="가입하깅">
+					<a href="main.do?group_no=${group_No }"><img src="images/group_main/<%=front %>" width="60%" border="0"></a>
+					<form id ="g_join">
+					<input type="hidden" value="${mem_no }" name="mem_no">
+					<input type="hidden" value="${group_No }" name="group_No">
+					
+					
+					<input type="button" class="btn-success btn-lg" name="a" onclick="g_join()" value="가입하깅">
+					
+					
+					</form>
 				</div>
 			</div>
 		</c:if>

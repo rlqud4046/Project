@@ -69,6 +69,11 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css">
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<script src="//cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="//cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
+	
 <script type="text/javascript">
 
 	 	function weim(mem_no, group_no) {
@@ -114,17 +119,16 @@
             <div class="panel panel-default">
                <!-- Default panel contents -->
                <div class="panel-heading">일반회원 목록</div>
-               <table class="table table-bordered table-dark table-hover">
-                  <colgroup>
-                     <col width="33.3%" />
-                     <col width="33.3%" />
-                     <col width="33.4%" />
-                  </colgroup>
+               <table id = "normal_table" class="table table-bordered table-dark table-hover">
+                  
+                  <thead>
                   <tr>
                      <th>회원등급</th>
                      <th>회원명</th>
                      <th>닉네임(아이디)</th>
                   </tr>
+                  </thead>
+                  <tbody>
                   <tr>
                      <c:if test="${!empty list}">
                         <c:forEach items="${list }" var="dto">
@@ -189,7 +193,30 @@
                         </c:forEach>
                      </c:if>
                   </tr>
+                  </tbody>
                </table>
+               
+               <script type="text/javascript">
+			$(document).ready( function () {
+			    $('#normal_table').DataTable({
+			    	
+			    	"lengthChange" : false,
+			    	"info" : false,
+					"order" : [[0,"desc"]],
+					"paingType" : "full_numbers",
+					"language": {
+						"search" : "검색 : ",
+						"paginate" : { 
+							"next" : "다음",
+							"previous" : "이전"
+						}
+					}
+				});
+			} );	
+</script>
+
+
+
             </div>
             <div align="center">
                <input class="btn222" type="submit" value="저장">&nbsp;&nbsp;&nbsp;&nbsp; <input class="btn222" type="reset"
@@ -201,17 +228,21 @@
       <div id="black" class="panel panel-default" style="display: none;">
          <!-- Default panel contents -->
          <div class="panel-heading">추방회원 목록</div>
-         <table class="table table-bordered table-dark table-hover">
+         <table id ="banned_table" class="table table-bordered table-dark table-hover">
             <colgroup>
                <col width="33.3%" />
                <col width="33.3%" />
                <col width="33.4%" />
             </colgroup>
+            <thead>
+            
             <tr>
                <th>목록삭제</th>
                <th>회원명</th>
                <th>닉네임(아이디)</th>
             </tr>
+            </thead>
+            <tbody>
             <tr>
                <c:if test="${!empty list }">
                   <c:forEach items="${list }" var="dto">
@@ -231,7 +262,29 @@
                   </c:forEach>
                </c:if>
             </tr>
+            </tbody>
          </table>
+         
+         <script type="text/javascript">
+			$(document).ready( function () {
+			    $('#banned_table').DataTable({
+			    	
+			    	"lengthChange" : false,
+			    	"info" : false,
+					"order" : [[0,"desc"]],
+					"paingType" : "full_numbers",
+					"language": {
+						"search" : "검색 : ",
+						"paginate" : { 
+							"next" : "다음",
+							"previous" : "이전"
+						}
+					}
+				});
+			} )	
+</script>
+         
+         
       </div>
    </div>
 </body>

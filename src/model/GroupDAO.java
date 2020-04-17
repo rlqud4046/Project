@@ -451,7 +451,7 @@ public class GroupDAO {
 
 		try {
 			openConn();
-			sql = "insert into group_table (group_no,group_name,group_intro,group_area,group_interest,group_premium,group_limitmem,group_currmem) values(?,?,?,?,?,?,?,?)";
+			sql = "insert into group_table (group_no,group_name,group_intro,group_area,group_interest,group_premium,group_limitmem,group_currmem,group_front_img,group_main_img) values(?,?,?,?,?,?,?,?,?,?)";
 
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, dto.getGroup_no());
@@ -462,6 +462,8 @@ public class GroupDAO {
 			pstmt.setInt(6, 0);
 			pstmt.setInt(7, 200);
 			pstmt.setInt(8, 1);
+			pstmt.setString(9, dto.getGroup_front_img());
+			pstmt.setString(10, dto.getGroup_main_img());
 			res = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -759,6 +761,30 @@ public class GroupDAO {
 		}
 
 		return rec;
+	}
+	
+	
+	public String Front(int group_no) {
+		String front = null;
+		try {
+			openConn();
+			sql = "select group_front_img from group_table where group_no=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, group_no);
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				front = rs.getString("group_front_img");
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeConn(rs, pstmt, con);
+		}
+		return front;
+		
 	}
 
 }

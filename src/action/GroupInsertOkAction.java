@@ -50,6 +50,8 @@ public class GroupInsertOkAction implements Action {
 		dto.setGroup_intro(group_intro);
 		dto.setGroup_area(area_no);
 		dto.setGroup_interest(interest_no);
+		dto.setGroup_front_img("default.jpg");
+		dto.setGroup_main_img("default2.jpeg");
 		//mem_no에 해당하는사람을 group_no 그룹의 모임장으로 만들어주기
         int mem_no = Integer.parseInt(request.getParameter("mem_no"));
         MembershipDAO dao = MembershipDAO.getInstance();

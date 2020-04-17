@@ -140,13 +140,12 @@ public class LikeDAO {
 	         while(rs.next()) {
 	            LikeDTO dto = new LikeDTO();
 	            dto.setMem_no(rs.getInt("mem_no"));
-	            dto.setMgn_no(rs.getInt("mgn_no"));
 	            
 	            memList.add(dto);
 	         }
 	      } catch (SQLException e) {
 	         // TODO Auto-generated catch block
-	         e.printStackTrace();
+	         e.printStackTrace();	
 	      } finally {
 	         closeConn(rs, pstmt, con);
 	      }

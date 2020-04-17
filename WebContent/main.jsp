@@ -82,7 +82,7 @@
 	<br/><br/>
 	<div align="center">
 	<a href="group_insert.do"><img src="images\exception-index.gif" alt="모임개설이미지"></a>
-	</div>
+	</div>	
 	
 	<br/>
 	<div class="container0">
@@ -95,15 +95,15 @@
 					<!-- 로그인 안했을 때 랜덤으로 뜨는 모임↓ -->
 					<c:if test="${empty mem_no}">
                <div id="left1" class="carousel-item active">
-                  <img class="w-100 p-3" src="<%=rand[0][1]%>" height="400px"
+                  <img class="w-100 p-3" src="images/group_main/<%=rand[0][1]%>" height="400px"
                      alt="first" onclick="location.href='main.do?group_no=<%=rand[0][0]%>'">
                </div>
                <div class="carousel-item">
-                  <img class="w-100 p-3" src="<%=rand[1][1]%>" height="400px"
+                  <img class="w-100 p-3" src="images/group_main/<%=rand[1][1]%>" height="400px"
                      alt="second" onclick="location.href='main.do?group_no=<%=rand[1][0]%>'">
                </div>
                <div class="carousel-item">
-                  <img class="w-100 p-3" src="<%=rand[2][1]%>" height="400px"
+                  <img class="w-100 p-3" src="images/group_main/<%=rand[2][1]%>" height="400px"
                      alt="third" onclick="location.href='main.do?group_no=<%=rand[2][0]%>'">
                </div>
                </c:if>
@@ -118,15 +118,15 @@
                   
                %>
                <div class="carousel-item active">
-                  <img class="w-100 p-3" src="<%=rec[0][1]%>" height="400px"
+                  <img class="w-100 p-3" src="images/group_main/<%=rec[0][1]%>" height="400px"
                      alt="first" onclick="location.href='main.do?group_no=<%=rec[0][0]%>'">
                </div>
                <div class="carousel-item">
-                  <img class="w-100 p-3" src="<%=rec[1][1]%>" height="400px"
+                  <img class="w-100 p-3" src="images/group_main/<%=rec[1][1]%>" height="400px"
                      alt="second" onclick="location.href='main.do?group_no=<%=rec[1][0]%>'">
                </div>
                <div class="carousel-item">
-                  <img class="w-100 p-3" src="<%=rec[2][1]%>" height="400px"
+                  <img class="w-100 p-3" src="images/group_main/<%=rec[2][1]%>" height="400px"
                      alt="third" onclick="location.href='main.do?group_no=<%=rec[2][0]%>'">
                </div>
                </c:if>
@@ -163,15 +163,15 @@
 				<!-- Wrapper for slides -->
 				<div class="carousel-inner">
                <div class="carousel-item active">
-                  <img class="w-100 p-3" src="<%=big[0][1]%>" height="400px"
+                  <img class="w-100 p-3" src="images/group_main/<%=big[0][1]%>" height="400px"
                      alt="first" onclick="location.href='main.do?group_no=<%=big[0][0]%>'">
                </div>
                <div class="carousel-item">
-                  <img class="w-100 p-3" src="<%=big[1][1]%>" height="400px"
+                  <img class="w-100 p-3" src="images/group_main/<%=big[1][1]%>" height="400px"
                      alt="second" onclick="location.href='main.do?group_no=<%=big[1][0]%>'">
                </div>
                <div class="carousel-item">
-                  <img class="w-100 p-3" src="<%=big[2][1]%>" height="400px"
+                  <img class="w-100 p-3" src="images/group_main/<%=big[2][1]%>" height="400px"
                      alt="third" onclick="location.href='main.do?group_no=<%=big[2][0]%>'">
                </div>
             </div>
@@ -205,15 +205,15 @@
 				<!-- Wrapper for slides -->
 				<div class="carousel-inner">
                <div class="carousel-item active">
-                  <img class="w-100 p-3" src="<%=new_g[0][1]%>" height="400px"
+                  <img class="w-100 p-3" src="images/group_main/<%=new_g[0][1]%>" height="400px"
                      alt="first" onclick="location.href='main.do?group_no=<%=new_g[0][0]%>'">
                </div>
                <div class="carousel-item">
-                  <img class="w-100 p-3" src="<%=new_g[1][1]%>" height="400px"
+                  <img class="w-100 p-3" src="images/group_main/<%=new_g[1][1]%>" height="400px"
                      alt="second" onclick="location.href='main.do?group_no=<%=new_g[1][0]%>'">
                </div>
                <div class="carousel-item">
-                  <img class="w-100 p-3" src="<%=new_g[2][1]%>" height="400px"
+                  <img class="w-100 p-3" src="images/group_main/<%=new_g[2][1]%>" height="400px"
                      alt="third" onclick="location.href='main.do?group_no=<%=new_g[2][0]%>'">
                </div>
             </div>

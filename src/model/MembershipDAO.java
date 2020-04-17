@@ -223,7 +223,8 @@ public class MembershipDAO {
 	   }//master() end;
 	   
 	   //모임 가입시 가입한 사람의 등급을 1로 만들어주는 메서드
-	   public void group_join(int mem_no,int group_no) {
+	   public boolean group_join(int mem_no,int group_no) {
+		   boolean result = false;
 	      try {
 	         openConn();
 	         sql="insert into membership_table (mem_no,group_no,rating) values (?,?,?)";
@@ -233,15 +234,28 @@ public class MembershipDAO {
 	         pstmt.setInt(2, group_no);
 	         pstmt.setInt(3, 1);
 	         
-	         pstmt.executeUpdate();
+	         int flag = pstmt.executeUpdate();
+	         
+	         if (flag > 0) {
+					result = true;
+					System.out.println("완료");
+					con.commit(); // 완료시 커밋
+				}
+	         
 	         
 	      } catch (SQLException e) {
-	         // TODO Auto-generated catch block
-	         e.printStackTrace();
+	    	  try {
+					con.rollback(); // 오류시 롤백
+				} catch (SQLException sqle) {
+					sqle.printStackTrace();
+				}
+				e.printStackTrace();
+				throw new RuntimeException(e.getMessage());
 	      } finally {
 	         closeConn(rs, pstmt, con);
 	      }
-	      
+	
+	      return result;
 	   }//group_join() end;
 	   
 	
